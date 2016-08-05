@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="phrasehtmlModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="errorpath">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="error_path" Type="varchar" MaxLength="255" />
+          <Property Name="error_CreateTime" Type="datetime" />
+          <Property Name="error_Update" Type="int" />
+          <Property Name="error_UpdateTime" Type="datetime" />
+          <Property Name="error_type" Type="int" />
+          <Property Name="error_Status" Type="int" />
+        </EntityType>
+        <EntityType Name="filepath">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="file_Path" Type="varchar" MaxLength="255" />
+          <Property Name="file_innerTxt" Type="varchar" MaxLength="255" />
+          <Property Name="file_Type_id" Type="int" />
+          <Property Name="file_status_id" Type="int" />
+          <Property Name="file_CreateTime" Type="datetime" />
+          <Property Name="file_updateTime" Type="datetime" />
+          <Property Name="file_parent_path" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="filestatus">
+          <Key>
+            <PropertyRef Name="status_id" />
+          </Key>
+          <Property Name="status_id" Type="int" Nullable="false" />
+          <Property Name="status_info" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityContainer Name="phrasehtmlModelStoreContainer">
+          <EntitySet Name="errorpath" EntityType="Self.errorpath" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="filepath" EntityType="Self.filepath" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="filestatus" EntityType="Self.filestatus" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="phrasehtmlModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="errorpath">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="error_path" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="error_CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="error_Update" Type="Int32" />
+          <Property Name="error_UpdateTime" Type="DateTime" Precision="3" />
+          <Property Name="error_type" Type="Int32" />
+          <Property Name="error_Status" Type="Int32" />
+        </EntityType>
+        <EntityType Name="filepath">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="file_Path" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="file_innerTxt" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="file_Type_id" Type="Int32" />
+          <Property Name="file_status_id" Type="Int32" />
+          <Property Name="file_CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="file_updateTime" Type="DateTime" Precision="3" />
+          <Property Name="file_parent_path" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="filestatus">
+          <Key>
+            <PropertyRef Name="status_id" />
+          </Key>
+          <Property Name="status_id" Type="Int32" Nullable="false" />
+          <Property Name="status_info" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="phrasehtmlEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="errorpath" EntityType="Self.errorpath" />
+          <EntitySet Name="filepath" EntityType="Self.filepath" />
+          <EntitySet Name="filestatus" EntityType="Self.filestatus" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="phrasehtmlModelStoreContainer" CdmEntityContainer="phrasehtmlEntities">
+          <EntitySetMapping Name="errorpath">
+            <EntityTypeMapping TypeName="phrasehtmlModel.errorpath">
+              <MappingFragment StoreEntitySet="errorpath">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="error_path" ColumnName="error_path" />
+                <ScalarProperty Name="error_CreateTime" ColumnName="error_CreateTime" />
+                <ScalarProperty Name="error_Update" ColumnName="error_Update" />
+                <ScalarProperty Name="error_UpdateTime" ColumnName="error_UpdateTime" />
+                <ScalarProperty Name="error_type" ColumnName="error_type" />
+                <ScalarProperty Name="error_Status" ColumnName="error_Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="filepath">
+            <EntityTypeMapping TypeName="phrasehtmlModel.filepath">
+              <MappingFragment StoreEntitySet="filepath">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="file_Path" ColumnName="file_Path" />
+                <ScalarProperty Name="file_innerTxt" ColumnName="file_innerTxt" />
+                <ScalarProperty Name="file_Type_id" ColumnName="file_Type_id" />
+                <ScalarProperty Name="file_status_id" ColumnName="file_status_id" />
+                <ScalarProperty Name="file_CreateTime" ColumnName="file_CreateTime" />
+                <ScalarProperty Name="file_updateTime" ColumnName="file_updateTime" />
+                <ScalarProperty Name="file_parent_path" ColumnName="file_parent_path" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="filestatus">
+            <EntityTypeMapping TypeName="phrasehtmlModel.filestatus">
+              <MappingFragment StoreEntitySet="filestatus">
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+                <ScalarProperty Name="status_info" ColumnName="status_info" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
