@@ -29,17 +29,6 @@ namespace Chun.Demo.DAL
 
         }
 
-        /// <summary>
-        /// 建立执行命令语句对象
-        /// </summary>
-        /// <param name="sql">
-        /// </param>
-        /// <returns></returns>
-        public SqlCommand getSqlCommand(string sql)
-        {
-            return new SqlCommand(sql, sqlConn);
-        }
-
         public void run(string sql, excuteSql<SqlCommand> exec)
         {
             SqlCommand sqlCommand = getSqlCommand(sql);
@@ -58,6 +47,17 @@ namespace Chun.Demo.DAL
                 sqlConn.Close();
 
             }
+        }
+
+        /// <summary>
+        /// 建立执行命令语句对象
+        /// </summary>
+        /// <param name="sql">
+        /// </param>
+        /// <returns></returns>
+        public SqlCommand getSqlCommand(string sql)
+        {
+            return new SqlCommand(sql, sqlConn);
         }
 
         /// <summary>
@@ -109,6 +109,7 @@ namespace Chun.Demo.DAL
             }
 
         }
+
         /// <summary>
         /// 修改数据 
         /// </summary>
@@ -122,9 +123,11 @@ namespace Chun.Demo.DAL
             }
             catch (Exception ex)
             {
-                string message = ex.Message; Console.WriteLine("修改数据失败了！" + message);
+                string message = ex.Message;
+                Console.WriteLine("修改数据失败了！" + message);
             }
         }
+
         /// <summary>
         /// 删除数据
         /// </summary>
@@ -140,7 +143,5 @@ namespace Chun.Demo.DAL
                 String message = ex.Message; Console.WriteLine("删除数据失败了！" + message);
             }
         }
-
-        
     }
 }

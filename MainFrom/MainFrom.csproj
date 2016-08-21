@@ -102,6 +102,14 @@
       <Project>{8276f6bb-bc20-4d5c-a5db-cb2a7e8b35d7}</Project>
       <Name>Chun.Demo.PhraseHtml</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Chun.Demo.UserControl\Chun.Demo.UserControl.csproj">
+      <Project>{75290958-8e7b-44e0-8407-092c1e32bd1e}</Project>
+      <Name>Chun.Demo.UserControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Chun.Demo.VIEW\Chun.Demo.VIEW.csproj">
+      <Project>{d62cacdb-d826-4f59-957b-9296235896d2}</Project>
+      <Name>Chun.Demo.VIEW</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

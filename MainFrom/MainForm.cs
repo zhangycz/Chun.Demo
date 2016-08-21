@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Chun.Demo.ICommon;
 using Chun.Demo.PhraseHtml;
 using Chun.Demo.Common;
 using System.Threading;
-using System.Net;
+using Chun.Demo.UserControl;
+using Chun.Demo.VIEW;
 using MainFrom.Properties;
 
 namespace MainFrom
 {
-    public delegate void getAddressAndMath ( );
+    public delegate void GetAddressAndMath ( );
     public partial class MainForm : Form
     {
         int currentCount = 0;
@@ -66,10 +67,14 @@ namespace MainFrom
 
             if (this.openFileDialog.ShowDialog( ) == DialogResult.OK)
             {
+                //new AlterTorrentByInnerName(this.openFileDialog.FileNames).Show();
+                //return; 
+
                 timer1.Start( );
                 currentCount = 0;
                 loseCount = 0;
                 maxCount = this.openFileDialog.FileNames.Length;
+              
                 ThreadPool.QueueUserWorkItem(w =>
                 {
                     try
@@ -111,7 +116,7 @@ namespace MainFrom
 
         private void button2_Click ( object sender, EventArgs e )
         {
-            _file_type_id = 2;
+            _file_type_id = 12;
             GetPath( );
         }
 
@@ -278,10 +283,31 @@ namespace MainFrom
 
         }
 
+        private void setMessageBox()
+        {
+            BeginInvoke(new MethodInvoker(() => { textBox1.AppendText(MyMessageBox.GetMessageBuilder()+Environment.NewLine);
+                                                    textBox1.SelectionStart=this.textBox1.Text.Length;
+                textBox1.ScrollToCaret();
+
+
+            }));
+
+    }
+
         private void button6_Click ( object sender, EventArgs e )
         {
-            OpenerWindow oper1 = new OpenerWindow();
-            SayHello(2,new[]{"1","2"}, oper1,new List<OpenerWindow>());
+            //TextBoxHelper tb = new TextBoxHelper();
+            //tb.TextBoxInputOnlyFloatNum(testBOX);
+            //testBOX.Formart("F4");
+          
+            //new MyBroswer().Show(); 
+
+            #region 测试可变参数
+
+            //OpenerWindow oper1 = new OpenerWindow();
+            //SayHello(2, new[] { "1", "2" }, oper1, new List<OpenerWindow>()); 
+
+            #endregion
 
             #region 测试ping类
 
@@ -316,6 +342,11 @@ namespace MainFrom
             //Console.WriteLine(createDir); 
 
             #endregion
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            MyMessageBox.MessageBoxEvent += setMessageBox;
         }
     }
 }

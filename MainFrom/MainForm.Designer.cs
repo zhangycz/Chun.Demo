@@ -48,6 +48,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.testBOX = new System.Windows.Forms.TextBox();
             this.fileXpath = new System.Windows.Forms.ComboBox();
             this.PropertyName = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -142,7 +143,7 @@
             this.AddressTextBox.Name = "AddressTextBox";
             this.AddressTextBox.Size = new System.Drawing.Size(304, 21);
             this.AddressTextBox.TabIndex = 4;
-            this.AddressTextBox.Text = "http://w1.vt97.biz/pw/thread.php?fid=16&page=";
+            this.AddressTextBox.Text = "http://w1.vt97.rocks/pw/thread.php?fid=16&page=";
             // 
             // button2
             // 
@@ -204,12 +205,14 @@
             this.textBox1.Location = new System.Drawing.Point(3, 17);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBox1.Size = new System.Drawing.Size(663, 124);
             this.textBox1.TabIndex = 12;
             this.textBox1.Text = "基址：访问相对路径，地址：访问起始地址，,XPATH:查找的项目，获取项目：获取哪一项";
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.testBOX);
             this.groupBox1.Controls.Add(this.fileXpath);
             this.groupBox1.Controls.Add(this.PropertyName);
             this.groupBox1.Controls.Add(this.label5);
@@ -227,6 +230,13 @@
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "地址";
+            // 
+            // testBOX
+            // 
+            this.testBOX.Location = new System.Drawing.Point(807, 125);
+            this.testBOX.Name = "testBOX";
+            this.testBOX.Size = new System.Drawing.Size(304, 21);
+            this.testBOX.TabIndex = 20;
             // 
             // fileXpath
             // 
@@ -294,7 +304,7 @@
             this.BasePathTextBox.Name = "BasePathTextBox";
             this.BasePathTextBox.Size = new System.Drawing.Size(304, 21);
             this.BasePathTextBox.TabIndex = 12;
-            this.BasePathTextBox.Text = "http://w1.vt97.biz/pw/";
+            this.BasePathTextBox.Text = "http://w1.vt97.rocks/pw/";
             // 
             // groupBox2
             // 
@@ -362,6 +372,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "MainForm";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -406,5 +417,6 @@
         private System.Windows.Forms.TextBox DelEmptyFile;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.TextBox testBOX;
     }
 }

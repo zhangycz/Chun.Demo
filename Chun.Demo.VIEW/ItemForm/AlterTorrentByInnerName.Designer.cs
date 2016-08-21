@@ -33,7 +33,10 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.torrentBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.openErrorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameUTF8DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.totalLengthDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.openFileDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.announceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.announceListDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,19 +47,18 @@
             this.createdByDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.encodingDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fileListDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nameUTF8DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pieceLengthDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.publisherDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.publisherUTF8DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.publisherUrlDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.publisherUrlUTF8DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.notesDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.totalLengthDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -73,7 +75,7 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1132, 504);
+            this.splitContainer1.Size = new System.Drawing.Size(1407, 504);
             this.splitContainer1.SplitterDistance = 377;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -83,11 +85,15 @@
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
             this.splitContainer2.Name = "splitContainer2";
             // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.menuStrip1);
+            // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.dataGridView1);
-            this.splitContainer2.Size = new System.Drawing.Size(1132, 377);
-            this.splitContainer2.SplitterDistance = 247;
+            this.splitContainer2.Size = new System.Drawing.Size(1407, 377);
+            this.splitContainer2.SplitterDistance = 307;
             this.splitContainer2.TabIndex = 0;
             // 
             // dataGridView1
@@ -95,7 +101,10 @@
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.nameDataGridViewTextBoxColumn,
             this.openErrorDataGridViewTextBoxColumn,
+            this.nameUTF8DataGridViewTextBoxColumn,
+            this.totalLengthDataGridViewTextBoxColumn,
             this.openFileDataGridViewCheckBoxColumn,
             this.announceDataGridViewTextBoxColumn,
             this.announceListDataGridViewTextBoxColumn,
@@ -106,37 +115,53 @@
             this.createdByDataGridViewTextBoxColumn,
             this.encodingDataGridViewTextBoxColumn,
             this.fileListDataGridViewTextBoxColumn,
-            this.nameDataGridViewTextBoxColumn,
-            this.nameUTF8DataGridViewTextBoxColumn,
             this.pieceLengthDataGridViewTextBoxColumn,
             this.publisherDataGridViewTextBoxColumn,
             this.publisherUTF8DataGridViewTextBoxColumn,
             this.publisherUrlDataGridViewTextBoxColumn,
             this.publisherUrlUTF8DataGridViewTextBoxColumn,
-            this.notesDataGridViewTextBoxColumn,
-            this.totalLengthDataGridViewTextBoxColumn});
+            this.notesDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.torrentBindingSource;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(881, 377);
+            this.dataGridView1.Size = new System.Drawing.Size(1096, 377);
             this.dataGridView1.TabIndex = 0;
             // 
             // torrentBindingSource
             // 
             this.torrentBindingSource.DataSource = typeof(Chun.Demo.AnalyzeTorrent.Torrent);
             // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "名称";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            // 
             // openErrorDataGridViewTextBoxColumn
             // 
             this.openErrorDataGridViewTextBoxColumn.DataPropertyName = "OpenError";
-            this.openErrorDataGridViewTextBoxColumn.HeaderText = "OpenError";
+            this.openErrorDataGridViewTextBoxColumn.HeaderText = "开窗错误";
             this.openErrorDataGridViewTextBoxColumn.Name = "openErrorDataGridViewTextBoxColumn";
+            // 
+            // nameUTF8DataGridViewTextBoxColumn
+            // 
+            this.nameUTF8DataGridViewTextBoxColumn.DataPropertyName = "NameUTF8";
+            this.nameUTF8DataGridViewTextBoxColumn.HeaderText = "名称UTF8";
+            this.nameUTF8DataGridViewTextBoxColumn.Name = "nameUTF8DataGridViewTextBoxColumn";
+            // 
+            // totalLengthDataGridViewTextBoxColumn
+            // 
+            this.totalLengthDataGridViewTextBoxColumn.DataPropertyName = "TotalLength";
+            this.totalLengthDataGridViewTextBoxColumn.HeaderText = "总大小";
+            this.totalLengthDataGridViewTextBoxColumn.Name = "totalLengthDataGridViewTextBoxColumn";
+            this.totalLengthDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // openFileDataGridViewCheckBoxColumn
             // 
             this.openFileDataGridViewCheckBoxColumn.DataPropertyName = "OpenFile";
-            this.openFileDataGridViewCheckBoxColumn.HeaderText = "OpenFile";
+            this.openFileDataGridViewCheckBoxColumn.HeaderText = "打开文件";
             this.openFileDataGridViewCheckBoxColumn.Name = "openFileDataGridViewCheckBoxColumn";
             // 
             // announceDataGridViewTextBoxColumn
@@ -154,7 +179,7 @@
             // createTimeDataGridViewTextBoxColumn
             // 
             this.createTimeDataGridViewTextBoxColumn.DataPropertyName = "CreateTime";
-            this.createTimeDataGridViewTextBoxColumn.HeaderText = "CreateTime";
+            this.createTimeDataGridViewTextBoxColumn.HeaderText = "创建时间";
             this.createTimeDataGridViewTextBoxColumn.Name = "createTimeDataGridViewTextBoxColumn";
             // 
             // codePageDataGridViewTextBoxColumn
@@ -178,61 +203,49 @@
             // createdByDataGridViewTextBoxColumn
             // 
             this.createdByDataGridViewTextBoxColumn.DataPropertyName = "CreatedBy";
-            this.createdByDataGridViewTextBoxColumn.HeaderText = "CreatedBy";
+            this.createdByDataGridViewTextBoxColumn.HeaderText = "作者";
             this.createdByDataGridViewTextBoxColumn.Name = "createdByDataGridViewTextBoxColumn";
             // 
             // encodingDataGridViewTextBoxColumn
             // 
             this.encodingDataGridViewTextBoxColumn.DataPropertyName = "Encoding";
-            this.encodingDataGridViewTextBoxColumn.HeaderText = "Encoding";
+            this.encodingDataGridViewTextBoxColumn.HeaderText = "编码";
             this.encodingDataGridViewTextBoxColumn.Name = "encodingDataGridViewTextBoxColumn";
             // 
             // fileListDataGridViewTextBoxColumn
             // 
             this.fileListDataGridViewTextBoxColumn.DataPropertyName = "FileList";
-            this.fileListDataGridViewTextBoxColumn.HeaderText = "FileList";
+            this.fileListDataGridViewTextBoxColumn.HeaderText = "文件列表";
             this.fileListDataGridViewTextBoxColumn.Name = "fileListDataGridViewTextBoxColumn";
-            // 
-            // nameDataGridViewTextBoxColumn
-            // 
-            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            // 
-            // nameUTF8DataGridViewTextBoxColumn
-            // 
-            this.nameUTF8DataGridViewTextBoxColumn.DataPropertyName = "NameUTF8";
-            this.nameUTF8DataGridViewTextBoxColumn.HeaderText = "NameUTF8";
-            this.nameUTF8DataGridViewTextBoxColumn.Name = "nameUTF8DataGridViewTextBoxColumn";
             // 
             // pieceLengthDataGridViewTextBoxColumn
             // 
             this.pieceLengthDataGridViewTextBoxColumn.DataPropertyName = "PieceLength";
-            this.pieceLengthDataGridViewTextBoxColumn.HeaderText = "PieceLength";
+            this.pieceLengthDataGridViewTextBoxColumn.HeaderText = "文件长度";
             this.pieceLengthDataGridViewTextBoxColumn.Name = "pieceLengthDataGridViewTextBoxColumn";
             // 
             // publisherDataGridViewTextBoxColumn
             // 
             this.publisherDataGridViewTextBoxColumn.DataPropertyName = "Publisher";
-            this.publisherDataGridViewTextBoxColumn.HeaderText = "Publisher";
+            this.publisherDataGridViewTextBoxColumn.HeaderText = "发行";
             this.publisherDataGridViewTextBoxColumn.Name = "publisherDataGridViewTextBoxColumn";
             // 
             // publisherUTF8DataGridViewTextBoxColumn
             // 
             this.publisherUTF8DataGridViewTextBoxColumn.DataPropertyName = "PublisherUTF8";
-            this.publisherUTF8DataGridViewTextBoxColumn.HeaderText = "PublisherUTF8";
+            this.publisherUTF8DataGridViewTextBoxColumn.HeaderText = "发行UTF8";
             this.publisherUTF8DataGridViewTextBoxColumn.Name = "publisherUTF8DataGridViewTextBoxColumn";
             // 
             // publisherUrlDataGridViewTextBoxColumn
             // 
             this.publisherUrlDataGridViewTextBoxColumn.DataPropertyName = "PublisherUrl";
-            this.publisherUrlDataGridViewTextBoxColumn.HeaderText = "PublisherUrl";
+            this.publisherUrlDataGridViewTextBoxColumn.HeaderText = "发行Url";
             this.publisherUrlDataGridViewTextBoxColumn.Name = "publisherUrlDataGridViewTextBoxColumn";
             // 
             // publisherUrlUTF8DataGridViewTextBoxColumn
             // 
             this.publisherUrlUTF8DataGridViewTextBoxColumn.DataPropertyName = "PublisherUrlUTF8";
-            this.publisherUrlUTF8DataGridViewTextBoxColumn.HeaderText = "PublisherUrlUTF8";
+            this.publisherUrlUTF8DataGridViewTextBoxColumn.HeaderText = "发行UrlUTF8";
             this.publisherUrlUTF8DataGridViewTextBoxColumn.Name = "publisherUrlUTF8DataGridViewTextBoxColumn";
             // 
             // notesDataGridViewTextBoxColumn
@@ -241,24 +254,28 @@
             this.notesDataGridViewTextBoxColumn.HeaderText = "Notes";
             this.notesDataGridViewTextBoxColumn.Name = "notesDataGridViewTextBoxColumn";
             // 
-            // totalLengthDataGridViewTextBoxColumn
+            // menuStrip1
             // 
-            this.totalLengthDataGridViewTextBoxColumn.DataPropertyName = "TotalLength";
-            this.totalLengthDataGridViewTextBoxColumn.HeaderText = "TotalLength";
-            this.totalLengthDataGridViewTextBoxColumn.Name = "totalLengthDataGridViewTextBoxColumn";
-            this.totalLengthDataGridViewTextBoxColumn.ReadOnly = true;
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(307, 24);
+            this.menuStrip1.TabIndex = 0;
+            this.menuStrip1.Text = "menuStrip1";
             // 
             // AlterTorrentByInnerName
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1132, 504);
+            this.ClientSize = new System.Drawing.Size(1407, 504);
             this.Controls.Add(this.splitContainer1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "AlterTorrentByInnerName";
             this.Text = "修改种子文件信息";
             this.splitContainer1.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
@@ -273,7 +290,12 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.BindingSource torrentBindingSource;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn openErrorDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nameUTF8DataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn totalLengthDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn openFileDataGridViewCheckBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn announceDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn announceListDataGridViewTextBoxColumn;
@@ -284,15 +306,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn createdByDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn encodingDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn fileListDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nameUTF8DataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn pieceLengthDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn publisherDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn publisherUTF8DataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn publisherUrlDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn publisherUrlUTF8DataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn notesDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn totalLengthDataGridViewTextBoxColumn;
-        private System.Windows.Forms.BindingSource torrentBindingSource;
     }
 }
