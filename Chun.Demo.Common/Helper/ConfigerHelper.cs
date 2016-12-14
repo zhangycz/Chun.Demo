@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Configuration;
+using System.Windows.Forms;
+using System.Xml;
 
 namespace Chun.Demo.Common
 {
@@ -95,6 +97,74 @@ namespace Chun.Demo.Common
             config.Save(ConfigurationSaveMode.Modified);
             // Force a reload of a changed section.
             ConfigurationManager.RefreshSection("appSettings");
+        }
+
+        private static string LOCAL_PATH = Application.ExecutablePath + ".config";
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="protocol"></param>
+        /// <param name="port"></param>
+        public static void WriteAppSettingKey(string key, string value)
+        {
+            try
+            {
+                XmlDocument myXmlDocument = new XmlDocument();
+                myXmlDocument.Load(LOCAL_PATH);
+
+                // search the appSetting Node
+                foreach (XmlNode myNode in myXmlDocument["configuration"]["appSettings"])
+                {
+                    if (myNode.Name == "add")
+                    {
+                        // rewrite the Web.Config file
+                        if (myNode.Attributes.GetNamedItem("key").Value == key)
+                        {
+                            myNode.Attributes.GetNamedItem("value").Value = value;
+                        }
+                    }
+                }
+                myXmlDocument.Save(LOCAL_PATH);
+                System.Configuration.ConfigurationManager.RefreshSection("appSettings");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "系统异常", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// 读取AppSetting信息
+        /// </summary>
+        /// <param name="protocol"></param>
+        /// <returns></returns>
+        public static string LoadAppSetting(string key)
+        {
+            try
+            {
+                XmlDocument myXmlDocument = new XmlDocument();
+                myXmlDocument.Load(LOCAL_PATH);
+
+                // search the appSetting Node
+                foreach (XmlNode myNode in myXmlDocument["configuration"]["appSettings"])
+                {
+                    if (myNode.Name == "add")
+                    {
+                        // rewrite the Web.Config file
+                        if (myNode.Attributes.GetNamedItem("key").Value == key)
+                        {
+                            return myNode.Attributes.GetNamedItem("value").Value;
+                        }
+
+                    }
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "系统异常", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return "";
+            }
         }
     }
 }

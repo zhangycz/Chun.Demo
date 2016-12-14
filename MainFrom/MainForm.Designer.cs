@@ -1,4 +1,5 @@
-﻿namespace MainFrom
+﻿
+namespace MainFrom
 {
     partial class MainForm
     {
@@ -48,12 +49,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.SaveTextBox = new System.Windows.Forms.TextBox();
             this.testBOX = new System.Windows.Forms.TextBox();
             this.fileXpath = new System.Windows.Forms.ComboBox();
             this.PropertyName = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.SaveTextBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.BasePathTextBox = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -61,9 +62,13 @@
             this.DelEmptyFile = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
+            this.gridControl1 = new DevExpress.XtraGrid.GridControl();
+            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // progressBar1
@@ -212,12 +217,12 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.SaveTextBox);
             this.groupBox1.Controls.Add(this.testBOX);
             this.groupBox1.Controls.Add(this.fileXpath);
             this.groupBox1.Controls.Add(this.PropertyName);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.SaveTextBox);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.progressBar1);
             this.groupBox1.Controls.Add(this.BasePathTextBox);
@@ -231,9 +236,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "地址";
             // 
+            // SaveTextBox
+            // 
+            this.SaveTextBox.Location = new System.Drawing.Point(134, 73);
+            this.SaveTextBox.Name = "SaveTextBox";
+            this.SaveTextBox.Size = new System.Drawing.Size(304, 21);
+            this.SaveTextBox.TabIndex = 22;
+            this.SaveTextBox.Text = "J:\\Picture\\";
+            // 
             // testBOX
             // 
-            this.testBOX.Location = new System.Drawing.Point(807, 125);
+            this.testBOX.Location = new System.Drawing.Point(715, 119);
             this.testBOX.Name = "testBOX";
             this.testBOX.Size = new System.Drawing.Size(304, 21);
             this.testBOX.TabIndex = 20;
@@ -280,14 +293,6 @@
             this.label4.Size = new System.Drawing.Size(89, 12);
             this.label4.TabIndex = 15;
             this.label4.Text = "本地保存地址：";
-            // 
-            // SaveTextBox
-            // 
-            this.SaveTextBox.Location = new System.Drawing.Point(134, 74);
-            this.SaveTextBox.Name = "SaveTextBox";
-            this.SaveTextBox.Size = new System.Drawing.Size(304, 21);
-            this.SaveTextBox.TabIndex = 14;
-            this.SaveTextBox.Text = "J:\\Picture\\";
             // 
             // label3
             // 
@@ -353,11 +358,27 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // gridControl1
+            // 
+            this.gridControl1.Location = new System.Drawing.Point(22, 463);
+            this.gridControl1.MainView = this.gridView1;
+            this.gridControl1.Name = "gridControl1";
+            this.gridControl1.Size = new System.Drawing.Size(666, 253);
+            this.gridControl1.TabIndex = 23;
+            this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView1});
+            // 
+            // gridView1
+            // 
+            this.gridView1.GridControl = this.gridControl1;
+            this.gridView1.Name = "gridView1";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1208, 459);
+            this.ClientSize = new System.Drawing.Size(1208, 718);
+            this.Controls.Add(this.gridControl1);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.DelEmptyFile);
@@ -379,6 +400,8 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -409,7 +432,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox BasePathTextBox;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox SaveTextBox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox PropertyName;
         private System.Windows.Forms.ComboBox fileXpath;
@@ -418,5 +440,8 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.TextBox testBOX;
+        private System.Windows.Forms.TextBox SaveTextBox;
+        private DevExpress.XtraGrid.GridControl gridControl1;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
     }
 }

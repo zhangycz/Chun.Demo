@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chun.Demo.Model", "Chun.Dem
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chun.Demo.VIEW", "Chun.Demo.VIEW\Chun.Demo.VIEW.csproj", "{D62CACDB-D826-4F59-957B-9296235896D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chun.Demo.UserControl", "Chun.Demo.UserControl\Chun.Demo.UserControl.csproj", "{75290958-8E7B-44E0-8407-092C1E32BD1E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chun.Demo.myUserControl", "Chun.Demo.UserControl\Chun.Demo.myUserControl.csproj", "{75290958-8E7B-44E0-8407-092C1E32BD1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

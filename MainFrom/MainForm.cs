@@ -1,85 +1,85 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Chun.Demo.Common;
 using Chun.Demo.ICommon;
 using Chun.Demo.PhraseHtml;
-using Chun.Demo.Common;
-using System.Threading;
-using Chun.Demo.UserControl;
-using Chun.Demo.VIEW;
 using MainFrom.Properties;
 
 namespace MainFrom
 {
-    public delegate void GetAddressAndMath ( );
+    public delegate void GetAddressAndMath();
+
     public partial class MainForm : Form
     {
-        int currentCount = 0;
+        private int _file_type_id;
 
-        int maxCount = 0;
-        int loseCount = 0;
-
-        int _file_type_id = 0;
-
-
-        public object locker = new object( );
+        private Task _myTask;
+        private int currentCount;
 
         private IGetService Igetsrv;
-        public MainForm ( )
+
+
+        public object locker = new object();
+        private int loseCount;
+
+        private int maxCount;
+
+        public MainForm()
         {
-            InitializeComponent( );
+            InitializeComponent();
 
             //Thread th = new Thread(new ThreadStart(add));
             //th.Start();
             //Parallel.Invoke(add);
-
         }
-        private void timer1_Tick ( object sender, EventArgs e )
+
+        private void timer1_Tick(object sender, EventArgs e)
         {
-            if (this.progressBar1.Value == this.progressBar1.Maximum)
+            if (progressBar1.Value == progressBar1.Maximum)
             {
-                this.progressBar1.Value = 0;
-                timer1.Stop( );
-                this.Invoke(new MethodInvoker(( ) => MessageBox.Show("successful")));
+                progressBar1.Value = 0;
+                timer1.Stop();
+                Invoke(new MethodInvoker(() => MessageBox.Show("successful")));
             }
 
-            this.progressBar1.Maximum = maxCount - loseCount;
-            this.progressBar1.Value = currentCount;
+            progressBar1.Maximum = maxCount - loseCount;
+            progressBar1.Value = currentCount;
         }
-        private void add ( )
+
+        private void add()
         {
             double sum = 0f;
-            for (int i = 0; i < 10000; i++)
+            for (var i = 0; i < 10000; i++)
             {
-                for (int j = 0; j < 10000; j++)
+                for (var j = 0; j < 10000; j++)
                 {
-                    sum += i * j;
+                    sum += i*j;
                 }
                 currentCount++;
             }
         }
 
-        delegate void test ( string fileName );
-        private void 打开文件ToolStripMenuItem_Click ( object sender, EventArgs e )
+        private void 打开文件ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            if (this.openFileDialog.ShowDialog( ) == DialogResult.OK)
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 //new AlterTorrentByInnerName(this.openFileDialog.FileNames).Show();
                 //return; 
 
-                timer1.Start( );
+                timer1.Start();
                 currentCount = 0;
                 loseCount = 0;
-                maxCount = this.openFileDialog.FileNames.Length;
-              
+                maxCount = openFileDialog.FileNames.Length;
+
                 ThreadPool.QueueUserWorkItem(w =>
                 {
                     try
                     {
-                        Parallel.ForEach(this.openFileDialog.FileNames, item =>
+                        Parallel.ForEach(openFileDialog.FileNames, item =>
                         {
                             if (Tool.ChangFileName(item, @"C:\Users\a2863\Desktop\种子", ".TORRENT"))
                             {
@@ -97,48 +97,46 @@ namespace MainFrom
                     }
                     catch (Exception)
                     {
-                        Invoke(new MethodInvoker(( ) => MessageBox.Show(Resources.MainForm_打开文件ToolStripMenuItem_Click_)));
+                        Invoke(new MethodInvoker(() => MessageBox.Show(Resources.MainForm_打开文件ToolStripMenuItem_Click_)));
                     }
-
                 }, null);
             }
-
         }
 
 
-        private void button1_Click ( object sender, EventArgs e )
+        private void button1_Click(object sender, EventArgs e)
         {
             _file_type_id = 1;
-            //获取目录
             _file_type_id = 11;
-            GetPath( );
+            //获取目录
+            GetPath();
         }
 
-        private void button2_Click ( object sender, EventArgs e )
+        private void button2_Click(object sender, EventArgs e)
         {
             _file_type_id = 12;
-            GetPath( );
+            GetPath();
         }
 
-        private void button3_Click ( object sender, EventArgs e )
+        private void button3_Click(object sender, EventArgs e)
         {
-
-            _file_type_id = 2;
-            Download( );
+            _file_type_id = Convert.ToInt32(ConfigerHelper.GetAppConfig("FilePathId"));
+            Download();
         }
-        private void Download ( )
+
+        private void Download()
         {
             if (!backgroundWorker1.IsBusy)
             {
                 Igetsrv = new DownLoadPic
                 {
-                    SaveFilePath = this.SaveTextBox.Text.Trim(),
-                    BasePath = this.BasePathTextBox.Text.Trim(),
-                    FileXpath = this.fileXpath.Text.Trim(),
-                    NetPath = this.AddressTextBox.Text.Trim(),
-                    PropertyName = this.PropertyName.Text.Trim()
+                    SaveFilePath = SaveTextBox.Text.Trim(),
+                    BasePath = BasePathTextBox.Text.Trim(),
+                    FileXpath = fileXpath.Text.Trim(),
+                    NetPath = AddressTextBox.Text.Trim(),
+                    PropertyName = PropertyName.Text.Trim()
                 };
-                backgroundWorker1.RunWorkerAsync( );
+                backgroundWorker1.RunWorkerAsync();
             }
             else
             {
@@ -146,34 +144,39 @@ namespace MainFrom
             }
         }
 
-        private Task _myTask;
-        private void GetPath ( )
+        private void GetPath()
         {
             #region Task实现
-            Igetsrv = new GetPath( );
-            Igetsrv.SaveFilePath = this.SaveTextBox.Text.Trim( );
-            Igetsrv.BasePath = this.BasePathTextBox.Text.Trim( );
-            Igetsrv.FileXpath = this.fileXpath.Text.Trim( );
-            Igetsrv.NetPath = this.AddressTextBox.Text.Trim( );
-            Igetsrv.PropertyName = this.PropertyName.Text.Trim( );
+
+            Igetsrv = new GetPath
+            {
+                SaveFilePath = SaveTextBox.Text.Trim(),
+                BasePath = BasePathTextBox.Text.Trim(),
+                FileXpath = fileXpath.Text.Trim(),
+                NetPath = AddressTextBox.Text.Trim(),
+                PropertyName = PropertyName.Text.Trim()
+            };
             if (_myTask != null && !_myTask.IsCompleted)
             {
-                Invoke(new MethodInvoker(( ) => MessageBox.Show("正在执行操作请耐心等待")));
+                Invoke(new MethodInvoker(() => MessageBox.Show("正在执行操作请耐心等待")));
                 return;
             }
-            _myTask = Task.Factory.StartNew(( ) =>
+            _myTask = Task.Factory.StartNew(() =>
             {
-                Invoke(new MethodInvoker(( ) => MessageBox.Show("正在执行操作请耐心等待……")));
+                Invoke(new MethodInvoker(() => MessageBox.Show("正在执行操作请耐心等待……")));
                 Igetsrv.GetService(_file_type_id);
-                Invoke(new MethodInvoker(( ) => MessageBox.Show("完成了操作")));
-            }); 
+                Invoke(new MethodInvoker(() => MessageBox.Show("完成了操作")));
+            });
+
             #endregion
 
             #region Backgroudworker 实现
+
             //if (!backgroundWorker1.IsBusy)
             //{
 
             #region 线程池实现异步
+
             //线程池实现异步
             //ThreadPool.QueueUserWorkItem(item =>
             //{
@@ -189,6 +192,7 @@ namespace MainFrom
             //}
             //);
             //Invoke(new MethodInvoker(( ) => MessageBox.Show("正在执行操作请耐心等待"))); 
+
             #endregion
 
             //}
@@ -196,11 +200,11 @@ namespace MainFrom
             //    {
             //        MessageBox.Show("正在进行其他操作");
             //    } 
-            #endregion
 
+            #endregion
         }
 
-        private void backgroundWorker1_DoWork ( object sender, System.ComponentModel.DoWorkEventArgs e )
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             if (backgroundWorker1.CancellationPending)
             {
@@ -210,16 +214,10 @@ namespace MainFrom
             {
                 Igetsrv.GetService(_file_type_id);
             }
-
         }
 
-        private void button4_Click ( object sender, EventArgs e )
-        {
-
-            backgroundWorker1.CancelAsync( );
-        }
-
-        private void backgroundWorker1_RunWorkerCompleted ( object sender, System.ComponentModel.RunWorkerCompletedEventArgs e )
+        private void backgroundWorker1_RunWorkerCompleted(object sender,
+            RunWorkerCompletedEventArgs e)
         {
             if (!e.Cancelled)
                 MessageBox.Show("正常完成了操作");
@@ -227,23 +225,27 @@ namespace MainFrom
                 MessageBox.Show("用户取消了操作");
         }
 
-        private void button5_Click ( object sender, EventArgs e )
+        private void button5_Click(object sender, EventArgs e)
         {
             ThreadPool.QueueUserWorkItem(item =>
-           {
-               Tool.DelEmptyDirAndFile(this.DelEmptyFile.Text.Trim( ));
-               Invoke(new MethodInvoker(( ) => MessageBox.Show("完成！你可能需要执行多次以删除空文件夹！")));
-           }
-           );
-
+            {
+                Tool.DelEmptyDirAndFile(DelEmptyFile.Text.Trim());
+                Invoke(new MethodInvoker(() => MessageBox.Show("完成！你可能需要执行多次以删除空文件夹！")));
+            }
+                );
         }
 
-        static void SayHello(params object[] args)
+        private void button4_Click(object sender, EventArgs e)
         {
-            string inputType = string.Empty;
-            List<string> returnExs = new List<string>();
-            int queryId = 0;
-            OpenerWindow operOpenerWindow = new OpenerWindow();
+            backgroundWorker1.CancelAsync();
+        }
+
+        private static void SayHello(params object[] args)
+        {
+            var inputType = string.Empty;
+            var returnExs = new List<string>();
+            var queryId = 0;
+            var operOpenerWindow = new OpenerWindow();
             foreach (var arg in args)
             {
                 inputType = arg.GetType().Name.ToUpper();
@@ -251,8 +253,8 @@ namespace MainFrom
                 {
                     case "STRING":
                     {
-                            returnExs[0] = arg.ToString();
-                            break;
+                        returnExs[0] = arg.ToString();
+                        break;
                     }
                     case "INT32":
                         queryId = Convert.ToInt32(arg);
@@ -269,7 +271,6 @@ namespace MainFrom
                     case "OpenerWindow":
                         break;
                 }
-              
             }
             operOpenerWindow.QueryId = queryId;
 
@@ -279,27 +280,24 @@ namespace MainFrom
             }
 
             Console.WriteLine("完成！");
-
-
         }
 
-        private void setMessageBox()
+        private void SetMessageBox()
         {
-            BeginInvoke(new MethodInvoker(() => { textBox1.AppendText(MyMessageBox.GetMessageBuilder()+Environment.NewLine);
-                                                    textBox1.SelectionStart=this.textBox1.Text.Length;
+            BeginInvoke(new MethodInvoker(() =>
+            {
+                textBox1.AppendText(MyMessageBox.GetMessageBuilder() + Environment.NewLine);
+                textBox1.SelectionStart = textBox1.Text.Length;
                 textBox1.ScrollToCaret();
-
-
             }));
+        }
 
-    }
-
-        private void button6_Click ( object sender, EventArgs e )
+        private void button6_Click(object sender, EventArgs e)
         {
             //TextBoxHelper tb = new TextBoxHelper();
             //tb.TextBoxInputOnlyFloatNum(testBOX);
             //testBOX.Formart("F4");
-          
+
             //new MyBroswer().Show(); 
 
             #region 测试可变参数
@@ -346,7 +344,10 @@ namespace MainFrom
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            MyMessageBox.MessageBoxEvent += setMessageBox;
+            MyMessageBox.MessageBoxEvent += SetMessageBox;
+            DgvHelper.InitDgv(gridView1, @"test");
         }
+
+        private delegate void test(string fileName);
     }
 }

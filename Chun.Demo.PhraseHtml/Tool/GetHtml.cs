@@ -33,18 +33,7 @@ namespace Chun.Demo.PhraseHtml
             set;
         }
         //--------------------------------------------------------
-
-        HtmlDocument loadHtml( string URL )
-        {
-            HtmlDocument htmlDocument = new HtmlWeb().Load(URL);
-            return htmlDocument;
-
-        }
-
-        HtmlNodeCollection getNodeCollect( HtmlDocument htmlDocument, string matchNode)
-        {
-            return htmlDocument.DocumentNode.SelectNodes(matchNode);
-        }
+        public HtmlTool HtmlTool { get; set; } =new HtmlTool();
 
         /// <summary>
         /// attrName
@@ -63,9 +52,9 @@ namespace Chun.Demo.PhraseHtml
             //获取目录地址
             try
             {
-                HtmlDocument htmlDocument = loadHtml(URL);
-                hnCollection = getNodeCollect(htmlDocument, Match);
-                titleCollection = getNodeCollect(htmlDocument,"//head/title");
+                HtmlDocument htmlDocument = HtmlTool.LoadHtml(URL);
+                hnCollection = HtmlTool.GetNodeCollect(htmlDocument, Match);
+                titleCollection = HtmlTool.GetNodeCollect(htmlDocument,"//head/title");
             }
             catch(Exception EX)
             {
@@ -130,9 +119,9 @@ namespace Chun.Demo.PhraseHtml
             //获取目录地址
             try
             {
-                HtmlDocument htmlDocument = loadHtml(fileEntity.file_Path);
-                hnCollection = getNodeCollect(htmlDocument, Match);
-                titleCollection = getNodeCollect(htmlDocument, "//head/title");
+                HtmlDocument htmlDocument = HtmlTool.LoadHtml(fileEntity.file_Path);
+                hnCollection = HtmlTool.GetNodeCollect(htmlDocument, Match);
+                titleCollection = HtmlTool.GetNodeCollect(htmlDocument, "//head/title");
             }
             catch (Exception EX)
             {
