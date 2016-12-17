@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Chun.Demo.Model.Entity;
 
@@ -309,6 +310,51 @@ namespace Chun.Demo.Common
             {
                 MyMessageBox.Add("创建根目录时发生错误！");
             }
+        }
+
+        /// <summary>
+        /// 校验网址
+        /// </summary>
+        /// <param name="NetPath"></param>
+        /// <returns></returns>
+        public static bool validateHtml(string NetPath)
+        {
+            //支持http或https打头的字符串；
+            //不含http的，但是以www打头的字符串；
+            //不含http，但是支持xxx.com\xxx.cn\xxx.com.cn\xxx.net\xxx.net.cn 的字符串；
+            string HttpMatch =
+                @"^((http|https)://)?(www.)?[A-Za-z0-9]+\.(com|net|cn|com\.cn|com\.net|net\.cn)?";
+            //   @"(http | ftp | https):\/\/[\w\-_] + (\.[\w\-_]+)+([\w\-\.,@?^=% &amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?";
+            return Regex.IsMatch(NetPath, HttpMatch);
+        }
+
+        /// <summary>
+        /// 拼接网址
+        /// </summary>
+        public static string ConcatHttpPath(string bathpath, params string[] paths)
+        {
+            if (!Regex.IsMatch(bathpath, @"^((http|https)://)"))
+            {
+                bathpath = string.Concat(@"http://", bathpath);
+            } 
+            string extendPath = string.Empty;
+            foreach (string path in paths)
+            {
+                if (extendPath.EndsWith(@"/"))
+                {
+                    extendPath.Substring(0, extendPath.Length - 2);
+                }
+                if (path.StartsWith(@"/"))
+                {
+                    extendPath = String.Concat(extendPath, path);
+                }
+                else
+                {
+                    extendPath = string.Concat(extendPath, @"/", path);
+                }
+            }
+
+            return bathpath + extendPath;
         }
     }
 }

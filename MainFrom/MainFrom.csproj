@@ -79,6 +79,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Properties\DataSources\Chun.Demo.Model.HtmlModel.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -106,6 +107,10 @@
     <ProjectReference Include="..\Chun.Demo.ICommon\Chun.Demo.ICommon.csproj">
       <Project>{077F870D-B5A6-4142-8F20-23EA21F6D561}</Project>
       <Name>Chun.Demo.ICommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Chun.Demo.Model\Chun.Demo.Model.csproj">
+      <Project>{917b7aa2-c739-41a1-a750-b479c3e1b35c}</Project>
+      <Name>Chun.Demo.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\Chun.Demo.PhraseHtml\Chun.Demo.PhraseHtml.csproj">
       <Project>{8276f6bb-bc20-4d5c-a5db-cb2a7e8b35d7}</Project>

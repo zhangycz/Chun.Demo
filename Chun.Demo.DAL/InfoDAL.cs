@@ -55,6 +55,7 @@ namespace Chun.Demo.DAL
             // new BaseDataQuery<filepath>( ).Update(filepath);
             var sql =
                 "update filepath set file_status_id = {0} ,file_updatetime = {1} where  file_path=  {2} and file_type_id = {3}";
+            var Sql = "updatefilePath @file_status_id @file_updatetime, @file_path ,@file_type_id";
 
             new BaseDataQuery<filepath>().ExecuteSql(sql,
                 new object[] {file_status_id, DateTime.Now, file_Path, file_Type_id});

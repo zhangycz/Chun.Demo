@@ -49,8 +49,8 @@ namespace MainFrom
             this.label2 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.SaveTextBox = new System.Windows.Forms.TextBox();
-            this.testBOX = new System.Windows.Forms.TextBox();
             this.fileXpath = new System.Windows.Forms.ComboBox();
             this.PropertyName = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -64,16 +64,18 @@ namespace MainFrom
             this.button6 = new System.Windows.Forms.Button();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.htmlModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.htmlModelBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(467, 163);
+            this.progressBar1.Location = new System.Drawing.Point(490, 123);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(316, 28);
             this.progressBar1.TabIndex = 0;
@@ -144,11 +146,11 @@ namespace MainFrom
             // 
             // AddressTextBox
             // 
-            this.AddressTextBox.Location = new System.Drawing.Point(548, 20);
+            this.AddressTextBox.Location = new System.Drawing.Point(134, 47);
             this.AddressTextBox.Name = "AddressTextBox";
             this.AddressTextBox.Size = new System.Drawing.Size(304, 21);
             this.AddressTextBox.TabIndex = 4;
-            this.AddressTextBox.Text = "http://w1.vt97.rocks/pw/thread.php?fid=16&page=";
+            this.AddressTextBox.Text = "http://x3.1024lualu.pw/pw/thread.php?fid=16&page=";
             // 
             // button2
             // 
@@ -189,7 +191,7 @@ namespace MainFrom
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(465, 26);
+            this.label1.Location = new System.Drawing.Point(51, 53);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(77, 12);
             this.label1.TabIndex = 9;
@@ -198,7 +200,7 @@ namespace MainFrom
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(45, 50);
+            this.label2.Location = new System.Drawing.Point(45, 78);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(83, 12);
             this.label2.TabIndex = 11;
@@ -211,14 +213,14 @@ namespace MainFrom
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(663, 124);
+            this.textBox1.Size = new System.Drawing.Size(663, 149);
             this.textBox1.TabIndex = 12;
             this.textBox1.Text = "基址：访问相对路径，地址：访问起始地址，,XPATH:查找的项目，获取项目：获取哪一项";
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Controls.Add(this.SaveTextBox);
-            this.groupBox1.Controls.Add(this.testBOX);
             this.groupBox1.Controls.Add(this.fileXpath);
             this.groupBox1.Controls.Add(this.PropertyName);
             this.groupBox1.Controls.Add(this.label5);
@@ -231,25 +233,32 @@ namespace MainFrom
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(22, 28);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1156, 269);
+            this.groupBox1.Size = new System.Drawing.Size(1156, 244);
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "地址";
             // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "获取目录",
+            "获取文件地址",
+            "下载文件"});
+            this.comboBox1.Location = new System.Drawing.Point(548, 50);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 20);
+            this.comboBox1.TabIndex = 23;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
             // SaveTextBox
             // 
-            this.SaveTextBox.Location = new System.Drawing.Point(134, 73);
+            this.SaveTextBox.Location = new System.Drawing.Point(548, 20);
             this.SaveTextBox.Name = "SaveTextBox";
             this.SaveTextBox.Size = new System.Drawing.Size(304, 21);
             this.SaveTextBox.TabIndex = 22;
             this.SaveTextBox.Text = "J:\\Picture\\";
-            // 
-            // testBOX
-            // 
-            this.testBOX.Location = new System.Drawing.Point(715, 119);
-            this.testBOX.Name = "testBOX";
-            this.testBOX.Size = new System.Drawing.Size(304, 21);
-            this.testBOX.TabIndex = 20;
             // 
             // fileXpath
             // 
@@ -257,7 +266,7 @@ namespace MainFrom
             this.fileXpath.Items.AddRange(new object[] {
             "//div[@class=\'tpc_content\']/img",
             "//tr[@class=\'tr3 t_one\']/td/h3/a"});
-            this.fileXpath.Location = new System.Drawing.Point(134, 47);
+            this.fileXpath.Location = new System.Drawing.Point(134, 75);
             this.fileXpath.Name = "fileXpath";
             this.fileXpath.Size = new System.Drawing.Size(304, 20);
             this.fileXpath.TabIndex = 19;
@@ -288,7 +297,7 @@ namespace MainFrom
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(39, 77);
+            this.label4.Location = new System.Drawing.Point(465, 23);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(89, 12);
             this.label4.TabIndex = 15;
@@ -309,14 +318,14 @@ namespace MainFrom
             this.BasePathTextBox.Name = "BasePathTextBox";
             this.BasePathTextBox.Size = new System.Drawing.Size(304, 21);
             this.BasePathTextBox.TabIndex = 12;
-            this.BasePathTextBox.Text = "http://w1.vt97.rocks/pw/";
+            this.BasePathTextBox.Text = "http://x3.1024lualu.pw";
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.textBox1);
-            this.groupBox2.Location = new System.Drawing.Point(22, 303);
+            this.groupBox2.Location = new System.Drawing.Point(22, 278);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(669, 144);
+            this.groupBox2.Size = new System.Drawing.Size(669, 169);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "输出信息";
@@ -402,6 +411,7 @@ namespace MainFrom
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.htmlModelBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -439,9 +449,10 @@ namespace MainFrom
         private System.Windows.Forms.TextBox DelEmptyFile;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.TextBox testBOX;
         private System.Windows.Forms.TextBox SaveTextBox;
         private DevExpress.XtraGrid.GridControl gridControl1;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.BindingSource htmlModelBindingSource;
     }
 }

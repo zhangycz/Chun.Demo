@@ -8,6 +8,7 @@ using Chun.Demo.Common;
 using Chun.Demo.ICommon;
 using Chun.Demo.PhraseHtml;
 using MainFrom.Properties;
+using Chun.Demo.Model;
 
 namespace MainFrom
 {
@@ -15,12 +16,12 @@ namespace MainFrom
 
     public partial class MainForm : Form
     {
-        private int _file_type_id;
+        private int _fileTypeId;
 
         private Task _myTask;
-        private int currentCount;
+        private int _currentCount;
 
-        private IGetService Igetsrv;
+        private IGetService _igetsrv;
 
 
         public object locker = new object();
@@ -28,9 +29,12 @@ namespace MainFrom
 
         private int maxCount;
 
+        private HtmlModel Html { get; set; }
+
         public MainForm()
         {
             InitializeComponent();
+
 
             //Thread th = new Thread(new ThreadStart(add));
             //th.Start();
@@ -47,7 +51,7 @@ namespace MainFrom
             }
 
             progressBar1.Maximum = maxCount - loseCount;
-            progressBar1.Value = currentCount;
+            progressBar1.Value = _currentCount;
         }
 
         private void add()
@@ -57,9 +61,9 @@ namespace MainFrom
             {
                 for (var j = 0; j < 10000; j++)
                 {
-                    sum += i*j;
+                    sum += i * j;
                 }
-                currentCount++;
+                _currentCount++;
             }
         }
 
@@ -71,7 +75,7 @@ namespace MainFrom
                 //return; 
 
                 timer1.Start();
-                currentCount = 0;
+                _currentCount = 0;
                 loseCount = 0;
                 maxCount = openFileDialog.FileNames.Length;
 
@@ -84,8 +88,8 @@ namespace MainFrom
                             if (Tool.ChangFileName(item, @"C:\Users\a2863\Desktop\种子", ".TORRENT"))
                             {
                                 lock (locker)
-                                    if (currentCount < maxCount - loseCount)
-                                        currentCount++;
+                                    if (_currentCount < maxCount - loseCount)
+                                        _currentCount++;
                             }
                             else
                             {
@@ -106,21 +110,21 @@ namespace MainFrom
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _file_type_id = 1;
-            _file_type_id = 11;
+            _fileTypeId = 1;
+            _fileTypeId = 11;
             //获取目录
             GetPath();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            _file_type_id = 12;
+            _fileTypeId = 12;
             GetPath();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            _file_type_id = Convert.ToInt32(ConfigerHelper.GetAppConfig("FilePathId"));
+            _fileTypeId = Convert.ToInt32(ConfigerHelper.GetAppConfig("FilePathId"));
             Download();
         }
 
@@ -128,7 +132,7 @@ namespace MainFrom
         {
             if (!backgroundWorker1.IsBusy)
             {
-                Igetsrv = new DownLoadPic
+                _igetsrv = new DownLoadPic
                 {
                     SaveFilePath = SaveTextBox.Text.Trim(),
                     BasePath = BasePathTextBox.Text.Trim(),
@@ -148,13 +152,13 @@ namespace MainFrom
         {
             #region Task实现
 
-            Igetsrv = new GetPath
+            _igetsrv = new GetPath
             {
                 SaveFilePath = SaveTextBox.Text.Trim(),
-                BasePath = BasePathTextBox.Text.Trim(),
-                FileXpath = fileXpath.Text.Trim(),
-                NetPath = AddressTextBox.Text.Trim(),
-                PropertyName = PropertyName.Text.Trim()
+                //BasePath = BasePathTextBox.Text.Trim(),
+               // FileXpath = fileXpath.Text.Trim(),
+                //NetPath = AddressTextBox.Text.Trim(),
+               // PropertyName = PropertyName.Text.Trim()
             };
             if (_myTask != null && !_myTask.IsCompleted)
             {
@@ -164,10 +168,9 @@ namespace MainFrom
             _myTask = Task.Factory.StartNew(() =>
             {
                 Invoke(new MethodInvoker(() => MessageBox.Show("正在执行操作请耐心等待……")));
-                Igetsrv.GetService(_file_type_id);
+                _igetsrv.GetService(_fileTypeId);
                 Invoke(new MethodInvoker(() => MessageBox.Show("完成了操作")));
             });
-
             #endregion
 
             #region Backgroudworker 实现
@@ -212,7 +215,7 @@ namespace MainFrom
             }
             else
             {
-                Igetsrv.GetService(_file_type_id);
+                _igetsrv.GetService(_fileTypeId);
             }
         }
 
@@ -228,11 +231,11 @@ namespace MainFrom
         private void button5_Click(object sender, EventArgs e)
         {
             ThreadPool.QueueUserWorkItem(item =>
-            {
-                Tool.DelEmptyDirAndFile(DelEmptyFile.Text.Trim());
-                Invoke(new MethodInvoker(() => MessageBox.Show("完成！你可能需要执行多次以删除空文件夹！")));
-            }
-                );
+                {
+                    Tool.DelEmptyDirAndFile(DelEmptyFile.Text.Trim());
+                    Invoke(new MethodInvoker(() => MessageBox.Show("完成！你可能需要执行多次以删除空文件夹！")));
+                }
+            );
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -294,6 +297,7 @@ namespace MainFrom
 
         private void button6_Click(object sender, EventArgs e)
         {
+            var x = this.htmlModelBindingSource.DataSource;
             //TextBoxHelper tb = new TextBoxHelper();
             //tb.TextBoxInputOnlyFloatNum(testBOX);
             //testBOX.Formart("F4");
@@ -346,8 +350,28 @@ namespace MainFrom
         {
             MyMessageBox.MessageBoxEvent += SetMessageBox;
             DgvHelper.InitDgv(gridView1, @"test");
+
+            
+            HtmlModel hm = new HtmlModel("http://x3.1024lualu.pw", "pw/thread.php?fid=16&page=", "//div[@class='tpc_content']/img",
+                "href", "");
+            HtmlModelTool.htmlModel = hm;
+            this.htmlModelBindingSource.DataSource = HtmlModelTool.htmlModel;
+
+            this.BasePathTextBox.DataBindings.Add(new Binding("Text", this.htmlModelBindingSource, "BasePath", true));
+            this.BasePathTextBox.DataBindings.Add(new Binding("Tag", this.htmlModelBindingSource, "BasePath", true));
+
+            this.AddressTextBox.DataBindings.Add(new Binding("Text", this.htmlModelBindingSource, "ExtendPath", true));
+            this.AddressTextBox.DataBindings.Add(new Binding("Tag", this.htmlModelBindingSource, "ExtendPath", true));
+            this.fileXpath.DataBindings.Add(new Binding("Text", this.htmlModelBindingSource, "Match", true));
+            this.fileXpath.DataBindings.Add(new Binding("Tag", this.htmlModelBindingSource, "Match", true));
+            this.PropertyName.DataBindings.Add(new Binding("Text", this.htmlModelBindingSource, "AttrName", true));
+            this.PropertyName.DataBindings.Add(new Binding("Tag", this.htmlModelBindingSource, "AttrName", true));
         }
 
         private delegate void test(string fileName);
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
     }
 }

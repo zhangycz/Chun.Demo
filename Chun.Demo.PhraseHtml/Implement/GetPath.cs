@@ -14,16 +14,20 @@ namespace Chun.Demo.PhraseHtml
     {
         #region 属性
 
+        #region MyRegion
         //网络地址
-        public String NetPath { get; set; }
+        //public String NetPath { get; set; }
         //匹配选项
-        public String FileXpath { get; set; }
+        //public String FileXpath { get; set; }
         //文件基址
-        public String BasePath { get; set; }
+        //public String BasePath { get; set; }
+        //  public string PropertyName { get; set; } 
+        #endregion
+
 
         public string SaveFilePath { get; set; }
 
-        public string PropertyName { get; set; }
+      
 
         #endregion
 
@@ -68,7 +72,12 @@ namespace Chun.Demo.PhraseHtml
         /// <param name="fileTypeId">当前要获取的文件类型</param>
         public void GetService(int fileTypeId)
         {
-            if (String.IsNullOrEmpty(FileXpath) || String.IsNullOrEmpty(PropertyName))
+            if (!Tool.validateHtml(HtmlModelTool.htmlModel.BasePath))
+            {
+                    MyMessageBox.Add("网站基址不是正确的格式");
+                    return;
+            }
+            if (String.IsNullOrEmpty(HtmlModelTool.htmlModel.Match) || String.IsNullOrEmpty(HtmlModelTool.htmlModel.AttrName))
             {
                 MyMessageBox.Add("匹配字符不可为空");
                 Console.WriteLine("匹配字符不可为空");
@@ -91,28 +100,33 @@ namespace Chun.Demo.PhraseHtml
             #endregion
 
             GetHtml gt = new GetHtml();
-            gt.Match = FileXpath;
+            //gt.Match = FileXpath;
+           // gt.Html.Match = FileXpath;
+
             //List<string> currentPathList = new List<string>( );
             //获取数据库中未操作和失败的
             List<string> currentPathList = new List<string>();
             if (fileTypeId.ToString().EndsWith("1"))
             {
+                //获取目录地址
                 string MaxDirPath = ConfigerHelper.GetAppConfig("MaxDirPath");
                 int maxDirPath = Convert.ToInt32(MaxDirPath);
                 currentPathList =
-                    Tool.ReadPathByLinq(fileTypeId - 1, 4)
-                        .Where(p => p.file_Path.StartsWith(NetPath))
+                    Tool.ReadPathByLinq(fileTypeId - 1, 3)
+                        .Where(p => p.file_Path.StartsWith(HtmlModelTool.htmlModel.BasePath))
                         .Select(p => p.file_Path)
                         .Take(maxDirPath)
                         .ToList();
                 if (currentPathList.Count == 0)
                 {
-                    Tool.CreateRootDir(NetPath);
+                    string netpath = Tool.ConcatHttpPath(HtmlModelTool.htmlModel.BasePath, HtmlModelTool.htmlModel.ExtendPath);
+                    Tool.CreateRootDir(netpath);
                     GetService(fileTypeId);
                 }
             }
             else
             {
+                //获取文件地址
                 currentPathList = Tool.ReadPathByLinq(fileTypeId - 1, 3).Select(p => p.file_Path).ToList();
             }
 
@@ -246,14 +260,17 @@ namespace Chun.Demo.PhraseHtml
                     url = item;
                 }
                 else
-                    url = BasePath + item;
+                    url = Tool.ConcatHttpPath(HtmlModelTool.htmlModel.BasePath,item);
+                   // url =String.Concat( HtmlModelTool.htmlModel.BasePath,'/' , item);
                 //  Console.WriteLine("线程 {0} 已经完成了文件 {1} 的获取！", Thread.CurrentThread.ManagedThreadId, url);
                 gt = new GetHtml()
                 {
-                    Match = FileXpath,
+                    
+                   // Match = FileXpath,
                     dirPath = targetPathList
                 };
-                if (gt.run(PropertyName, url, fileTypeId))
+                //gt.Html.Match = FileXpath;
+                if (gt.run(HtmlModelTool.htmlModel.AttrName, url, fileTypeId))
                 {
                     lock(locker)
                     Tool.UpdatefilePath(item, fileTypeId - 1, 1);

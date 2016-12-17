@@ -7,6 +7,7 @@ using System.Linq;
 using Chun.Demo.Common;
 using Chun.Demo.DAL;
 using Chun.Demo.Model.Entity;
+using Chun.Demo.Model;
 
 namespace Chun.Demo.PhraseHtml
 {
@@ -14,13 +15,9 @@ namespace Chun.Demo.PhraseHtml
     {
         // string url ="";
         static object locker = new object( );
-        public string Match
-        {
-            get;
-            set;
-        }
         
-       
+
+
         public List<string> dirPath
         {
             get;
@@ -46,14 +43,16 @@ namespace Chun.Demo.PhraseHtml
         /// <param name="fileType"></param>
         public bool run(string attrName,string URL, int fileType)
         {
+           
             bool Successed = false;
             HtmlNodeCollection hnCollection;
             HtmlNodeCollection titleCollection;
             //获取目录地址
             try
             {
+
                 HtmlDocument htmlDocument = HtmlTool.LoadHtml(URL);
-                hnCollection = HtmlTool.GetNodeCollect(htmlDocument, Match);
+                hnCollection = HtmlTool.GetNodeCollect(htmlDocument, HtmlModelTool.htmlModel.Match);
                 titleCollection = HtmlTool.GetNodeCollect(htmlDocument,"//head/title");
             }
             catch(Exception EX)
@@ -120,7 +119,7 @@ namespace Chun.Demo.PhraseHtml
             try
             {
                 HtmlDocument htmlDocument = HtmlTool.LoadHtml(fileEntity.file_Path);
-                hnCollection = HtmlTool.GetNodeCollect(htmlDocument, Match);
+                hnCollection = HtmlTool.GetNodeCollect(htmlDocument, HtmlModelTool.htmlModel.Match);
                 titleCollection = HtmlTool.GetNodeCollect(htmlDocument, "//head/title");
             }
             catch (Exception EX)

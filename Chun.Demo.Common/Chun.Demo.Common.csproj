@@ -86,6 +86,7 @@
     <Compile Include="Tool\FontDialog.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Tool\HtmlModelTool.cs" />
     <Compile Include="Tool\HtmlTool.cs" />
     <Compile Include="Tool\OperatorInfo.cs" />
     <Compile Include="Helper\SysTimeHelper.cs" />
