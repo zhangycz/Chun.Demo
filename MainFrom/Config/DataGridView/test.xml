@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Header Autosizemode="Fill" HeaderVisible="true" ShowAutoFilterRow="true" MultiSelect="false" AllowGroup="false" EnableColumnMenu="false">
+  <Colume ColumnType="text" Width="" Name="票号"     DataPropertyName="Pk_TicketId" Visible="true" Frozen="false" ReadOnly="true"  Format="" Content="false"/>
+  <Colume ColumnType="text" Width="" Name="到达站"     DataPropertyName="BusStop" Visible="true" Frozen="false" ReadOnly="true"  Format="" Content="false"/>
+  <Colume ColumnType="text" Width="" Name="乘车站"     DataPropertyName="CarryStation_Name" Visible="true" Frozen="false" ReadOnly="true"  Format="" Content="false"/>
+  <Colume ColumnType="text" Width="" Name="班次号"     DataPropertyName="Tickets_SchId" Visible="true" Frozen="false" ReadOnly="true"  Format="" Content="false"/>
+  <Colume ColumnType="text" Width="" Name="发车日期"     DataPropertyName="Tickets_DrvDate" Visible="true" Frozen="false" ReadOnly="true"  Format="" Content="false"/>
+  <Colume ColumnType="text" Width="" Name="发车时间"     DataPropertyName="Tickets_DrvTime" Visible="true" Frozen="false" ReadOnly="true"  Format="" Content="false"/>
+  <Colume ColumnType="text" Width="" Name="座位号"     DataPropertyName="Tickets_SeatNum" Visible="true" Frozen="false" ReadOnly="true"  Format="" Content="false"/>
+  <Colume ColumnType="text" Width="" Name="票种"     DataPropertyName="TkType_Name" Visible="true" Frozen="false" ReadOnly="true"  Format="" Content="false"/>
+  <Colume ColumnType="text" Width="" Name="座位类型"     DataPropertyName="SeatType_Name" Visible="true" Frozen="false" ReadOnly="true"  Format="" Content="false"/>
+  <Colume ColumnType="text" Width="" Name="票价"     DataPropertyName="Tickets_Price" Visible="true" Frozen="false" ReadOnly="true"  Format="" Content="false"/>
+  <Colume ColumnType="text" Width="" Name="车票状态"     DataPropertyName="TkStatus_Name" Visible="true" Frozen="false" ReadOnly="true"  Format="" Content="false"/>
+  <Colume ColumnType="text" Width="" Name="处理时间"     DataPropertyName="Tickets_DealTime" Visible="true" Frozen="false" ReadOnly="true"  Format="" Content="false"/>
+</Header>

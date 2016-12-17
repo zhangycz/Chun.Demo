@@ -9,27 +9,27 @@ namespace Chun.Demo.ICommon
         {
             get; set;
         }
-        //网络地址
-        String NetPath
-        {
-            get; set;
-        }
+        //        //网络地址
+        //        String NetPath
+        //        {
+        //            get; set;
+        //        }
         //匹配选项
-         String FileXpath
-        {
-            get; set;
-        }
+        //         String FileXpath
+        //        {
+        //            get; set;
+        //        }
         //文件基址
-         String BasePath
-        {
-            get; set;
-        }
+        //        String BasePath
+        //        {
+        //            get; set;
+        //        }
         //获取属性值
-        String PropertyName
-        {
-            get;set;
-        }
+        //        String PropertyName
+        //        {
+        //            get;set;
+        //        }
 
-        void GetService( int fileTypeId);
+        void GetService(int fileTypeId);
     }
 }

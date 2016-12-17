@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using HtmlAgilityPack;
 using Chun.Demo.ICommon;
 using System.Data.SqlClient;
+using System.Linq;
 using Chun.Demo.Common;
 using Chun.Demo.DAL;
 using Chun.Demo.Model.Entity;
+using Chun.Demo.Model;
 
 namespace Chun.Demo.PhraseHtml
 {
@@ -13,29 +15,22 @@ namespace Chun.Demo.PhraseHtml
     {
         // string url ="";
         static object locker = new object( );
-        public string Match
-        {
-            get;
-            set;
-        }
         
-       
+
+
         public List<string> dirPath
         {
             get;
             set;
         }
-        HtmlDocument loadHtml( string URL )
+        //--------------------------------------------------------
+        public List<filepath> dirPathEntity
         {
-            HtmlDocument htmlDocument = new HtmlWeb().Load(URL);
-            return htmlDocument;
-
+            get;
+            set;
         }
-
-        HtmlNodeCollection getNodeCollect( HtmlDocument htmlDocument, string matchNode)
-        {
-            return htmlDocument.DocumentNode.SelectNodes(matchNode);
-        }
+        //--------------------------------------------------------
+        public HtmlTool HtmlTool { get; set; } =new HtmlTool();
 
         /// <summary>
         /// attrName
@@ -48,36 +43,40 @@ namespace Chun.Demo.PhraseHtml
         /// <param name="fileType"></param>
         public bool run(string attrName,string URL, int fileType)
         {
+           
             bool Successed = false;
             HtmlNodeCollection hnCollection;
             HtmlNodeCollection titleCollection;
             //获取目录地址
             try
             {
-                HtmlDocument htmlDocument = loadHtml(URL);
-                hnCollection = getNodeCollect(htmlDocument, Match);
-                titleCollection = getNodeCollect(htmlDocument,"//head/title");
+
+                HtmlDocument htmlDocument = HtmlTool.LoadHtml(URL);
+                hnCollection = HtmlTool.GetNodeCollect(htmlDocument, HtmlModelTool.htmlModel.Match);
+                titleCollection = HtmlTool.GetNodeCollect(htmlDocument,"//head/title");
             }
             catch(Exception EX)
             {
-                Console.WriteLine("线程 {0} 获取文件 {1} 时发生了错误，错误信息 {2} ，错误详情 {3} ", System.Threading.Thread.CurrentThread.ManagedThreadId, URL,EX.Message,EX.Data);
-                //InsertSql(fileType,URL);
+              MyMessageBox.Add(string.Format("线程 {0} 获取文件 {1} 时发生了错误，错误信息 {2} ，错误详情 {3} ", System.Threading.Thread.CurrentThread.ManagedThreadId, URL, EX.Message, EX.Data));
+              Console.WriteLine("线程 {0} 获取文件 {1} 时发生了错误，错误信息 {2} ，错误详情 {3} ", System.Threading.Thread.CurrentThread.ManagedThreadId, URL,EX.Message,EX.Data);
+               
                 return Successed;
             }
 
 
             if (hnCollection == null)
             {
-                //errorList.Add(URL);
+               
+                MyMessageBox.Add(string.Format("线程 {0} 获取文件 {1} 时发生了错误 ,未能加载网页！", System.Threading.Thread.CurrentThread.ManagedThreadId, URL));
                 Console.WriteLine("线程 {0} 获取文件 {1} 时发生了错误 ,未能加载网页！", System.Threading.Thread.CurrentThread.ManagedThreadId, URL);
-                //InsertSql(fileType, URL);
+              
                 return Successed;
             }
            // Console.WriteLine("线程 {0} 获取文件 {1} 正在操作，锁定中……", System.Threading.Thread.CurrentThread.ManagedThreadId, URL);
             foreach (HtmlNode hn in hnCollection)
             {
                 string path = hn.Attributes[attrName].Value;
-                string innerTxt = string.IsNullOrEmpty(hn.InnerHtml) ? !string.IsNullOrEmpty(hn.InnerText)? hn.InnerText : (titleCollection != null ?"": (titleCollection.Count > 0 ? titleCollection[0].InnerHtml : "")):hn.InnerHtml;
+                string innerTxt = string.IsNullOrEmpty(hn.InnerHtml) ? (!string.IsNullOrEmpty(hn.InnerText)? hn.InnerText : (titleCollection != null ?(titleCollection.Count > 0?titleCollection[0].InnerHtml : "") :""  )):hn.InnerHtml;
                 if (!string.IsNullOrEmpty(path))
                 {
                     //lock (locker)
@@ -87,6 +86,12 @@ namespace Chun.Demo.PhraseHtml
                            dirPath.Add(path);
                             try
                             {
+                                if (path.ToUpper().StartsWith("READ"))
+                                {
+                                    int loc = path.LastIndexOf("&");
+                                    path=path.Substring(0,loc);
+                                }
+
                                 InsertfilePath(path, innerTxt, fileType, 0, URL);
                             }
                             catch
@@ -104,6 +109,67 @@ namespace Chun.Demo.PhraseHtml
             return Successed;
         }
 
+        public bool run(string attrName, filepath fileEntity)
+        {
+            bool success = false;
+
+            HtmlNodeCollection hnCollection;
+            HtmlNodeCollection titleCollection;
+            //获取目录地址
+            try
+            {
+                HtmlDocument htmlDocument = HtmlTool.LoadHtml(fileEntity.file_Path);
+                hnCollection = HtmlTool.GetNodeCollect(htmlDocument, HtmlModelTool.htmlModel.Match);
+                titleCollection = HtmlTool.GetNodeCollect(htmlDocument, "//head/title");
+            }
+            catch (Exception EX)
+            {
+
+                Console.WriteLine("线程 {0} 获取文件 {1} 时发生了错误，错误信息 {2} ，错误详情 {3} ", System.Threading.Thread.CurrentThread.ManagedThreadId, fileEntity.file_Path, EX.Message, EX.Data);
+                //InsertSql(fileType,URL);
+                return success;
+            }
+
+
+            if (hnCollection == null)
+            {
+                //errorList.Add(URL);
+                Console.WriteLine("线程 {0} 获取文件 {1} 时发生了错误 ,未能加载网页！", System.Threading.Thread.CurrentThread.ManagedThreadId, fileEntity.file_Path);
+                //InsertSql(fileType, URL);
+                return success;
+            }
+            // Console.WriteLine("线程 {0} 获取文件 {1} 正在操作，锁定中……", System.Threading.Thread.CurrentThread.ManagedThreadId, URL);
+            foreach (HtmlNode hn in hnCollection)
+            {
+                string path = hn.Attributes[attrName].Value;
+                string innerTxt = string.IsNullOrEmpty(hn.InnerHtml) ? !string.IsNullOrEmpty(hn.InnerText) ? hn.InnerText : (titleCollection != null ? "" : (titleCollection.Count > 0 ? titleCollection[0].InnerHtml : "")) : hn.InnerHtml;
+                if (!string.IsNullOrEmpty(path))
+                {
+                    if(!dirPathEntity.Any(p => p.file_Path.Equals(path)))
+                   // if (!dirPath.Contains(path))
+                    {
+                        dirPath.Add(path);
+                        try
+                        {
+
+                          //  InsertfilePath(path, innerTxt, fileType, 0, URL);
+                        }
+                        catch
+                        {
+                            return success;
+                        }
+                        success = true;
+                    }
+                    //else if(!dirPathEntity.Any(p=>p.file_innerTxt))
+                  //  else
+                        success = true;
+                    //}
+                }
+            }
+
+
+            return success;
+        }
         #region 
 
         public void InsertSql(int fileType, string URL )

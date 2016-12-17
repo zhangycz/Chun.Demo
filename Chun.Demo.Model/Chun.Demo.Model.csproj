@@ -76,7 +76,8 @@
     <Compile Include="Entity\filestatus.cs">
       <DependentUpon>FilePath.tt</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="FileModel.cs" />
+    <Compile Include="HtmlModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -90,7 +91,6 @@
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
     <None Include="Entity\FilePath.edmx.diagram">
       <DependentUpon>FilePath.edmx</DependentUpon>
     </None>
