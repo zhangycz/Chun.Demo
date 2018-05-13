@@ -52,7 +52,7 @@ namespace Chun.Demo.PhraseHtml
             {
 
                 HtmlDocument htmlDocument = HtmlTool.LoadHtml(URL);
-                hnCollection = HtmlTool.GetNodeCollect(htmlDocument, HtmlModelTool.FormPars.Match);
+                hnCollection = HtmlTool.GetNodeCollect(htmlDocument, MyTools.FormPars.Match);
                 titleCollection = HtmlTool.GetNodeCollect(htmlDocument,"//head/title");
             }
             catch(Exception EX)
@@ -119,7 +119,7 @@ namespace Chun.Demo.PhraseHtml
             try
             {
                 HtmlDocument htmlDocument = HtmlTool.LoadHtml(fileEntity.file_Path);
-                hnCollection = HtmlTool.GetNodeCollect(htmlDocument, HtmlModelTool.FormPars.Match);
+                hnCollection = HtmlTool.GetNodeCollect(htmlDocument, MyTools.FormPars.Match);
                 titleCollection = HtmlTool.GetNodeCollect(htmlDocument, "//head/title");
             }
             catch (Exception EX)

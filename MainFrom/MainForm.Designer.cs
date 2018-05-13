@@ -66,6 +66,7 @@ namespace MainFrom
             this.BasePathTextBox = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.htmlModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.button7 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -226,6 +227,7 @@ namespace MainFrom
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button7);
             this.groupBox1.Controls.Add(this.IgnoreFailed);
             this.groupBox1.Controls.Add(this.EndDateTime);
             this.groupBox1.Controls.Add(this.label7);
@@ -454,6 +456,22 @@ namespace MainFrom
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "输出信息";
             // 
+            // button7
+            // 
+            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button7.FlatAppearance.BorderSize = 0;
+            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button7.Font = new System.Drawing.Font("宋体", 9.5F);
+            this.button7.ForeColor = System.Drawing.Color.DarkCyan;
+            this.button7.Location = new System.Drawing.Point(587, 157);
+            this.button7.Margin = new System.Windows.Forms.Padding(4);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(31, 29);
+            this.button7.TabIndex = 28;
+            this.button7.Text = "○";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -519,5 +537,6 @@ namespace MainFrom
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DateTimePicker startDateTime;
         private System.Windows.Forms.CheckBox IgnoreFailed;
+        private System.Windows.Forms.Button button7;
     }
 }

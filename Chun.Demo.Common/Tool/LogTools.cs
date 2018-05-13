@@ -4,37 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Digiwin.Chun.Common.Model;
-using Digiwin.Chun.Common.Views;
 
-namespace Digiwin.Chun.Common.Controller {
+namespace Chun.Demo.Common {
     /// <summary>
     /// 日志
     /// </summary>
     public static class LogTools {
         #region 日志
-
-     
-        /// <summary>
-        ///     日志
-        /// </summary>
-        public static void WriteLogByTreeView(MyTreeView treeView) {
-            var toolpars = MyTools.Toolpars;
-            var pathDic = MyTools.GetTreeViewFilePath(treeView.Nodes);
-            var operationLog = (toolpars.CustomerName == null || toolpars.CustomerName.Equals(string.Empty)
-                ? DateTime.Now.ToString("yyyyMMddhhmmss")
-                : toolpars.CustomerName);
-            var logPath=GetLogDir(operationLog);
-
-            var logStr = new StringBuilder();
-           const string empStr = @"      ";
-            foreach (var kv in pathDic)
-            {
-                foreach (var fileinfo in kv.Value)
-                logStr.AppendLine($"{(logStr.Length>0?empStr:string.Empty)}# {kv.Key} {empStr}{fileinfo.FileName}");
-            }
-            LogMsg(logPath, logStr.ToString());
-        }
+        
 
         /// <summary>
         /// 记录错误信息
@@ -43,6 +20,16 @@ namespace Digiwin.Chun.Common.Controller {
         public static void LogError(string msg)
         {
             var logPath = GetLogDir($@"error_{DateTime.Now:yyyyMMdd}");
+            LogMsg(logPath, msg);
+        }
+
+        /// <summary>
+        /// 记录错误信息
+        /// </summary>
+        /// <param name="msg"></param>
+        public static void LogInfo(string msg)
+        {
+            var logPath = GetLogDir($@"Operation_{DateTime.Now:yyyyMMdd}");
             LogMsg(logPath, msg);
         }
 
@@ -155,8 +142,8 @@ namespace Digiwin.Chun.Common.Controller {
         /// <returns></returns>
         public static string GetLogDir(string operationLog)
         {
-            var toolpars = MyTools.Toolpars;
-            var varAppPath = PathTools.PathCombine(toolpars.MvsToolpath, "log");
+            var toolpars = MyTools.FormPars;
+            var varAppPath = PathTools.PathCombine(toolpars.AppPath, "log");
             if (!Directory.Exists(varAppPath))
                 Directory.CreateDirectory(varAppPath);
             var logPath = $@"{varAppPath}\\{operationLog}.log";
@@ -177,15 +164,6 @@ namespace Digiwin.Chun.Common.Controller {
             return headStr;
         }
       
-        /// <summary>
-        /// 记录到Server
-        /// </summary>
-        /// <param name="fileInfos"></param>
-        public static void WriteToServer(IEnumerable<FileInfos> fileInfos) {
-            var toolpars = MyTools.Toolpars;
-            SqlTools.InsertToolInfo(toolpars.FormEntity.TxtNewTypeKey, fileInfos);
-        }
-
         #endregion
     }
 }

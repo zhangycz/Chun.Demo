@@ -14,6 +14,7 @@ namespace Chun.Demo.Model {
             this.SavePath = SavePath;
         }
 
+        public string AppPath { get; set; } = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
         public string Match { get; set; }
 
         public string BasePath { get; set; }

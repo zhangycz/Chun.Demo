@@ -17,7 +17,7 @@ namespace Chun.Demo.PhraseHtml {
 
             #region
 
-            var formPars = HtmlModelTool.FormPars;
+            var formPars = MyTools.FormPars;
             var iognoreFailed = formPars.IgnoreFailed;
             var type = 3;
             if (iognoreFailed)

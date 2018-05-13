@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="FileModel.cs" />
     <Compile Include="FormPars.cs" />
+    <Compile Include="HardwareEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

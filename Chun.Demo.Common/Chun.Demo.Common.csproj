@@ -66,6 +66,7 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -82,12 +83,15 @@
     <Compile Include="Helper\CellDrawHelper.cs" />
     <Compile Include="Helper\DebugHelper.cs" />
     <Compile Include="Helper\DgvHelper.cs" />
+    <Compile Include="Tool\EnumTools.cs" />
     <Compile Include="Tool\FileSerializeOper.cs" />
     <Compile Include="Tool\FontDialog.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Tool\HtmlModelTool.cs" />
+    <Compile Include="Tool\HardwareTools.cs" />
+    <Compile Include="Tool\MyTools.cs" />
     <Compile Include="Tool\HtmlTool.cs" />
+    <Compile Include="Tool\LogTools.cs" />
     <Compile Include="Tool\OperatorInfo.cs" />
     <Compile Include="Helper\SysTimeHelper.cs" />
     <Compile Include="Tool\ComputerInfo.cs" />
@@ -103,6 +107,7 @@
     <Compile Include="Helper\TextBoxHelper.cs" />
     <Compile Include="Tool\ConnectionStatusTool.cs" />
     <Compile Include="Tool\MyMessageBox.cs" />
+    <Compile Include="Tool\PathTools.cs" />
     <Compile Include="Tool\SortBindingList.cs" />
     <Compile Include="Tool\Tool.cs" />
     <Compile Include="Torrent.cs" />

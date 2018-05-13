@@ -29,74 +29,48 @@ namespace MainFrom
 
         private int maxCount;
 
-        private FormPars Html { get; set; }
-
         public MainForm()
         {
             InitializeComponent();
-
-
-            //Thread th = new Thread(new ThreadStart(add));
-            //th.Start();
-            //Parallel.Invoke(add);
         }
 
-        public void InitPars() {
-           
-        }
-
-
-        private void add()
-        {
-            double sum = 0f;
-            for (var i = 0; i < 10000; i++)
-            {
-                for (var j = 0; j < 10000; j++)
-                {
-                    sum += i * j;
-                }
-                _currentCount++;
-            }
-        }
-
+       
         private void 打开文件ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            if (openFileDialog.ShowDialog() != DialogResult.OK)
+                return;
+            //new AlterTorrentByInnerName(this.openFileDialog.FileNames).Show();
+            //return; 
+
+            timer1.Start();
+            _currentCount = 0;
+            loseCount = 0;
+            maxCount = openFileDialog.FileNames.Length;
+
+            ThreadPool.QueueUserWorkItem(w =>
             {
-                //new AlterTorrentByInnerName(this.openFileDialog.FileNames).Show();
-                //return; 
-
-                timer1.Start();
-                _currentCount = 0;
-                loseCount = 0;
-                maxCount = openFileDialog.FileNames.Length;
-
-                ThreadPool.QueueUserWorkItem(w =>
+                try
                 {
-                    try
+                    Parallel.ForEach(openFileDialog.FileNames, item =>
                     {
-                        Parallel.ForEach(openFileDialog.FileNames, item =>
+                        if (Tool.ChangFileName(item, @"C:\Users\a2863\Desktop\种子", ".TORRENT"))
                         {
-                            if (Tool.ChangFileName(item, @"C:\Users\a2863\Desktop\种子", ".TORRENT"))
-                            {
-                                lock (locker)
-                                    if (_currentCount < maxCount - loseCount)
-                                        _currentCount++;
-                            }
-                            else
-                            {
-                                lock (locker)
-                                    loseCount++;
-                            }
-                        });
-                        //this.Invoke(new MethodInvoker(( ) => MessageBox.Show("successful")));
-                    }
-                    catch (Exception)
-                    {
-                        Invoke(new MethodInvoker(() => MessageBox.Show(Resources.MainForm_打开文件ToolStripMenuItem_Click_)));
-                    }
-                }, null);
-            }
+                            lock (locker)
+                                if (_currentCount < maxCount - loseCount)
+                                    _currentCount++;
+                        }
+                        else
+                        {
+                            lock (locker)
+                                loseCount++;
+                        }
+                    });
+                }
+                catch (Exception)
+                {
+                    Invoke(new MethodInvoker(() => MessageBox.Show(Resources.MainForm_打开文件ToolStripMenuItem_Click_)));
+                }
+            }, null);
         }
 
 
@@ -278,6 +252,13 @@ namespace MainFrom
             BeginInvoke(new MethodInvoker(() => {
                 var msg = MyMessageBox.GetMessageBuilder() + Environment.NewLine;
                 Console.WriteLine(msg);
+                try {
+                    LogTools.LogInfo(msg);
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e);
+                }
+                
                 textBox1.AppendText(msg);
                 textBox1.SelectionStart = textBox1.Text.Length;
                 textBox1.ScrollToCaret();
@@ -344,8 +325,8 @@ namespace MainFrom
             var savePath = ConfigerHelper.GetAppConfig("SavePath");
             var hm = new FormPars(basicUrl, "thread.php?fid=16&page=", "//div[@class='tpc_content']/img",
                 "src", savePath, "");
-            HtmlModelTool.FormPars = hm;
-            this.htmlModelBindingSource.DataSource = HtmlModelTool.FormPars;
+            MyTools.FormPars = hm;
+            this.htmlModelBindingSource.DataSource = MyTools.FormPars;
 
             this.BasePathTextBox.DataBindings.Add(new Binding("Text", this.htmlModelBindingSource, "BasePath", true, DataSourceUpdateMode.OnPropertyChanged));
             this.BasePathTextBox.DataBindings.Add(new Binding("Tag", this.htmlModelBindingSource, "BasePath", true, DataSourceUpdateMode.OnPropertyChanged));
@@ -363,14 +344,19 @@ namespace MainFrom
             this.startDateTime.DataBindings.Add(new Binding("Value", this.htmlModelBindingSource, "StartDateTime", true, DataSourceUpdateMode.OnPropertyChanged));
             this.EndDateTime.DataBindings.Add(new Binding("Value", this.htmlModelBindingSource, "EndDateTime", true, DataSourceUpdateMode.OnPropertyChanged));
             this.IgnoreFailed.DataBindings.Add(new Binding("Checked", this.htmlModelBindingSource, "IgnoreFailed", true, DataSourceUpdateMode.OnPropertyChanged));
-            HtmlModelTool.FormPars.StartDateTime =DateTime.Now;
-            HtmlModelTool.FormPars.EndDateTime =DateTime.MaxValue;
+            MyTools.FormPars.StartDateTime =DateTime.Now;
+            MyTools.FormPars.EndDateTime =DateTime.MaxValue;
         }
 
         private delegate void test(string fileName);
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+        }
+
+        private void button7_Click(object sender, EventArgs e) {
+            var SavePath = MyTools.FormPars.SavePath;
+            PathTools.OpenDir(SavePath);
         }
     }
 }

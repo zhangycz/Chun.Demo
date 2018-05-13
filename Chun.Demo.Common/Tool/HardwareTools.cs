@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Management;
-using Digiwin.Chun.Common.Model;
+using Chun.Demo.Model;
 
-namespace Digiwin.Chun.Common.Controller {
+namespace Chun.Demo.Common
+{
     /// <summary>
     ///     获取系统硬件信息
     /// </summary>

@@ -36,7 +36,7 @@ namespace Chun.Demo.PhraseHtml {
         /// </summary>
         /// <param name="fileTypeId">当前要获取的文件类型</param>
         public void GetService(int fileTypeId) {
-            var formPars = HtmlModelTool.FormPars;
+            var formPars = MyTools.FormPars;
             if (!Tool.ValidateHtml(formPars.BasePath)) {
                 MyMessageBox.Add("网站基址不是正确的格式");
                 return;
@@ -78,8 +78,8 @@ namespace Chun.Demo.PhraseHtml {
                 var maxDirPath = Convert.ToInt32(MaxDirPath);
 
                 for (var i = 1; i <= maxDirPath; i++) {
-                    var netpath = Tool.ConcatHttpPath(HtmlModelTool.FormPars.BasePath,
-                        HtmlModelTool.FormPars.ExtendPath);
+                    var netpath = Tool.ConcatHttpPath(MyTools.FormPars.BasePath,
+                        MyTools.FormPars.ExtendPath);
                     var url = netpath + i;
                     currentPathList.Add(url);
                 }
@@ -106,14 +106,14 @@ namespace Chun.Demo.PhraseHtml {
             Parallel.ForEach(currentPathList, item => {
                 var url = item.ToUpper().StartsWith("HTTP")
                     ? item
-                    : Tool.ConcatHttpPath(HtmlModelTool.FormPars.BasePath, item);
+                    : Tool.ConcatHttpPath(MyTools.FormPars.BasePath, item);
 
                 gt = new GetHtml {
                     // Match = FileXpath,
                     dirPath = targetPathList
                 };
                 //gt.Html.Match = FileXpath;
-                if (gt.run(HtmlModelTool.FormPars.AttrName, url, fileTypeId)) {
+                if (gt.run(MyTools.FormPars.AttrName, url, fileTypeId)) {
                     lock (locker) {
                         Tool.UpdatefilePath(item, fileTypeId - 1, 1);
                     }

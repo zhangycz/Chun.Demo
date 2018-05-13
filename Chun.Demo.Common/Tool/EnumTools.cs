@@ -1,5 +1,5 @@
 ﻿// ReSharper disable All
-namespace Digiwin.Chun.Common.Controller {
+namespace Chun.Demo.Common{
     /// <summary>
     ///     model文件类型
     /// </summary>
