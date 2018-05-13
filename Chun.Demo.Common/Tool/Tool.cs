@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Chun.Demo.Model.Entity;
+using static System.String;
 
 namespace Chun.Demo.Common
 {
@@ -19,11 +20,11 @@ namespace Chun.Demo.Common
         /// <param name="filepath"> 文本文件</param>
         public static void WriteTxt(List<string> dirPath, string filepath)
         {
-            foreach (string path in dirPath)
+            foreach (var path in dirPath)
             {
-                byte[] bytes = Encoding.Default.GetBytes(path + Environment.NewLine);
+                var bytes = Encoding.Default.GetBytes(path + Environment.NewLine);
 
-                using (FileStream fs = new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                using (var fs = new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
                 {
                     fs.Position = fs.Length;
                     fs.Write(bytes, 0, bytes.Length);
@@ -40,13 +41,13 @@ namespace Chun.Demo.Common
         /// <returns></returns>
         public static List<string> ReadTxt(string filepath)
         {
-            List<string> dirPath = new List<string>();
+            var dirPath = new List<string>();
             using (
-                StreamReader sr = new StreamReader(new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                var sr = new StreamReader(new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
                 )
             {
                 string strLine;
-                while (!String.IsNullOrEmpty(strLine = sr.ReadLine()))
+                while (!IsNullOrEmpty(strLine = sr.ReadLine()))
                 {
                     dirPath.Add(strLine);
                 }
@@ -85,7 +86,7 @@ namespace Chun.Demo.Common
         /// <param name="type">读取类型</param>
         /// <param name="fileStatus">读取类型</param>
         /// <returns></returns>
-        public static List<filepath> ReadPathByLinq(int type, int fileStatus)
+        public static IEnumerable<filepath> ReadPathByLinq(int type, int fileStatus)
         {
             return InfoDal.ReadPathByLinq(type, fileStatus);
         }
@@ -107,9 +108,6 @@ namespace Chun.Demo.Common
         {
             InfoDal.InsertfilePathByLinq(filepath);
         }
-
-        public static List<string> DoneList = new List<string>();
-
         private static readonly object locker = new object();
 
         /// <summary>
@@ -119,8 +117,8 @@ namespace Chun.Demo.Common
         /// <param name="fileName">本地地址</param>
         public static void DownLoad(string address, string fileName)
         {
-            MyWebClient wc = new MyWebClient();
-            string newfileName = fileName;
+            var wc = new MyWebClient {Timeout = 100};
+            var newfileName = fileName;
 
             //String ConnectingStatus = ConnectionStatusTool.CheckServeStatus(address);
             //if (ConnectingStatus.Equals("404") || ConnectingStatus.Equals("400"))
@@ -130,11 +128,11 @@ namespace Chun.Demo.Common
 
             if (Existed(address, fileName))
             {
-                MyMessageBox.Add(String.Format("文件{0} 已经存在！", fileName));
+                MyMessageBox.Add(Format("文件{0} 已经存在！", fileName));
                 Console.WriteLine("文件{0} 已经存在！", fileName);
                 lock (locker)
                 {
-                    UpdatefilePath(address, 2, 1);
+                    UpdatefilePath(address, 12, 1);
                 }
                 return;
             }
@@ -147,34 +145,28 @@ namespace Chun.Demo.Common
                 wc.DownloadFile(new Uri(address), newfileName);
                 lock (locker)
                 {
-                    UpdatefilePath(address, 2, 1);
+                    UpdatefilePath(address, 12, 1);
                 }
                 // wc.OpenRead(address);
                 MyMessageBox.Add($"线程：{Thread.CurrentThread.ManagedThreadId} 退出，文件 {newfileName} 下载完成,地址 ： {address}");
-                Console.WriteLine($"线程：{Thread.CurrentThread.ManagedThreadId} 退出，文件 {newfileName} 下载完成,地址 ： {address}");
             }
             catch (WebException e)
             {
                 lock (locker)
                 {
-                    UpdatefilePath(address, 2, 2);
+                    UpdatefilePath(address, 12, 2);
                 }
-                MyMessageBox.Add(string.Format(" 线程 {0} 下载失败了，文件 {1} 错误信息 {2} 错误详情 {3} ",
-                    Thread.CurrentThread.ManagedThreadId, address, e.Message, e.Data));
-
-                Console.WriteLine(string.Format(" 线程 {0} 下载失败了，文件 {1} 错误信息 {2} 错误详情 {3} ",
-                    Thread.CurrentThread.ManagedThreadId, address, e.Message, e.Data));
+                MyMessageBox.Add(
+                    $" 线程 {Thread.CurrentThread.ManagedThreadId} 下载失败了，文件 {address} 错误信息 {e.Message} 错误详情 {e.Data} ");
             }
             catch (Exception e)
             {
                 lock (locker)
                 {
-                    UpdatefilePath(address, 2, 2);
+                    UpdatefilePath(address, 12, 2);
                 }
-                MyMessageBox.Add(string.Format(" 线程 {0} 下载失败了，文件 {1} 错误信息 {2} 错误详情 {3} ",
-                    Thread.CurrentThread.ManagedThreadId, address, e.Message, e.Data));
-                Console.WriteLine(" 线程 {0} 下载失败了，文件 {1} 错误信息 {2} 错误详情 {3} ", Thread.CurrentThread.ManagedThreadId,
-                    address, e.Message, e.Data);
+                MyMessageBox.Add(
+                    $" 线程 {Thread.CurrentThread.ManagedThreadId} 下载失败了，文件 {address} 错误信息 {e.Message} 错误详情 {e.Data} ");
             }
             //});
         }
@@ -207,7 +199,7 @@ namespace Chun.Demo.Common
             if (!File.Exists(fileName))
                 return false;
 
-            long fileSize = new FileInfo(fileName).Length;
+            var fileSize = new FileInfo(fileName).Length;
             //try
             //{
             //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(address);
@@ -240,20 +232,20 @@ namespace Chun.Demo.Common
             var success = false;
             if (!Directory.Exists(newDirPath))
                 Directory.CreateDirectory(newDirPath);
-            if (string.IsNullOrEmpty(fileName) || !Path.GetExtension(fileName).ToUpper().Equals(fileEx)) return success;
+            if (IsNullOrEmpty(fileName) || !Path.GetExtension(fileName).ToUpper().Equals(fileEx)) return false;
             try
             {
                 var tor = new Torrent(fileName);
-                if (!string.IsNullOrEmpty(tor.NameUTF8) || !string.IsNullOrEmpty(tor.Name))
+                if (!IsNullOrEmpty(tor.NameUTF8) || !IsNullOrEmpty(tor.Name))
                 {
-                    string newFilePath = newDirPath + @"\" +
-                                         (string.IsNullOrEmpty(tor.NameUTF8) ? tor.Name : tor.NameUTF8) + ".TORRENT";
+                    var newFilePath = newDirPath + @"\" +
+                                         (IsNullOrEmpty(tor.NameUTF8) ? tor.Name : tor.NameUTF8) + ".TORRENT";
                     if (File.Exists(newFilePath))
                     {
                         newFilePath = newDirPath + @"\" + Path.GetFileNameWithoutExtension(newFilePath) + "(1)" +
                                       ".TORRENT";
                     }
-                    FileInfo fi = new FileInfo(fileName);
+                    var fi = new FileInfo(fileName);
                     fi.MoveTo(newFilePath);
                     success = true;
                 }
@@ -286,15 +278,17 @@ namespace Chun.Demo.Common
 
         public static void CreateRootDir(string NetPath)
         {
-            string MaxCreateDirPath = ConfigerHelper.GetAppConfig("MaxCreateDirPath");
+            var MaxCreateDirPath = ConfigerHelper.GetAppConfig("MaxCreateDirPath");
+            if (MaxCreateDirPath == null)
+                throw new ArgumentNullException(nameof(MaxCreateDirPath));
             try
             {
-                int maxCreateDirPath = Convert.ToInt32(MaxCreateDirPath);
-                for (int i = 1; i < maxCreateDirPath; i++)
+                var maxCreateDirPath = Convert.ToInt32(MaxCreateDirPath);
+                for (var i = 1; i < maxCreateDirPath; i++)
                 {
-                    string url = NetPath + i.ToString();
+                    var url = NetPath + i.ToString();
 
-                    filepath filepath = new filepath()
+                    var filepath = new filepath()
                     {
                         file_Path = url,
                         file_innerTxt = "",
@@ -317,15 +311,15 @@ namespace Chun.Demo.Common
         /// </summary>
         /// <param name="NetPath"></param>
         /// <returns></returns>
-        public static bool validateHtml(string NetPath)
+        public static bool ValidateHtml(string NetPath)
         {
             //支持http或https打头的字符串；
             //不含http的，但是以www打头的字符串；
             //不含http，但是支持xxx.com\xxx.cn\xxx.com.cn\xxx.net\xxx.net.cn 的字符串；
-            string HttpMatch =
+            var httpMatch =
                 @"^((http|https)://)?(www.)?[A-Za-z0-9]+\.(com|net|cn|com\.cn|com\.net|net\.cn)?";
             //   @"(http | ftp | https):\/\/[\w\-_] + (\.[\w\-_]+)+([\w\-\.,@?^=% &amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?";
-            return Regex.IsMatch(NetPath, HttpMatch);
+            return Regex.IsMatch(NetPath, httpMatch);
         }
 
         /// <summary>
@@ -335,23 +329,14 @@ namespace Chun.Demo.Common
         {
             if (!Regex.IsMatch(bathpath, @"^((http|https)://)"))
             {
-                bathpath = string.Concat(@"http://", bathpath);
+                bathpath = Concat(@"http://", bathpath);
             } 
-            string extendPath = string.Empty;
-            foreach (string path in paths)
-            {
-                if (extendPath.EndsWith(@"/"))
-                {
-                    extendPath.Substring(0, extendPath.Length - 2);
+            var extendPath = Empty;
+            foreach (var path in paths) {
+                if (extendPath.EndsWith(@"/")) {
+                    var substring = extendPath.Substring(0, extendPath.Length - 2);
                 }
-                if (path.StartsWith(@"/"))
-                {
-                    extendPath = String.Concat(extendPath, path);
-                }
-                else
-                {
-                    extendPath = string.Concat(extendPath, @"/", path);
-                }
+                extendPath = path.StartsWith(@"/") ? Concat(extendPath, path) : Concat(extendPath, @"/", path);
             }
 
             return bathpath + extendPath;

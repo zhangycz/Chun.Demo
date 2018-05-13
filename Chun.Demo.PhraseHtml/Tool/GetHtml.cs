@@ -52,7 +52,7 @@ namespace Chun.Demo.PhraseHtml
             {
 
                 HtmlDocument htmlDocument = HtmlTool.LoadHtml(URL);
-                hnCollection = HtmlTool.GetNodeCollect(htmlDocument, HtmlModelTool.htmlModel.Match);
+                hnCollection = HtmlTool.GetNodeCollect(htmlDocument, HtmlModelTool.FormPars.Match);
                 titleCollection = HtmlTool.GetNodeCollect(htmlDocument,"//head/title");
             }
             catch(Exception EX)
@@ -67,8 +67,8 @@ namespace Chun.Demo.PhraseHtml
             if (hnCollection == null)
             {
                
-                MyMessageBox.Add(string.Format("线程 {0} 获取文件 {1} 时发生了错误 ,未能加载网页！", System.Threading.Thread.CurrentThread.ManagedThreadId, URL));
-                Console.WriteLine("线程 {0} 获取文件 {1} 时发生了错误 ,未能加载网页！", System.Threading.Thread.CurrentThread.ManagedThreadId, URL);
+                MyMessageBox.Add(string.Format("线程 {0} 获取文件 {1} 时发生了错误 ,解析时发生错误！", System.Threading.Thread.CurrentThread.ManagedThreadId, URL));
+                Console.WriteLine("线程 {0} 获取文件 {1} 时发生了错误 ,解析时发生错误！", System.Threading.Thread.CurrentThread.ManagedThreadId, URL);
               
                 return Successed;
             }
@@ -119,7 +119,7 @@ namespace Chun.Demo.PhraseHtml
             try
             {
                 HtmlDocument htmlDocument = HtmlTool.LoadHtml(fileEntity.file_Path);
-                hnCollection = HtmlTool.GetNodeCollect(htmlDocument, HtmlModelTool.htmlModel.Match);
+                hnCollection = HtmlTool.GetNodeCollect(htmlDocument, HtmlModelTool.FormPars.Match);
                 titleCollection = HtmlTool.GetNodeCollect(htmlDocument, "//head/title");
             }
             catch (Exception EX)

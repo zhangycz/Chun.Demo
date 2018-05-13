@@ -23,13 +23,13 @@ namespace MainFrom
 
         private IGetService _igetsrv;
 
-
+        
         public object locker = new object();
         private int loseCount;
 
         private int maxCount;
 
-        private HtmlModel Html { get; set; }
+        private FormPars Html { get; set; }
 
         public MainForm()
         {
@@ -41,18 +41,10 @@ namespace MainFrom
             //Parallel.Invoke(add);
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            if (progressBar1.Value == progressBar1.Maximum)
-            {
-                progressBar1.Value = 0;
-                timer1.Stop();
-                Invoke(new MethodInvoker(() => MessageBox.Show("successful")));
-            }
-
-            progressBar1.Maximum = maxCount - loseCount;
-            progressBar1.Value = _currentCount;
+        public void InitPars() {
+           
         }
+
 
         private void add()
         {
@@ -220,12 +212,8 @@ namespace MainFrom
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender,
-            RunWorkerCompletedEventArgs e)
-        {
-            if (!e.Cancelled)
-                MessageBox.Show("正常完成了操作");
-            else
-                MessageBox.Show("用户取消了操作");
+            RunWorkerCompletedEventArgs e) {
+            MessageBox.Show(!e.Cancelled ? "正常完成了操作" : "用户取消了操作");
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -287,9 +275,10 @@ namespace MainFrom
 
         private void SetMessageBox()
         {
-            BeginInvoke(new MethodInvoker(() =>
-            {
-                textBox1.AppendText(MyMessageBox.GetMessageBuilder() + Environment.NewLine);
+            BeginInvoke(new MethodInvoker(() => {
+                var msg = MyMessageBox.GetMessageBuilder() + Environment.NewLine;
+                Console.WriteLine(msg);
+                textBox1.AppendText(msg);
                 textBox1.SelectionStart = textBox1.Text.Length;
                 textBox1.ScrollToCaret();
             }));
@@ -349,23 +338,33 @@ namespace MainFrom
         private void MainForm_Load(object sender, EventArgs e)
         {
             MyMessageBox.MessageBoxEvent += SetMessageBox;
-            DgvHelper.InitDgv(gridView1, @"test");
 
-            
-            HtmlModel hm = new HtmlModel("http://x3.1024lualu.pw", "pw/thread.php?fid=16&page=", "//div[@class='tpc_content']/img",
-                "href", "");
-            HtmlModelTool.htmlModel = hm;
-            this.htmlModelBindingSource.DataSource = HtmlModelTool.htmlModel;
+            //获取目录地址
+            var basicUrl = ConfigerHelper.GetAppConfig("BasicUrl");
+            var savePath = ConfigerHelper.GetAppConfig("SavePath");
+            var hm = new FormPars(basicUrl, "thread.php?fid=16&page=", "//div[@class='tpc_content']/img",
+                "src", savePath, "");
+            HtmlModelTool.FormPars = hm;
+            this.htmlModelBindingSource.DataSource = HtmlModelTool.FormPars;
 
-            this.BasePathTextBox.DataBindings.Add(new Binding("Text", this.htmlModelBindingSource, "BasePath", true));
-            this.BasePathTextBox.DataBindings.Add(new Binding("Tag", this.htmlModelBindingSource, "BasePath", true));
+            this.BasePathTextBox.DataBindings.Add(new Binding("Text", this.htmlModelBindingSource, "BasePath", true, DataSourceUpdateMode.OnPropertyChanged));
+            this.BasePathTextBox.DataBindings.Add(new Binding("Tag", this.htmlModelBindingSource, "BasePath", true, DataSourceUpdateMode.OnPropertyChanged));
 
-            this.AddressTextBox.DataBindings.Add(new Binding("Text", this.htmlModelBindingSource, "ExtendPath", true));
-            this.AddressTextBox.DataBindings.Add(new Binding("Tag", this.htmlModelBindingSource, "ExtendPath", true));
-            this.fileXpath.DataBindings.Add(new Binding("Text", this.htmlModelBindingSource, "Match", true));
-            this.fileXpath.DataBindings.Add(new Binding("Tag", this.htmlModelBindingSource, "Match", true));
-            this.PropertyName.DataBindings.Add(new Binding("Text", this.htmlModelBindingSource, "AttrName", true));
-            this.PropertyName.DataBindings.Add(new Binding("Tag", this.htmlModelBindingSource, "AttrName", true));
+            this.AddressTextBox.DataBindings.Add(new Binding("Text", this.htmlModelBindingSource, "ExtendPath", true, DataSourceUpdateMode.OnPropertyChanged));
+            this.AddressTextBox.DataBindings.Add(new Binding("Tag", this.htmlModelBindingSource, "ExtendPath", true, DataSourceUpdateMode.OnPropertyChanged));
+
+            this.fileXpath.DataBindings.Add(new Binding("Text", this.htmlModelBindingSource, "Match", true, DataSourceUpdateMode.OnPropertyChanged));
+            this.fileXpath.DataBindings.Add(new Binding("Tag", this.htmlModelBindingSource, "Match", true, DataSourceUpdateMode.OnPropertyChanged));
+
+            this.PropertyName.DataBindings.Add(new Binding("Text", this.htmlModelBindingSource, "AttrName", true, DataSourceUpdateMode.OnPropertyChanged));
+            this.PropertyName.DataBindings.Add(new Binding("Tag", this.htmlModelBindingSource, "AttrName", true, DataSourceUpdateMode.OnPropertyChanged));
+
+            this.SaveTextBox.DataBindings.Add(new Binding("Text", this.htmlModelBindingSource, "SavePath", true, DataSourceUpdateMode.OnPropertyChanged));
+            this.startDateTime.DataBindings.Add(new Binding("Value", this.htmlModelBindingSource, "StartDateTime", true, DataSourceUpdateMode.OnPropertyChanged));
+            this.EndDateTime.DataBindings.Add(new Binding("Value", this.htmlModelBindingSource, "EndDateTime", true, DataSourceUpdateMode.OnPropertyChanged));
+            this.IgnoreFailed.DataBindings.Add(new Binding("Checked", this.htmlModelBindingSource, "IgnoreFailed", true, DataSourceUpdateMode.OnPropertyChanged));
+            HtmlModelTool.FormPars.StartDateTime =DateTime.Now;
+            HtmlModelTool.FormPars.EndDateTime =DateTime.MaxValue;
         }
 
         private delegate void test(string fileName);

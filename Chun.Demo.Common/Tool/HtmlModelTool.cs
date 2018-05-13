@@ -4,6 +4,6 @@ namespace Chun.Demo.Common
 {
     public static class HtmlModelTool
     {
-        public static HtmlModel htmlModel { get; set; }
+        public static FormPars FormPars { get; set; }
     }
 }

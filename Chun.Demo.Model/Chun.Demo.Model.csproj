@@ -77,7 +77,7 @@
       <DependentUpon>FilePath.tt</DependentUpon>
     </Compile>
     <Compile Include="FileModel.cs" />
-    <Compile Include="HtmlModel.cs" />
+    <Compile Include="FormPars.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
