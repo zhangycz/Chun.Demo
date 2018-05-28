@@ -119,27 +119,16 @@ namespace Chun.Demo.Common
         {
             var wc = new MyWebClient {Timeout = 100};
             var newfileName = fileName;
-
-            //String ConnectingStatus = ConnectionStatusTool.CheckServeStatus(address);
-            //if (ConnectingStatus.Equals("404") || ConnectingStatus.Equals("400"))
-            //{
-            //    throw new Exception("网络错误");
-            //}
-
             if (Existed(address, fileName))
             {
-                MyMessageBox.Add(Format("文件{0} 已经存在！", fileName));
-                Console.WriteLine("文件{0} 已经存在！", fileName);
+                MyMessageBox.Add($"文件{fileName} 已经存在！");
                 lock (locker)
                 {
                     UpdatefilePath(address, 12, 1);
                 }
                 return;
             }
-
-            // Console.WriteLine("线程：{0} 开始下载 {1} ,地址 ： {2}", Thread.CurrentThread.ManagedThreadId, newfileName, address);
-            //Task task = Task.Factory.StartNew(( ) =>
-            //{
+            
             try
             {
                 wc.DownloadFile(new Uri(address), newfileName);
@@ -147,7 +136,7 @@ namespace Chun.Demo.Common
                 {
                     UpdatefilePath(address, 12, 1);
                 }
-                // wc.OpenRead(address);
+            
                 MyMessageBox.Add($"线程：{Thread.CurrentThread.ManagedThreadId} 退出，文件 {newfileName} 下载完成,地址 ： {address}");
             }
             catch (WebException e)
@@ -168,7 +157,6 @@ namespace Chun.Demo.Common
                 MyMessageBox.Add(
                     $" 线程 {Thread.CurrentThread.ManagedThreadId} 下载失败了，文件 {address} 错误信息 {e.Message} 错误详情 {e.Data} ");
             }
-            //});
         }
 
         /// <summary>

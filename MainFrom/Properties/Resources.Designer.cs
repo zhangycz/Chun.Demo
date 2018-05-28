@@ -19,7 +19,7 @@ namespace MainFrom.Properties {
     // 类通过类似于 ResGen 或 Visual Studio 的工具自动生成的。
     // 若要添加或移除成员，请编辑 .ResX 文件，然后重新运行 ResGen
     // (以 /str 作为命令选项)，或重新生成 VS 项目。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -57,6 +57,42 @@ namespace MainFrom.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 完成 的本地化字符串。
+        /// </summary>
+        internal static string Completed {
+            get {
+                return ResourceManager.GetString("Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 完成！你可能需要执行多次以删除空文件夹！ 的本地化字符串。
+        /// </summary>
+        internal static string DeletedDirDone {
+            get {
+                return ResourceManager.GetString("DeletedDirDone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 正在进行其他操作 的本地化字符串。
+        /// </summary>
+        internal static string DoOtherWork {
+            get {
+                return ResourceManager.GetString("DoOtherWork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 正在执行操作请耐心等待…… 的本地化字符串。
+        /// </summary>
+        internal static string IsRunning {
+            get {
+                return ResourceManager.GetString("IsRunning", resourceCulture);
             }
         }
         

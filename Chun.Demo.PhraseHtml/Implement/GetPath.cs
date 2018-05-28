@@ -9,26 +9,7 @@ using static System.String;
 
 namespace Chun.Demo.PhraseHtml {
     public class GetPath : IGetService {
-        public object locker { get; set; } = new object();
-
-        #region 属性
-
-        #region MyRegion
-
-        //网络地址
-        //public String NetPath { get; set; }
-        //匹配选项
-        //public String FileXpath { get; set; }
-        //文件基址
-        //public String BasePath { get; set; }
-        //  public string PropertyName { get; set; } 
-
-        #endregion
-
-
-        public string SaveFilePath { get; set; }
-
-        #endregion
+        private object Locker { get; set; } = new object();
 
         /// <summary>
         ///     提供文件类型与获取属性获取文件地址
@@ -45,37 +26,18 @@ namespace Chun.Demo.PhraseHtml {
                 MyMessageBox.Add("匹配字符不可为空");
                 return;
             }
-
-            #region MyRegion
-
-            //if(!ConnectionStatusTool.CheckServeStatus( _netPath).Equals("200"))
-            //{
-            //    Console.WriteLine("网络故障！地址不可访问！");
-            //    return;
-            //}
-            //  string netPath = "http://w1.vt97.biz/pw/thread.php?fid=16&page=";
-
-            //获取目录地址
-            //string dirXpath = "//tr[@class='tr3 t_one']/td/h3/a";
-            // List<string> dirpathList = Tool.ReadPathByMySQL(1,2); 
-
-            #endregion
-
             var gt = new GetHtml();
-            //gt.Match = FileXpath;
-            // gt.Html.Match = FileXpath;
-
-            //List<string> currentPathList = new List<string>( );
+        
             //获取数据库中未操作和失败的
             var currentPathList = new List<string>();
-            var MaxDirPath = ConfigerHelper.GetAppConfig("MaxDirPath");
+            var appConfig = ConfigerHelper.GetAppConfig("MaxDirPath");
             if (fileTypeId.ToString().EndsWith("1")) {
                 //获取目录地址
                 //获取多少页目录
-                if (MaxDirPath == null)
-                    throw new ArgumentNullException(nameof(MaxDirPath));
+                if (appConfig == null)
+                    throw new ArgumentNullException(nameof(appConfig));
 
-                var maxDirPath = Convert.ToInt32(MaxDirPath);
+                var maxDirPath = Convert.ToInt32(appConfig);
 
                 for (var i = 1; i <= maxDirPath; i++) {
                     var netpath = Tool.ConcatHttpPath(MyTools.FormPars.BasePath,
@@ -101,7 +63,7 @@ namespace Chun.Demo.PhraseHtml {
             //获取数据库中已经有的文件地址，即过滤这些地址
             var targetPathList = Tool.ReadPathByLinq(fileTypeId, 4).Select(p => p.file_Path).ToList();
 
-            gt.dirPath = targetPathList;
+            gt.DirPath = targetPathList;
 
             Parallel.ForEach(currentPathList, item => {
                 var url = item.ToUpper().StartsWith("HTTP")
@@ -110,17 +72,17 @@ namespace Chun.Demo.PhraseHtml {
 
                 gt = new GetHtml {
                     // Match = FileXpath,
-                    dirPath = targetPathList
+                    DirPath = targetPathList
                 };
                 //gt.Html.Match = FileXpath;
-                if (gt.run(MyTools.FormPars.AttrName, url, fileTypeId)) {
-                    lock (locker) {
+                if (gt.Run(MyTools.FormPars.AttrName, url, fileTypeId)) {
+                    lock (Locker) {
                         Tool.UpdatefilePath(item, fileTypeId - 1, 1);
                     }
                     MyMessageBox.Add($"线程 {Thread.CurrentThread.ManagedThreadId} 已经完成了文件 {url} 的获取！");
                 }
                 else {
-                    lock (locker) {
+                    lock (Locker) {
                         Tool.UpdatefilePath(item, fileTypeId - 1, 2);
                     }
                     MyMessageBox.Add($"线程 {Thread.CurrentThread.ManagedThreadId} 对 {url} 的获取失败了！");

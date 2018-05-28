@@ -129,4 +129,16 @@
   <data name="MainForm_SayHello_输入的是int__" xml:space="preserve">
     <value>输入的是int[]</value>
   </data>
+  <data name="Completed" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="IsRunning" xml:space="preserve">
+    <value>正在执行操作请耐心等待……</value>
+  </data>
+  <data name="DeletedDirDone" xml:space="preserve">
+    <value>完成！你可能需要执行多次以删除空文件夹！</value>
+  </data>
+  <data name="DoOtherWork" xml:space="preserve">
+    <value>正在进行其他操作</value>
+  </data>
 </root>
