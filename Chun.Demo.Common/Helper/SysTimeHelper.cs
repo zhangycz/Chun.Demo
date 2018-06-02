@@ -54,9 +54,9 @@ namespace Chun.Demo.Common
             {
                 #region   更改计算机时间
 
-                SystemTime sysTime = new SystemTime();
+                var sysTime = new SystemTime();
 
-                DateTime ServerTime = serverTime;
+                var ServerTime = serverTime;
 
                 sysTime.wYear = Convert.ToUInt16(ServerTime.Year);
 

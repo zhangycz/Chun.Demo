@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using Chun.Demo.DAL.Tool;
 using Chun.Demo.ICommon;
 using Chun.Demo.Model.Entity;
 
@@ -23,7 +24,7 @@ namespace Chun.Demo.DAL
         /// <param name="fileTypeId"></param>
         /// <param name="fileStatusId"></param>
         /// <returns></returns>
-        public static List<filepath> ReadPathByLinq(int fileTypeId, int fileStatusId)
+        public static IEnumerable<filepath> ReadPathByLinq(int fileTypeId, int fileStatusId)
         {
             var newFileStatusId = fileStatusId == 0
                 ? new int?[] {0}
@@ -67,13 +68,13 @@ namespace Chun.Demo.DAL
         ///     插入错误信息
         /// </summary>
         /// <param name="fileType"></param>
-        /// <param name="URL"></param>
-        public static void InsertSql(int fileType, string URL)
+        /// <param name="url"></param>
+        public static void InsertSql(int fileType, string url)
         {
-            var sql = "insert into errorpath (error_path,error_type,error_CreateTime) values ('" + URL + "','" +
+            var sql = "insert into errorpath (error_path,error_type,error_CreateTime) values ('" + url + "','" +
                       fileType + "','" + DateTime.Now + "')";
             ISql<SqlCommand, SqlConnection> mysql = new MsSql();
-            mysql.run(sql, mysql.getInsert);
+            mysql.Run(sql, mysql.GetInsert);
         }
 
         /// <summary>
@@ -92,7 +93,7 @@ namespace Chun.Demo.DAL
                 path + "'" + ",'" + innerTxt + "','" + fileType + "','" + fileStatus + "','" + DateTime.Now + "','" +
                 fileParentPath + "')";
             ISql<SqlCommand, SqlConnection> mysql = new MsSql();
-            mysql.run(sql, mysql.getInsert);
+            mysql.Run(sql, mysql.GetInsert);
         }
 
         /// <summary>
@@ -112,8 +113,8 @@ namespace Chun.Demo.DAL
             var sql = "select distinct file_path from filepath where file_type_id= " + type +
                       " and file_status_id in ( " + (fileStatus == 0 ? "0,2" : (fileStatus == 1 ? "1" : "0,1,2")) + ")";
             ISql<SqlCommand, SqlConnection> mysql = new MsSql();
-            mysql.run(sql, mysql.getListBysql);
-            return mysql.pathList;
+            mysql.Run(sql, mysql.GetListBysql);
+            return mysql.PathList;
         }
 
         /// <summary>
@@ -129,7 +130,7 @@ namespace Chun.Demo.DAL
             var sql = "update filepath set file_status_id =" + file_status + " ,file_updatetime = '" + DateTime.Now +
                       "' where  file_path=  '" + path + "' and file_type_id = " + filetype;
             ISql<SqlCommand, SqlConnection> mysql = new MsSql();
-            mysql.run(sql, mysql.getUpdate);
+            mysql.Run(sql, mysql.GetUpdate);
         }
 
         #endregion

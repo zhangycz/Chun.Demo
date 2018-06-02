@@ -9,43 +9,43 @@ namespace Chun.Demo.ICommon
     public delegate void excuteSql<T>(T mycommand);
     public interface ISql<T,U>
     {
-        U sqlConn
+        U SqlConn
         {
             get;
             set;
         }
-        List<string> pathList
+        List<string> PathList
         {
             get;
             set;
         }
-        void run(String sql,excuteSql<T> exec);
+        void Run(string sql,excuteSql<T> exec);
 
         /// <summary>
         /// 查询并获得结果集并遍历
         /// </summary>
         /// <param name="sqlCommand"></param>
-        void getListBysql(T sqlCommand);
+        void GetListBysql(T sqlCommand);
 
-        T getSqlCommand(string sql);
+        T GetSqlCommand(string sql);
 
         /// <summary>
         /// 添加数据
         /// </summary>
         /// <param name="sqlCommand"></param>
-        void getInsert(T sqlCommand);
+        void GetInsert(T sqlCommand);
 
         /// <summary>
         /// 修改数据 
         /// </summary>
         /// <param name="sqlCommand"></param>
-         void getUpdate(T sqlCommand);
+         void GetUpdate(T sqlCommand);
 
         /// <summary>
         /// 删除数据
         /// </summary>
         /// <param name="sqlCommand"></param>
-         void getDel(T sqlCommand);
+         void GetDel(T sqlCommand);
       
 
 

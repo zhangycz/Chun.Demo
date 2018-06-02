@@ -29,474 +29,503 @@ namespace MainFrom
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            timer1 = new System.Windows.Forms.Timer(components);
-            openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            menuStrip1 = new System.Windows.Forms.MenuStrip();
-            文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            打开文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            目录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            button1 = new System.Windows.Forms.Button();
-            AddressTextBox = new System.Windows.Forms.TextBox();
-            button2 = new System.Windows.Forms.Button();
-            button3 = new System.Windows.Forms.Button();
-            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
-            button4 = new System.Windows.Forms.Button();
-            label1 = new System.Windows.Forms.Label();
-            label2 = new System.Windows.Forms.Label();
-            textBox1 = new System.Windows.Forms.TextBox();
-            groupBox1 = new System.Windows.Forms.GroupBox();
-            IgnoreFailed = new System.Windows.Forms.CheckBox();
-            EndDateTime = new System.Windows.Forms.DateTimePicker();
-            label7 = new System.Windows.Forms.Label();
-            startDateTime = new System.Windows.Forms.DateTimePicker();
-            button6 = new System.Windows.Forms.Button();
-            comboBox1 = new System.Windows.Forms.ComboBox();
-            button5 = new System.Windows.Forms.Button();
-            label6 = new System.Windows.Forms.Label();
-            SaveTextBox = new System.Windows.Forms.TextBox();
-            DelEmptyFile = new System.Windows.Forms.TextBox();
-            fileXpath = new System.Windows.Forms.ComboBox();
-            PropertyName = new System.Windows.Forms.ComboBox();
-            label5 = new System.Windows.Forms.Label();
-            label4 = new System.Windows.Forms.Label();
-            label3 = new System.Windows.Forms.Label();
-            BasePathTextBox = new System.Windows.Forms.TextBox();
-            groupBox2 = new System.Windows.Forms.GroupBox();
-            htmlModelBindingSource = new System.Windows.Forms.BindingSource(components);
-            button7 = new System.Windows.Forms.Button();
-            menuStrip1.SuspendLayout();
-            groupBox1.SuspendLayout();
-            groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(htmlModelBindingSource)).BeginInit();
-            SuspendLayout();
+            this.components = new System.ComponentModel.Container();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.目录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button1 = new System.Windows.Forms.Button();
+            this.AddressTextBox = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
+            this.button4 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button7 = new System.Windows.Forms.Button();
+            this.IgnoreFailed = new System.Windows.Forms.CheckBox();
+            this.EndDateTime = new System.Windows.Forms.DateTimePicker();
+            this.label7 = new System.Windows.Forms.Label();
+            this.startDateTime = new System.Windows.Forms.DateTimePicker();
+            this.button6 = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.button5 = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.SaveTextBox = new System.Windows.Forms.TextBox();
+            this.DelEmptyFile = new System.Windows.Forms.TextBox();
+            this.fileXpath = new System.Windows.Forms.ComboBox();
+            this.PropertyName = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.BasePathTextBox = new System.Windows.Forms.TextBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.htmlModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.menuStrip1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.htmlModelBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            this.SuspendLayout();
             // 
             // openFileDialog
             // 
-            openFileDialog.FileName = "openFileDialog2";
-            openFileDialog.Filter = "\"Torrent文件|*.torrent|所有文件|*.*\"";
-            openFileDialog.Multiselect = true;
-            openFileDialog.SupportMultiDottedExtensions = true;
+            this.openFileDialog.FileName = "openFileDialog2";
+            this.openFileDialog.Filter = "\"Torrent文件|*.torrent|所有文件|*.*\"";
+            this.openFileDialog.Multiselect = true;
+            this.openFileDialog.SupportMultiDottedExtensions = true;
             // 
             // menuStrip1
             // 
-            menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            文件ToolStripMenuItem,
-            设置ToolStripMenuItem});
-            menuStrip1.Location = new System.Drawing.Point(0, 0);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
-            menuStrip1.Size = new System.Drawing.Size(1284, 28);
-            menuStrip1.TabIndex = 1;
-            menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.文件ToolStripMenuItem,
+            this.设置ToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1284, 28);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
             // 
             // 文件ToolStripMenuItem
             // 
-            文件ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            打开文件ToolStripMenuItem});
-            文件ToolStripMenuItem.Name = "文件ToolStripMenuItem";
-            文件ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
-            文件ToolStripMenuItem.Text = "文件";
+            this.文件ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.打开文件ToolStripMenuItem});
+            this.文件ToolStripMenuItem.Name = "文件ToolStripMenuItem";
+            this.文件ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
+            this.文件ToolStripMenuItem.Text = "文件";
             // 
             // 打开文件ToolStripMenuItem
             // 
-            打开文件ToolStripMenuItem.Name = "打开文件ToolStripMenuItem";
-            打开文件ToolStripMenuItem.ShortcutKeyDisplayString = "";
-            打开文件ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.O)));
-            打开文件ToolStripMenuItem.Size = new System.Drawing.Size(197, 26);
-            打开文件ToolStripMenuItem.Text = "打开文件";
-            打开文件ToolStripMenuItem.Click += new System.EventHandler(打开文件ToolStripMenuItem_Click);
+            this.打开文件ToolStripMenuItem.Name = "打开文件ToolStripMenuItem";
+            this.打开文件ToolStripMenuItem.ShortcutKeyDisplayString = "";
+            this.打开文件ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.O)));
+            this.打开文件ToolStripMenuItem.Size = new System.Drawing.Size(197, 26);
+            this.打开文件ToolStripMenuItem.Text = "打开文件";
+            this.打开文件ToolStripMenuItem.Click += new System.EventHandler(this.打开文件ToolStripMenuItem_Click);
             // 
             // 设置ToolStripMenuItem
             // 
-            设置ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            目录ToolStripMenuItem});
-            设置ToolStripMenuItem.Name = "设置ToolStripMenuItem";
-            设置ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
-            设置ToolStripMenuItem.Text = "设置";
+            this.设置ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.目录ToolStripMenuItem});
+            this.设置ToolStripMenuItem.Name = "设置ToolStripMenuItem";
+            this.设置ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
+            this.设置ToolStripMenuItem.Text = "设置";
             // 
             // 目录ToolStripMenuItem
             // 
-            目录ToolStripMenuItem.Name = "目录ToolStripMenuItem";
-            目录ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
-            目录ToolStripMenuItem.Text = "目录";
+            this.目录ToolStripMenuItem.Name = "目录ToolStripMenuItem";
+            this.目录ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
+            this.目录ToolStripMenuItem.Text = "目录";
             // 
             // button1
             // 
-            button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            button1.Location = new System.Drawing.Point(587, 25);
-            button1.Margin = new System.Windows.Forms.Padding(4);
-            button1.Name = "button1";
-            button1.Size = new System.Drawing.Size(100, 29);
-            button1.TabIndex = 2;
-            button1.Text = "获取目录";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += new System.EventHandler(button1_Click);
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(587, 25);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 29);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "获取目录";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // AddressTextBox
             // 
-            AddressTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.AddressTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            AddressTextBox.Location = new System.Drawing.Point(179, 59);
-            AddressTextBox.Margin = new System.Windows.Forms.Padding(4);
-            AddressTextBox.Name = "AddressTextBox";
-            AddressTextBox.Size = new System.Drawing.Size(398, 25);
-            AddressTextBox.TabIndex = 4;
-            AddressTextBox.Text = "http://x3.1024lualu.pw/pw/thread.php?fid=16&page=";
+            this.AddressTextBox.Location = new System.Drawing.Point(179, 59);
+            this.AddressTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.AddressTextBox.Name = "AddressTextBox";
+            this.AddressTextBox.Size = new System.Drawing.Size(398, 25);
+            this.AddressTextBox.TabIndex = 4;
+            this.AddressTextBox.Text = "http://x3.1024lualu.pw/pw/thread.php?fid=16&page=";
             // 
             // button2
             // 
-            button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            button2.Location = new System.Drawing.Point(695, 25);
-            button2.Margin = new System.Windows.Forms.Padding(4);
-            button2.Name = "button2";
-            button2.Size = new System.Drawing.Size(133, 29);
-            button2.TabIndex = 6;
-            button2.Text = "获取文件地址";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += new System.EventHandler(button2_Click);
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Location = new System.Drawing.Point(695, 25);
+            this.button2.Margin = new System.Windows.Forms.Padding(4);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(133, 29);
+            this.button2.TabIndex = 6;
+            this.button2.Text = "获取文件地址";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
-            button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            button3.Location = new System.Drawing.Point(587, 61);
-            button3.Margin = new System.Windows.Forms.Padding(4);
-            button3.Name = "button3";
-            button3.Size = new System.Drawing.Size(100, 29);
-            button3.TabIndex = 7;
-            button3.Text = "下载文件";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += new System.EventHandler(button3_Click);
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button3.Location = new System.Drawing.Point(587, 61);
+            this.button3.Margin = new System.Windows.Forms.Padding(4);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(100, 29);
+            this.button3.TabIndex = 7;
+            this.button3.Text = "下载文件";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // backgroundWorker1
             // 
-            backgroundWorker1.WorkerSupportsCancellation = true;
-            backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(BackgroundWorker1_DoWork);
-            backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(backgroundWorker1_RunWorkerCompleted);
+            this.backgroundWorker1.WorkerSupportsCancellation = true;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorker1_DoWork);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
             // button4
             // 
-            button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            button4.Location = new System.Drawing.Point(587, 101);
-            button4.Margin = new System.Windows.Forms.Padding(4);
-            button4.Name = "button4";
-            button4.Size = new System.Drawing.Size(100, 29);
-            button4.TabIndex = 8;
-            button4.Text = "取消操作";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += new System.EventHandler(Button4_Click);
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.Location = new System.Drawing.Point(587, 101);
+            this.button4.Margin = new System.Windows.Forms.Padding(4);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(100, 29);
+            this.button4.TabIndex = 8;
+            this.button4.Text = "取消操作";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.Button4_Click);
             // 
             // label1
             // 
-            label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(68, 66);
-            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(97, 15);
-            label1.TabIndex = 9;
-            label1.Text = "请输入地址：";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(68, 66);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(97, 15);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "请输入地址：";
             // 
             // label2
             // 
-            label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(60, 98);
-            label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(107, 15);
-            label2.TabIndex = 11;
-            label2.Text = "请输入XPATH：";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(60, 98);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(107, 15);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "请输入XPATH：";
             // 
             // textBox1
             // 
-            textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            textBox1.Location = new System.Drawing.Point(4, 22);
-            textBox1.Margin = new System.Windows.Forms.Padding(4);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            textBox1.Size = new System.Drawing.Size(1276, 131);
-            textBox1.TabIndex = 12;
-            textBox1.Text = "基址：访问相对路径，地址：访问起始地址，,XPATH:查找的项目，获取项目：获取哪一项";
+            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox1.Location = new System.Drawing.Point(4, 22);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBox1.Size = new System.Drawing.Size(1276, 153);
+            this.textBox1.TabIndex = 12;
+            this.textBox1.Text = "基址：访问相对路径，地址：访问起始地址，,XPATH:查找的项目，获取项目：获取哪一项";
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(button7);
-            groupBox1.Controls.Add(IgnoreFailed);
-            groupBox1.Controls.Add(EndDateTime);
-            groupBox1.Controls.Add(label7);
-            groupBox1.Controls.Add(startDateTime);
-            groupBox1.Controls.Add(button6);
-            groupBox1.Controls.Add(comboBox1);
-            groupBox1.Controls.Add(button5);
-            groupBox1.Controls.Add(label6);
-            groupBox1.Controls.Add(SaveTextBox);
-            groupBox1.Controls.Add(DelEmptyFile);
-            groupBox1.Controls.Add(fileXpath);
-            groupBox1.Controls.Add(PropertyName);
-            groupBox1.Controls.Add(label5);
-            groupBox1.Controls.Add(label4);
-            groupBox1.Controls.Add(button4);
-            groupBox1.Controls.Add(label3);
-            groupBox1.Controls.Add(button2);
-            groupBox1.Controls.Add(button3);
-            groupBox1.Controls.Add(BasePathTextBox);
-            groupBox1.Controls.Add(AddressTextBox);
-            groupBox1.Controls.Add(button1);
-            groupBox1.Controls.Add(label1);
-            groupBox1.Controls.Add(label2);
-            groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            groupBox1.Location = new System.Drawing.Point(0, 28);
-            groupBox1.Margin = new System.Windows.Forms.Padding(4);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            groupBox1.Size = new System.Drawing.Size(1284, 345);
-            groupBox1.TabIndex = 13;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "参数信息";
-            // 
-            // IgnoreFailed
-            // 
-            IgnoreFailed.AutoSize = true;
-            IgnoreFailed.Location = new System.Drawing.Point(585, 189);
-            IgnoreFailed.Name = "IgnoreFailed";
-            IgnoreFailed.Size = new System.Drawing.Size(164, 19);
-            IgnoreFailed.TabIndex = 27;
-            IgnoreFailed.Text = "忽略操作失败的链接";
-            IgnoreFailed.UseVisualStyleBackColor = true;
-            // 
-            // EndDateTime
-            // 
-            EndDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            EndDateTime.Location = new System.Drawing.Point(385, 189);
-            EndDateTime.Name = "EndDateTime";
-            EndDateTime.Size = new System.Drawing.Size(192, 25);
-            EndDateTime.TabIndex = 26;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new System.Drawing.Point(84, 189);
-            label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label7.Name = "label7";
-            label7.Size = new System.Drawing.Size(67, 15);
-            label7.TabIndex = 25;
-            label7.Text = "日期介于";
-            // 
-            // startDateTime
-            // 
-            startDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            startDateTime.Location = new System.Drawing.Point(179, 189);
-            startDateTime.Name = "startDateTime";
-            startDateTime.Size = new System.Drawing.Size(184, 25);
-            startDateTime.TabIndex = 24;
-            // 
-            // button6
-            // 
-            button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            button6.Location = new System.Drawing.Point(695, 61);
-            button6.Margin = new System.Windows.Forms.Padding(4);
-            button6.Name = "button6";
-            button6.Size = new System.Drawing.Size(133, 29);
-            button6.TabIndex = 21;
-            button6.Text = "测试用";
-            button6.UseVisualStyleBackColor = true;
-            button6.Click += new System.EventHandler(button6_Click);
-            // 
-            // comboBox1
-            // 
-            comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] {
-            "获取目录",
-            "获取文件地址",
-            "下载文件"});
-            comboBox1.Location = new System.Drawing.Point(179, 290);
-            comboBox1.Margin = new System.Windows.Forms.Padding(4);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new System.Drawing.Size(160, 23);
-            comboBox1.TabIndex = 23;
-            comboBox1.SelectedIndexChanged += new System.EventHandler(ComboBox1_SelectedIndexChanged);
-            // 
-            // button5
-            // 
-            button5.Location = new System.Drawing.Point(585, 257);
-            button5.Margin = new System.Windows.Forms.Padding(4);
-            button5.Name = "button5";
-            button5.Size = new System.Drawing.Size(153, 25);
-            button5.TabIndex = 15;
-            button5.Text = "清空空文件和目录";
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += new System.EventHandler(button5_Click);
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new System.Drawing.Point(84, 261);
-            label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label6.Name = "label6";
-            label6.Size = new System.Drawing.Size(82, 15);
-            label6.TabIndex = 20;
-            label6.Text = "清空目录：";
-            // 
-            // SaveTextBox
-            // 
-            SaveTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            SaveTextBox.Location = new System.Drawing.Point(179, 157);
-            SaveTextBox.Margin = new System.Windows.Forms.Padding(4);
-            SaveTextBox.Name = "SaveTextBox";
-            SaveTextBox.Size = new System.Drawing.Size(398, 25);
-            SaveTextBox.TabIndex = 22;
-            SaveTextBox.Text = "J:\\Picture\\";
-            // 
-            // DelEmptyFile
-            // 
-            DelEmptyFile.Location = new System.Drawing.Point(179, 257);
-            DelEmptyFile.Margin = new System.Windows.Forms.Padding(4);
-            DelEmptyFile.Name = "DelEmptyFile";
-            DelEmptyFile.Size = new System.Drawing.Size(398, 25);
-            DelEmptyFile.TabIndex = 20;
-            DelEmptyFile.Text = "J:\\Picture\\";
-            // 
-            // fileXpath
-            // 
-            fileXpath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            fileXpath.FormattingEnabled = true;
-            fileXpath.Items.AddRange(new object[] {
-            "//div[@class=\'tpc_content\']/img",
-            "//tr[@class=\'tr3 t_one\']/td/h3/a"});
-            fileXpath.Location = new System.Drawing.Point(179, 94);
-            fileXpath.Margin = new System.Windows.Forms.Padding(4);
-            fileXpath.Name = "fileXpath";
-            fileXpath.Size = new System.Drawing.Size(398, 23);
-            fileXpath.TabIndex = 19;
-            fileXpath.Text = "//div[@class=\'tpc_content\']/img";
-            // 
-            // PropertyName
-            // 
-            PropertyName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            PropertyName.FormattingEnabled = true;
-            PropertyName.Items.AddRange(new object[] {
-            "src",
-            "href",
-            "img"});
-            PropertyName.Location = new System.Drawing.Point(179, 126);
-            PropertyName.Margin = new System.Windows.Forms.Padding(4);
-            PropertyName.Name = "PropertyName";
-            PropertyName.Size = new System.Drawing.Size(398, 23);
-            PropertyName.TabIndex = 18;
-            PropertyName.Text = "href";
-            // 
-            // label5
-            // 
-            label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            label5.AutoSize = true;
-            label5.Location = new System.Drawing.Point(40, 129);
-            label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label5.Name = "label5";
-            label5.Size = new System.Drawing.Size(127, 15);
-            label5.TabIndex = 17;
-            label5.Text = "请输入获取项目：";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new System.Drawing.Point(53, 160);
-            label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label4.Name = "label4";
-            label4.Size = new System.Drawing.Size(112, 15);
-            label4.TabIndex = 15;
-            label4.Text = "本地保存地址：";
-            // 
-            // label3
-            // 
-            label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(68, 29);
-            label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(97, 15);
-            label3.TabIndex = 13;
-            label3.Text = "请输入基址：";
-            // 
-            // BasePathTextBox
-            // 
-            BasePathTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            BasePathTextBox.Location = new System.Drawing.Point(179, 25);
-            BasePathTextBox.Margin = new System.Windows.Forms.Padding(4);
-            BasePathTextBox.Name = "BasePathTextBox";
-            BasePathTextBox.Size = new System.Drawing.Size(398, 25);
-            BasePathTextBox.TabIndex = 12;
-            BasePathTextBox.Text = "http://x3.1024lualu.pw";
-            // 
-            // groupBox2
-            // 
-            groupBox2.Controls.Add(textBox1);
-            groupBox2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            groupBox2.Location = new System.Drawing.Point(0, 381);
-            groupBox2.Margin = new System.Windows.Forms.Padding(4);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            groupBox2.Size = new System.Drawing.Size(1284, 157);
-            groupBox2.TabIndex = 14;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "输出信息";
+            this.groupBox1.Controls.Add(this.button7);
+            this.groupBox1.Controls.Add(this.IgnoreFailed);
+            this.groupBox1.Controls.Add(this.EndDateTime);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.startDateTime);
+            this.groupBox1.Controls.Add(this.button6);
+            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.button5);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.SaveTextBox);
+            this.groupBox1.Controls.Add(this.DelEmptyFile);
+            this.groupBox1.Controls.Add(this.fileXpath);
+            this.groupBox1.Controls.Add(this.PropertyName);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.button4);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Controls.Add(this.BasePathTextBox);
+            this.groupBox1.Controls.Add(this.AddressTextBox);
+            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Size = new System.Drawing.Size(1284, 372);
+            this.groupBox1.TabIndex = 13;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "参数信息";
             // 
             // button7
             // 
-            button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            button7.FlatAppearance.BorderSize = 0;
-            button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            button7.Font = new System.Drawing.Font("宋体", 9.5F);
-            button7.ForeColor = System.Drawing.Color.DarkCyan;
-            button7.Location = new System.Drawing.Point(587, 157);
-            button7.Margin = new System.Windows.Forms.Padding(4);
-            button7.Name = "button7";
-            button7.Size = new System.Drawing.Size(31, 29);
-            button7.TabIndex = 28;
-            button7.Text = "○";
-            button7.UseVisualStyleBackColor = true;
-            button7.Click += new System.EventHandler(Button7_Click);
+            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button7.FlatAppearance.BorderSize = 0;
+            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button7.Font = new System.Drawing.Font("宋体", 9.5F);
+            this.button7.ForeColor = System.Drawing.Color.DarkCyan;
+            this.button7.Location = new System.Drawing.Point(587, 157);
+            this.button7.Margin = new System.Windows.Forms.Padding(4);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(31, 29);
+            this.button7.TabIndex = 28;
+            this.button7.Text = "○";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.Button7_Click);
+            // 
+            // IgnoreFailed
+            // 
+            this.IgnoreFailed.AutoSize = true;
+            this.IgnoreFailed.Location = new System.Drawing.Point(585, 189);
+            this.IgnoreFailed.Name = "IgnoreFailed";
+            this.IgnoreFailed.Size = new System.Drawing.Size(164, 19);
+            this.IgnoreFailed.TabIndex = 27;
+            this.IgnoreFailed.Text = "忽略操作失败的链接";
+            this.IgnoreFailed.UseVisualStyleBackColor = true;
+            // 
+            // EndDateTime
+            // 
+            this.EndDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.EndDateTime.Location = new System.Drawing.Point(385, 189);
+            this.EndDateTime.Name = "EndDateTime";
+            this.EndDateTime.Size = new System.Drawing.Size(192, 25);
+            this.EndDateTime.TabIndex = 26;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(84, 189);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(67, 15);
+            this.label7.TabIndex = 25;
+            this.label7.Text = "日期介于";
+            // 
+            // startDateTime
+            // 
+            this.startDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.startDateTime.Location = new System.Drawing.Point(179, 189);
+            this.startDateTime.Name = "startDateTime";
+            this.startDateTime.Size = new System.Drawing.Size(184, 25);
+            this.startDateTime.TabIndex = 24;
+            // 
+            // button6
+            // 
+            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button6.Location = new System.Drawing.Point(695, 61);
+            this.button6.Margin = new System.Windows.Forms.Padding(4);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(133, 29);
+            this.button6.TabIndex = 21;
+            this.button6.Text = "测试用";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "获取目录",
+            "获取文件地址",
+            "下载文件"});
+            this.comboBox1.Location = new System.Drawing.Point(179, 254);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(160, 23);
+            this.comboBox1.TabIndex = 23;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(585, 221);
+            this.button5.Margin = new System.Windows.Forms.Padding(4);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(153, 25);
+            this.button5.TabIndex = 15;
+            this.button5.Text = "清空空文件和目录";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(84, 225);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(82, 15);
+            this.label6.TabIndex = 20;
+            this.label6.Text = "清空目录：";
+            // 
+            // SaveTextBox
+            // 
+            this.SaveTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SaveTextBox.Location = new System.Drawing.Point(179, 157);
+            this.SaveTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.SaveTextBox.Name = "SaveTextBox";
+            this.SaveTextBox.Size = new System.Drawing.Size(398, 25);
+            this.SaveTextBox.TabIndex = 22;
+            this.SaveTextBox.Text = "J:\\Picture\\";
+            // 
+            // DelEmptyFile
+            // 
+            this.DelEmptyFile.Location = new System.Drawing.Point(179, 221);
+            this.DelEmptyFile.Margin = new System.Windows.Forms.Padding(4);
+            this.DelEmptyFile.Name = "DelEmptyFile";
+            this.DelEmptyFile.Size = new System.Drawing.Size(398, 25);
+            this.DelEmptyFile.TabIndex = 20;
+            this.DelEmptyFile.Text = "J:\\Picture\\";
+            // 
+            // fileXpath
+            // 
+            this.fileXpath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.fileXpath.FormattingEnabled = true;
+            this.fileXpath.Items.AddRange(new object[] {
+            "//div[@class=\'tpc_content\']/img",
+            "//tr[@class=\'tr3 t_one\']/td/h3/a"});
+            this.fileXpath.Location = new System.Drawing.Point(179, 94);
+            this.fileXpath.Margin = new System.Windows.Forms.Padding(4);
+            this.fileXpath.Name = "fileXpath";
+            this.fileXpath.Size = new System.Drawing.Size(398, 23);
+            this.fileXpath.TabIndex = 19;
+            this.fileXpath.Text = "//div[@class=\'tpc_content\']/img";
+            // 
+            // PropertyName
+            // 
+            this.PropertyName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PropertyName.FormattingEnabled = true;
+            this.PropertyName.Items.AddRange(new object[] {
+            "src",
+            "href",
+            "img"});
+            this.PropertyName.Location = new System.Drawing.Point(179, 126);
+            this.PropertyName.Margin = new System.Windows.Forms.Padding(4);
+            this.PropertyName.Name = "PropertyName";
+            this.PropertyName.Size = new System.Drawing.Size(398, 23);
+            this.PropertyName.TabIndex = 18;
+            this.PropertyName.Text = "href";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(40, 129);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(127, 15);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "请输入获取项目：";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(53, 160);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(112, 15);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "本地保存地址：";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(68, 29);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(97, 15);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "请输入基址：";
+            // 
+            // BasePathTextBox
+            // 
+            this.BasePathTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.BasePathTextBox.Location = new System.Drawing.Point(179, 25);
+            this.BasePathTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.BasePathTextBox.Name = "BasePathTextBox";
+            this.BasePathTextBox.Size = new System.Drawing.Size(398, 25);
+            this.BasePathTextBox.TabIndex = 12;
+            this.BasePathTextBox.Text = "http://x3.1024lualu.pw";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Location = new System.Drawing.Point(0, 0);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox2.Size = new System.Drawing.Size(1284, 179);
+            this.groupBox2.TabIndex = 14;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "输出信息";
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer1.IsSplitterFixed = true;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 28);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
+            this.splitContainer1.Size = new System.Drawing.Size(1284, 552);
+            this.splitContainer1.SplitterDistance = 372;
+            this.splitContainer1.SplitterWidth = 1;
+            this.splitContainer1.TabIndex = 15;
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            BackColor = System.Drawing.SystemColors.Window;
-            ClientSize = new System.Drawing.Size(1284, 538);
-            Controls.Add(groupBox2);
-            Controls.Add(groupBox1);
-            Controls.Add(menuStrip1);
-            MainMenuStrip = menuStrip1;
-            Margin = new System.Windows.Forms.Padding(4);
-            MinimizeBox = false;
-            MinimumSize = new System.Drawing.Size(1278, 585);
-            Name = "MainForm";
-            ShowIcon = false;
-            Load += new System.EventHandler(MainForm_Load);
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(htmlModelBindingSource)).EndInit();
-            ResumeLayout(false);
-            PerformLayout();
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Window;
+            this.ClientSize = new System.Drawing.Size(1284, 580);
+            this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(1278, 585);
+            this.Name = "MainForm";
+            this.ShowIcon = false;
+            this.Load += new System.EventHandler(this.MainForm_Load);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.htmlModelBindingSource)).EndInit();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -538,5 +567,6 @@ namespace MainFrom
         private System.Windows.Forms.DateTimePicker startDateTime;
         private System.Windows.Forms.CheckBox IgnoreFailed;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }

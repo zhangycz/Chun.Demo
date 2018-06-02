@@ -9,13 +9,13 @@ namespace Chun.Demo.DAL
      public class Mysql : ISql<MySqlCommand, MySqlConnection>
     {
         
-        public List<string> pathList
+        public List<string> PathList
         {
             get;
             set;
         }
 
-        public MySqlConnection sqlConn
+        public MySqlConnection SqlConn
         {
             get;
             set;
@@ -27,7 +27,7 @@ namespace Chun.Demo.DAL
         /// <returns></returns>
         public Mysql(MySqlConnection sqlConn)
         {
-            this.sqlConn = sqlConn;
+            this.SqlConn = sqlConn;
         }
 
          /// <summary>
@@ -35,16 +35,16 @@ namespace Chun.Demo.DAL
          /// </summary>
          /// <param name="sql"></param>
          /// <returns></returns>
-         public  MySqlCommand getSqlCommand(String sql)
+         public  MySqlCommand GetSqlCommand(String sql)
         {
-            MySqlCommand mySqlCommand = new MySqlCommand(sql, sqlConn);
+            var mySqlCommand = new MySqlCommand(sql, SqlConn);
             return mySqlCommand;
         }
 
-        public  void run(string sql,excuteSql<MySqlCommand> exec)
+        public  void Run(string sql,excuteSql<MySqlCommand> exec)
         {
-            MySqlCommand mySqlCommand = getSqlCommand(sql);
-            sqlConn.Open();
+            var mySqlCommand = GetSqlCommand(sql);
+            SqlConn.Open();
             try
             {
                 exec(mySqlCommand);
@@ -55,7 +55,7 @@ namespace Chun.Demo.DAL
             }
             finally
             {
-                sqlConn.Close();
+                SqlConn.Close();
 
             }
         }
@@ -64,10 +64,10 @@ namespace Chun.Demo.DAL
         /// 查询并获得结果集并遍历
         /// </summary>
         /// <param name="sqlCommand"></param>
-        public void getListBysql(MySqlCommand sqlCommand)
+        public void GetListBysql(MySqlCommand sqlCommand)
         {
-            pathList = new List<string>();
-            MySqlDataReader reader = sqlCommand.ExecuteReader();
+            PathList = new List<string>();
+            var reader = sqlCommand.ExecuteReader();
             try
             {
                 while (reader.Read())
@@ -75,7 +75,7 @@ namespace Chun.Demo.DAL
                     if (reader.HasRows)
                     {
                         //Console.WriteLine(reader["filePath"].ToString());
-                        pathList.Add(reader["filePath"].ToString());
+                        PathList.Add(reader["filePath"].ToString());
                     }
                 }
             }
@@ -95,7 +95,7 @@ namespace Chun.Demo.DAL
         /// 添加数据
         /// </summary>
         /// <param name="sqlCommand"></param>
-        public  void getInsert(MySqlCommand sqlCommand)
+        public  void GetInsert(MySqlCommand sqlCommand)
         {
             try
 
@@ -112,7 +112,7 @@ namespace Chun.Demo.DAL
         /// 修改数据 
         /// </summary>
         /// <param name="sqlCommand"></param>
-        public  void getUpdate(MySqlCommand sqlCommand)
+        public  void GetUpdate(MySqlCommand sqlCommand)
         {
             try
 
@@ -128,7 +128,7 @@ namespace Chun.Demo.DAL
         /// 删除数据
         /// </summary>
         /// <param name="sqlCommand"></param>
-        public  void getDel(MySqlCommand sqlCommand)
+        public  void GetDel(MySqlCommand sqlCommand)
         {
             try
             {

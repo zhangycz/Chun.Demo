@@ -18,7 +18,7 @@ namespace Chun.Demo.Common
                 responseStatus = "400";
                 Console.WriteLine("网络异常~无连接");
             }
-            else if (!MyPing(urls))
+            else if (!PingTest(urls))
             {
                responseStatus = "404";
                Console.WriteLine("网络异常~连接多次无响应");
@@ -46,7 +46,7 @@ namespace Chun.Demo.Common
         /// <returns></returns>
         private static bool LocalConnectionStatus()
         {
-            System.Int32 dwFlag = new Int32();
+            int dwFlag = new Int32();
             if (!InternetGetConnectedState(ref dwFlag, 0))
             {
                 Console.WriteLine("LocalConnectionStatus--未连网!");
@@ -73,19 +73,19 @@ namespace Chun.Demo.Common
          /// </summary>
          /// <param name="urls">URL数据</param>
          /// <returns></returns>
-         public static bool MyPing(string urls)
+         public static bool PingTest(string urls)
         {
-            bool isconn = true;
-            Ping ping = new Ping();
+            var isconn = true;
+            var ping = new Ping();
             
             try
             {
                 var pr = ping.Send(urls);
-                    if (pr != null && pr.Status != IPStatus.Success)
-                    {
-                        isconn = false;
-                    }
-                if (pr != null) Console.WriteLine("Ping " + urls + "    " + pr.Status.ToString());
+                if (pr != null && pr.Status != IPStatus.Success)
+                {
+                    isconn = false;
+                }
+                if (pr != null) Console.WriteLine("Ping " + urls + "    " + pr.Status);
             }
             catch(PingException ex)
             {
