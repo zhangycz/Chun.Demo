@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using Chun.Demo.Model;
 using Chun.Demo.Model.Entity;
 using static System.String;
 
@@ -91,6 +92,9 @@ namespace Chun.Demo.Common
             return InfoDal.ReadPathByLinq(type, fileStatus);
         }
 
+        public static IEnumerable<QueryTitleModel> QueryTitle(string procedureStr, object[] sqlparms) {
+            return InfoDal.QueryTitle(procedureStr, sqlparms);
+        }
         /// <summary>
         /// 将实体数据插入到errorpath
         /// </summary>

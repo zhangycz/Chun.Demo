@@ -80,6 +80,7 @@
     <Compile Include="FormPars.cs" />
     <Compile Include="HardwareEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryTitleModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
@@ -92,6 +93,7 @@
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
     <None Include="Entity\FilePath.edmx.diagram">
       <DependentUpon>FilePath.edmx</DependentUpon>
     </None>

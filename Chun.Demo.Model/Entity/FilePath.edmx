@@ -4,12 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="phrasehtmlModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="phrasehtmlModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="errorpath">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="error_path" Type="varchar" MaxLength="255" />
           <Property Name="error_CreateTime" Type="datetime" />
           <Property Name="error_Update" Type="int" />
@@ -29,6 +29,7 @@
           <Property Name="file_CreateTime" Type="datetime" />
           <Property Name="file_updateTime" Type="datetime" />
           <Property Name="file_parent_path" Type="varchar" MaxLength="255" />
+          <Property Name="local_path" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="filestatus">
           <Key>
@@ -42,8 +43,7 @@
           <EntitySet Name="filepath" EntityType="Self.filepath" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="filestatus" EntityType="Self.filestatus" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="phrasehtmlModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -71,6 +71,7 @@
           <Property Name="file_CreateTime" Type="DateTime" Precision="3" />
           <Property Name="file_updateTime" Type="DateTime" Precision="3" />
           <Property Name="file_parent_path" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="local_path" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="filestatus">
           <Key>
@@ -106,6 +107,7 @@
           <EntitySetMapping Name="filepath">
             <EntityTypeMapping TypeName="phrasehtmlModel.filepath">
               <MappingFragment StoreEntitySet="filepath">
+                <ScalarProperty Name="local_path" ColumnName="local_path" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="file_Path" ColumnName="file_Path" />
                 <ScalarProperty Name="file_innerTxt" ColumnName="file_innerTxt" />

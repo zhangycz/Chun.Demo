@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,9 +26,8 @@ namespace Chun.Demo.PhraseHtml {
             var startTime = formPars.StartDateTime;
             var endTime = formPars.EndDateTime;
 
-
+       
             #region
-
             //获取未下载的地址
             var filePathList = Tool.ReadPathByLinq(fileTypeId, type)
                 .Where(p => p.file_CreateTime >= startTime && p.file_CreateTime <= endTime)

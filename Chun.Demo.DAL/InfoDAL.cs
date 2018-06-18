@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Chun.Demo.DAL.Tool;
 using Chun.Demo.ICommon;
+using Chun.Demo.Model;
 using Chun.Demo.Model.Entity;
 
 namespace Chun.Demo.DAL
@@ -40,6 +41,14 @@ namespace Chun.Demo.DAL
             var ls = new BaseDataQuery<filepath>().QueryByLinq(func);
             return ls;
         }
+        public static IEnumerable<QueryTitleModel> QueryTitle(string procedureStr, object[] sqlparms)
+        {
+
+            var ls = new BaseDataQuery<filepath>().QueryByStoredProcedure<QueryTitleModel>(procedureStr, sqlparms);
+            return ls;
+        }
+
+
 
         public static void InsertfilePathByLinq(filepath filepath)
         {
@@ -51,15 +60,13 @@ namespace Chun.Demo.DAL
             new BaseDataQuery<errorpath>().Add(errorpath);
         }
 
-        public static void UpdatefilePathByLinq(string file_Path, int file_Type_id, int file_status_id)
+        public static void UpdatefilePathByLinq(string filePath, int fileTypeId, int fileStatusId)
         {
             // new BaseDataQuery<filepath>( ).Update(filepath);
             var sql =
                 "update filepath set file_status_id = {0} ,file_updatetime = {1} where  file_path=  {2} and file_type_id = {3}";
-            var Sql = "updatefilePath @file_status_id @file_updatetime, @file_path ,@file_type_id";
-
             new BaseDataQuery<filepath>().ExecuteSql(sql,
-                new object[] {file_status_id, DateTime.Now, file_Path, file_Type_id});
+                new object[] {fileStatusId, DateTime.Now, filePath, fileTypeId});
         }
 
         #region 普通sql法
@@ -124,11 +131,11 @@ namespace Chun.Demo.DAL
         /// </summary>
         /// <param name="path">路径</param>
         /// <param name="filetype">类型</param>
-        /// <param name="file_status">状态</param>
-        public static void UpdatefilePath(string path, int filetype, int file_status)
+        /// <param name="fileStatus">状态</param>
+        public static void UpdatefilePath(string path, int filetype, int fileStatus)
         {
-            var sql = "update filepath set file_status_id =" + file_status + " ,file_updatetime = '" + DateTime.Now +
-                      "' where  file_path=  '" + path + "' and file_type_id = " + filetype;
+            var sql = $@"update filepath set file_status_id ={fileStatus},file_updatetime = { DateTime.Now }
+                       where  file_path=  {path}   and file_type_id = {filetype}" ;
             ISql<SqlCommand, SqlConnection> mysql = new MsSql();
             mysql.Run(sql, mysql.GetUpdate);
         }

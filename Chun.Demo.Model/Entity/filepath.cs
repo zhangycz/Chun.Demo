@@ -22,6 +22,6 @@ namespace Chun.Demo.Model.Entity
         public Nullable<System.DateTime> file_CreateTime { get; set; }
         public Nullable<System.DateTime> file_updateTime { get; set; }
         public string file_parent_path { get; set; }
-
+        public string local_path { get; set; }
     }
 }

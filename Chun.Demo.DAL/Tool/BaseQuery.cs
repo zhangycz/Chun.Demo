@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using Chun.Demo.ICommon;
@@ -153,6 +155,11 @@ namespace Chun.Demo.DAL
                 .ToList();
         }
 
+        public List<U> QueryByStoredProcedure<U>(string procedureStr, object[] sqlparms) {
+            var articles =
+                Context.Database.SqlQuery<U>(procedureStr, sqlparms).ToList();
+            return articles;
+        }
         #endregion
 
         #region LINQ表的增删改查
