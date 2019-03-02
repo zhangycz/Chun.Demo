@@ -5,13 +5,14 @@ namespace Chun.Demo.Model {
         public FormPars() {
         }
 
-        public FormPars(string BasePath, string ExtendPath, string Match, string AttrName,string SavePath, string ECode) {
+        public FormPars(string BasePath, string ExtendPath, string Match, string AttrName,string SavePath, string ECode, string PicType) {
             this.Match = Match;
             this.BasePath = BasePath;
             this.ExtendPath = ExtendPath;
             this.AttrName = AttrName;
             this.ECode = ECode;
             this.SavePath = SavePath;
+            this.PicType = PicType;
         }
 
         public string AppPath { get; set; } = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
@@ -25,5 +26,6 @@ namespace Chun.Demo.Model {
         public DateTime StartDateTime { get; set; }
         public DateTime EndDateTime { get; set; }
         public bool IgnoreFailed { get; set; }
+        public string PicType { get; set; }
     }
 }

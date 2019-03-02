@@ -112,6 +112,16 @@ namespace Chun.Demo.Common
         {
             InfoDal.InsertfilePathByLinq(filepath);
         }
+        /// <summary>
+        /// 将实体数据插入到分类信息
+        /// </summary>
+        /// <param name="filepath"></param>
+        public static void InsertCategoryInfo(category_info filepath)
+        {
+            InfoDal.InsertCategoryByLinq(filepath);
+        }
+
+
         private static readonly object locker = new object();
 
         /// <summary>

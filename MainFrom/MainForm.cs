@@ -10,6 +10,7 @@ using Chun.Demo.ICommon;
 using Chun.Demo.PhraseHtml;
 using MainFrom.Properties;
 using Chun.Demo.Model;
+using Chun.Demo.VIEW;
 
 namespace MainFrom
 {
@@ -75,8 +76,9 @@ namespace MainFrom
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
-        {
+        private void button1_Click(object sender, EventArgs e) {
+            fileXpath.SelectedIndex = 1;
+            PropertyName.SelectedIndex = 1;
             _fileTypeId = 1;
             _fileTypeId = 11;
             //获取目录
@@ -85,12 +87,15 @@ namespace MainFrom
 
         private void button2_Click(object sender, EventArgs e)
         {
+            fileXpath.SelectedIndex = 0;
+            PropertyName.SelectedIndex = 0;
             _fileTypeId = 12;
             GetPath();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+        
             _fileTypeId = Convert.ToInt32(ConfigerHelper.GetAppConfig("FilePathId"));
             Download();
         }
@@ -244,9 +249,10 @@ namespace MainFrom
             }));
         }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            
+        private void button6_Click(object sender, EventArgs e) {
+
+            var x = new AddPictureForm();
+            x.Show();
             //TextBoxHelper tb = new TextBoxHelper();
             //tb.TextBoxInputOnlyFloatNum(testBOX);
             //testBOX.Formart("F4");
@@ -302,8 +308,9 @@ namespace MainFrom
             //获取目录地址
             var basicUrl = ConfigerHelper.GetAppConfig("BasicUrl");
             var savePath = ConfigerHelper.GetAppConfig("SavePath");
-            var hm = new FormPars(basicUrl, "thread.php?fid=16&page=", "//div[@class='tpc_content']/img",
-                "src", savePath, "");
+            //var hm = new FormPars(basicUrl, "thread.php?mod=viewthread&fid=16&page=", "//div[@class='tpc_content']/img",
+            var hm = new FormPars(basicUrl, "pw/thread.php?fid=16&page=", "//div[@class='tpc_content']/img",
+                "src", savePath, "","");
             MyTools.FormPars = hm;
             htmlModelBindingSource.DataSource = MyTools.FormPars;
             
@@ -323,6 +330,9 @@ namespace MainFrom
             startDateTime.DataBindings.Add(new Binding("Value", htmlModelBindingSource, "StartDateTime", true, DataSourceUpdateMode.OnPropertyChanged));
             EndDateTime.DataBindings.Add(new Binding("Value", htmlModelBindingSource, "EndDateTime", true, DataSourceUpdateMode.OnPropertyChanged));
             IgnoreFailed.DataBindings.Add(new Binding("Checked", htmlModelBindingSource, "IgnoreFailed", true, DataSourceUpdateMode.OnPropertyChanged));
+
+            typeText.DataBindings.Add(new Binding("Text", htmlModelBindingSource, "PicType", true, DataSourceUpdateMode.OnPropertyChanged));
+
             MyTools.FormPars.StartDateTime =DateTime.Now;
             MyTools.FormPars.EndDateTime =DateTime.MaxValue;
         }

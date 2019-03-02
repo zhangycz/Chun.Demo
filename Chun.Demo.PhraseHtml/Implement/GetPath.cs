@@ -31,6 +31,7 @@ namespace Chun.Demo.PhraseHtml {
             //获取数据库中未操作和失败的
             var currentPathList = new List<string>();
             var appConfig = ConfigerHelper.GetAppConfig("MaxDirPath");
+            var minDirPathConfig = ConfigerHelper.GetAppConfig("MinDirPath");
             if (fileTypeId.ToString().EndsWith("1")) {
                 //获取目录地址
                 //获取多少页目录
@@ -38,11 +39,20 @@ namespace Chun.Demo.PhraseHtml {
                     throw new ArgumentNullException(nameof(appConfig));
 
                 var maxDirPath = Convert.ToInt32(appConfig);
+                var mixDirPath = Convert.ToInt32(minDirPathConfig);
 
-                for (var i = 1; i <= maxDirPath; i++) {
+                //for (var i = 1; i <= maxDirPath; i++) {
+                for (var i = mixDirPath; i <= maxDirPath; i++) {
+                    var url = string.Empty;
                     var netpath = Tool.ConcatHttpPath(MyTools.FormPars.BasePath,
                         MyTools.FormPars.ExtendPath);
-                    var url = netpath + i;
+                    if (i == 1) {
+                        url = netpath.Substring(0, netpath.LastIndexOf("-page-", StringComparison.Ordinal));
+                    }
+                    else {
+                     
+                        url = netpath + i+".html";
+                    }
                     currentPathList.Add(url);
                 }
             }

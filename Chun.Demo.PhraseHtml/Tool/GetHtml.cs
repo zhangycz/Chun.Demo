@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Chun.Demo.Common;
 using Chun.Demo.Model.Entity;
@@ -16,6 +18,7 @@ namespace Chun.Demo.PhraseHtml {
         //--------------------------------------------------------
         public HtmlTool HtmlTool { get; set; } = new HtmlTool();
 
+
         /// <summary>
         ///     attrName
         ///     属性名，如"src"、"img"
@@ -28,15 +31,19 @@ namespace Chun.Demo.PhraseHtml {
         /// <param name="fileType"></param>
         public bool Run(string attrName, string url, int fileType) {
             var successed = false;
+
             HtmlNodeCollection hnCollection;
             HtmlNodeCollection titleCollection;
             //获取目录地址
-            try {
+            try
+            {
                 var htmlDocument = HtmlTool.LoadHtml(url);
+               // Console.WriteLine($"获取内容：{htmlDocument.DocumentNode.InnerHtml}");
                 hnCollection = HtmlTool.GetNodeCollect(htmlDocument, MyTools.FormPars.Match);
                 titleCollection = HtmlTool.GetNodeCollect(htmlDocument, "//head/title");
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 MyMessageBox.Add(
                     $"线程 {Thread.CurrentThread.ManagedThreadId} 获取文件 {url} 时发生了错误，错误信息 {ex.Message} ，错误详情 {ex.Data} ");
 
@@ -44,13 +51,15 @@ namespace Chun.Demo.PhraseHtml {
             }
 
 
-            if (hnCollection == null) {
+            if (hnCollection == null)
+            {
                 MyMessageBox.Add($"线程 {Thread.CurrentThread.ManagedThreadId} 获取文件 {url} 时发生了错误 ,解析时发生错误！");
 
                 return false;
             }
             // Console.WriteLine("线程 {0} 获取文件 {1} 正在操作，锁定中……", System.Threading.Thread.CurrentThread.ManagedThreadId, URL);
-            foreach (var hn in hnCollection) {
+            foreach (var hn in hnCollection)
+            {
                 var path = hn.Attributes[attrName].Value;
                 var innerTxt = string.IsNullOrEmpty(hn.InnerHtml)
                     ? (!string.IsNullOrEmpty(hn.InnerText)
@@ -61,22 +70,27 @@ namespace Chun.Demo.PhraseHtml {
                     : hn.InnerHtml;
                 if (string.IsNullOrEmpty(path))
                     continue;
-                if (!DirPath.Contains(path)) {
+                if (!DirPath.Contains(path))
+                {
                     DirPath.Add(path);
-                    try {
-                        if (path.ToUpper().StartsWith("READ")) {
+                    try
+                    {
+                        if (path.ToUpper().StartsWith("READ"))
+                        {
                             var loc = path.LastIndexOf("&", StringComparison.Ordinal);
                             path = path.Substring(0, loc);
                         }
 
                         InsertfilePath(path, innerTxt, fileType, 0, url);
                     }
-                    catch {
+                    catch
+                    {
                         return successed;
                     }
                     successed = true;
                 }
-                else {
+                else
+                {
                     successed = true;
                 }
             }
@@ -156,6 +170,7 @@ namespace Chun.Demo.PhraseHtml {
         }
 
         public void InsertfilePath(string path, string innerTxt, int fileType, int fileStatusId, string url) {
+            var xinnerText = innerTxt.MyReplace("xp1024,核工厂,1024,.com,-,_,露出激情,图文欣賞,美图欣賞,|,powered by phpwind.net, ");
             var filepath = new filepath {
                 file_Path = path,
                 file_innerTxt = innerTxt,
@@ -165,8 +180,21 @@ namespace Chun.Demo.PhraseHtml {
                 file_parent_path = url
             };
             Tool.InsertfilePathByLinq(filepath);
+            var picType = MyTools.FormPars.PicType;
+            if (!string.IsNullOrEmpty(picType) && fileType == 12) {
+                var categoryInfo = new category_info
+                {
+                    category_id = picType,
+                    category_path = path
+                };
+                Tool.InsertCategoryInfo(categoryInfo);
+            }
+           
+
             //  InfoDAL.InsertfilePath(path, innerTxt, fileType, file_status_id, URL);
         }
+
+       
 
 
         #endregion

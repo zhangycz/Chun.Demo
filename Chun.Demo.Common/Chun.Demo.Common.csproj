@@ -34,27 +34,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Export\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\..\Export\Microsoft.Office.Interop.Excel.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI, Version=2.1.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Export\NPOI.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OOXML, Version=2.1.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Export\NPOI.OOXML.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXml4Net, Version=2.1.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Export\NPOI.OpenXml4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXmlFormats, Version=2.1.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Export\NPOI.OpenXmlFormats.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -74,6 +53,11 @@
   <ItemGroup>
     <Compile Include="BaseTableConfigFile.cs" />
     <Compile Include="Calculagraph.cs" />
+    <Compile Include="Events\OnCompletedEventArgs.cs" />
+    <Compile Include="Events\OnErrorEventArgs.cs" />
+    <Compile Include="Events\OnStartEventArgs.cs" />
+    <Compile Include="MyFolderBrowser.cs" />
+    <Compile Include="Tool\ExtendTools.cs" />
     <Compile Include="Helper\CellDrawHelper.cs" />
     <Compile Include="Helper\DebugHelper.cs" />
     <Compile Include="Helper\DgvHelper.cs" />
@@ -83,6 +67,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Tool\HardwareTools.cs" />
+    <Compile Include="Tool\ICrawler.cs" />
     <Compile Include="Tool\MyTools.cs" />
     <Compile Include="Tool\HtmlTool.cs" />
     <Compile Include="Tool\LogTools.cs" />
@@ -102,6 +87,7 @@
     <Compile Include="Tool\ConnectionStatusTool.cs" />
     <Compile Include="Tool\MyMessageBox.cs" />
     <Compile Include="Tool\PathTools.cs" />
+    <Compile Include="Tool\SimpleCrawler.cs" />
     <Compile Include="Tool\SortBindingList.cs" />
     <Compile Include="Tool\Tool.cs" />
     <Compile Include="Torrent.cs" />
@@ -121,6 +107,7 @@
       <Name>Chun.Demo.Model</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

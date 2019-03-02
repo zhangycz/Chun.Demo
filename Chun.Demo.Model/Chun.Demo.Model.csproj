@@ -52,6 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\category_info.cs">
+      <DependentUpon>FilePath.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\errorpath.cs">
       <DependentUpon>FilePath.tt</DependentUpon>
     </Compile>

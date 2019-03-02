@@ -68,6 +68,8 @@ namespace MainFrom
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.htmlModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.typeText = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -226,12 +228,14 @@ namespace MainFrom
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(1276, 153);
+            this.textBox1.Size = new System.Drawing.Size(1276, 144);
             this.textBox1.TabIndex = 12;
             this.textBox1.Text = "基址：访问相对路径，地址：访问起始地址，,XPATH:查找的项目，获取项目：获取哪一项";
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.typeText);
+            this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.button7);
             this.groupBox1.Controls.Add(this.IgnoreFailed);
             this.groupBox1.Controls.Add(this.EndDateTime);
@@ -261,7 +265,7 @@ namespace MainFrom
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(1284, 372);
+            this.groupBox1.Size = new System.Drawing.Size(1284, 381);
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "参数信息";
@@ -394,7 +398,7 @@ namespace MainFrom
             | System.Windows.Forms.AnchorStyles.Right)));
             this.fileXpath.FormattingEnabled = true;
             this.fileXpath.Items.AddRange(new object[] {
-            "//div[@class=\'tpc_content\']/img",
+            "//div[@class=\'tpc_content\']/div[@id=\'read_tpc\']/img",
             "//tr[@class=\'tr3 t_one\']/td/h3/a"});
             this.fileXpath.Location = new System.Drawing.Point(179, 94);
             this.fileXpath.Margin = new System.Windows.Forms.Padding(4);
@@ -472,7 +476,7 @@ namespace MainFrom
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(1284, 179);
+            this.groupBox2.Size = new System.Drawing.Size(1284, 170);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "输出信息";
@@ -494,9 +498,31 @@ namespace MainFrom
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
             this.splitContainer1.Size = new System.Drawing.Size(1284, 552);
-            this.splitContainer1.SplitterDistance = 372;
+            this.splitContainer1.SplitterDistance = 381;
             this.splitContainer1.SplitterWidth = 1;
             this.splitContainer1.TabIndex = 15;
+            // 
+            // typeText
+            // 
+            this.typeText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.typeText.Location = new System.Drawing.Point(921, 29);
+            this.typeText.Margin = new System.Windows.Forms.Padding(4);
+            this.typeText.Name = "typeText";
+            this.typeText.Size = new System.Drawing.Size(169, 25);
+            this.typeText.TabIndex = 29;
+            // 
+            // label8
+            // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(861, 36);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(52, 15);
+            this.label8.TabIndex = 30;
+            this.label8.Text = "类型：";
             // 
             // MainForm
             // 
@@ -508,7 +534,6 @@ namespace MainFrom
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(1278, 585);
             this.Name = "MainForm";
             this.ShowIcon = false;
@@ -568,5 +593,7 @@ namespace MainFrom
         private System.Windows.Forms.CheckBox IgnoreFailed;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.TextBox typeText;
+        private System.Windows.Forms.Label label8;
     }
 }

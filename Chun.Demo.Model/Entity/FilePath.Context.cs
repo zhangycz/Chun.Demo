@@ -28,5 +28,6 @@ namespace Chun.Demo.Model.Entity
         public virtual DbSet<errorpath> errorpath { get; set; }
         public virtual DbSet<filepath> filepath { get; set; }
         public virtual DbSet<filestatus> filestatus { get; set; }
+        public virtual DbSet<category_info> category_info { get; set; }
     }
 }

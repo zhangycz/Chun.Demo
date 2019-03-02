@@ -12,17 +12,10 @@ namespace Chun.Demo.Model.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class filepath
+    public partial class category_info
     {
+        public string category_id { get; set; }
+        public string category_path { get; set; }
         public int id { get; set; }
-        public string file_Path { get; set; }
-        public string file_innerTxt { get; set; }
-        public Nullable<int> file_Type_id { get; set; }
-        public Nullable<int> file_status_id { get; set; }
-        public Nullable<System.DateTime> file_CreateTime { get; set; }
-        public Nullable<System.DateTime> file_updateTime { get; set; }
-        public string file_parent_path { get; set; }
-        public string local_path { get; set; }
-        public string priview_pic_path { get; set; }
     }
 }

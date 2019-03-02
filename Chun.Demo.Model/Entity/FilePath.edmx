@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="phrasehtmlModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="category_info">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="category_id" Type="nvarchar" MaxLength="100" />
+          <Property Name="category_path" Type="nvarchar(max)" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
         <EntityType Name="errorpath">
           <Key>
             <PropertyRef Name="id" />
@@ -30,6 +38,7 @@
           <Property Name="file_updateTime" Type="datetime" />
           <Property Name="file_parent_path" Type="varchar" MaxLength="255" />
           <Property Name="local_path" Type="varchar" MaxLength="255" />
+          <Property Name="priview_pic_path" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="filestatus">
           <Key>
@@ -39,6 +48,7 @@
           <Property Name="status_info" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityContainer Name="phrasehtmlModelStoreContainer">
+          <EntitySet Name="category_info" EntityType="Self.category_info" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="errorpath" EntityType="Self.errorpath" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="filepath" EntityType="Self.filepath" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="filestatus" EntityType="Self.filestatus" Schema="dbo" store:Type="Tables" />
@@ -72,6 +82,7 @@
           <Property Name="file_updateTime" Type="DateTime" Precision="3" />
           <Property Name="file_parent_path" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="local_path" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="priview_pic_path" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="filestatus">
           <Key>
@@ -84,7 +95,16 @@
           <EntitySet Name="errorpath" EntityType="Self.errorpath" />
           <EntitySet Name="filepath" EntityType="Self.filepath" />
           <EntitySet Name="filestatus" EntityType="Self.filestatus" />
+          <EntitySet Name="category_info" EntityType="phrasehtmlModel.category_info" />
         </EntityContainer>
+        <EntityType Name="category_info">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="category_id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="category_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -107,6 +127,7 @@
           <EntitySetMapping Name="filepath">
             <EntityTypeMapping TypeName="phrasehtmlModel.filepath">
               <MappingFragment StoreEntitySet="filepath">
+                <ScalarProperty Name="priview_pic_path" ColumnName="priview_pic_path" />
                 <ScalarProperty Name="local_path" ColumnName="local_path" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="file_Path" ColumnName="file_Path" />
@@ -124,6 +145,15 @@
               <MappingFragment StoreEntitySet="filestatus">
                 <ScalarProperty Name="status_id" ColumnName="status_id" />
                 <ScalarProperty Name="status_info" ColumnName="status_info" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="category_info">
+            <EntityTypeMapping TypeName="phrasehtmlModel.category_info">
+              <MappingFragment StoreEntitySet="category_info">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="category_path" ColumnName="category_path" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

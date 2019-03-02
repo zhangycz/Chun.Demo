@@ -47,12 +47,18 @@ namespace Chun.Demo.DAL
             var ls = new BaseDataQuery<filepath>().QueryByStoredProcedure<QueryTitleModel>(procedureStr, sqlparms);
             return ls;
         }
-
-
+        
 
         public static void InsertfilePathByLinq(filepath filepath)
         {
             new BaseDataQuery<filepath>().Add(filepath);
+        }
+        public static void InsertCategoryByLinq(category_info categoryInfo)
+        {
+            var sql = "insert into category_info ( category_id , category_path ) values ('" + categoryInfo.category_id + "','" +
+                      categoryInfo.category_path + "')";
+            ISql<SqlCommand, SqlConnection> mysql = new MsSql();
+            mysql.Run(sql, mysql.GetInsert);
         }
 
         public static void InserErrorFileByLinq(errorpath errorpath)

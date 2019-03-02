@@ -43,6 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddPictureForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddPictureForm.Designer.cs">
+      <DependentUpon>AddPictureForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ItemForm\AlterTorrentByInnerName.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +64,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AddPictureForm.resx">
+      <DependentUpon>AddPictureForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ItemForm\AlterTorrentByInnerName.resx">
       <DependentUpon>AlterTorrentByInnerName.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -70,6 +79,10 @@
     <ProjectReference Include="..\Chun.Demo.AnalyzeTorrent\Chun.Demo.AnalyzeTorrent.csproj">
       <Project>{8d6f0ea1-c0cb-439a-af87-9e0fb44bdb9d}</Project>
       <Name>Chun.Demo.AnalyzeTorrent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Chun.Demo.Common\Chun.Demo.Common.csproj">
+      <Project>{dd70d187-d0aa-49a5-baa7-1d11661b66f7}</Project>
+      <Name>Chun.Demo.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

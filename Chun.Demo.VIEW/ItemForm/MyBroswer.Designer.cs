@@ -41,9 +41,10 @@
             // 
             this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.webBrowser1.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(27, 25);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(902, 361);
+            this.webBrowser1.Size = new System.Drawing.Size(1203, 452);
             this.webBrowser1.TabIndex = 0;
             this.webBrowser1.Url = new System.Uri("http://baidu.com", System.UriKind.Absolute);
             // 
@@ -51,8 +52,9 @@
             // 
             this.UrlTB.Dock = System.Windows.Forms.DockStyle.Fill;
             this.UrlTB.Location = new System.Drawing.Point(0, 0);
+            this.UrlTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.UrlTB.Name = "UrlTB";
-            this.UrlTB.Size = new System.Drawing.Size(902, 21);
+            this.UrlTB.Size = new System.Drawing.Size(1203, 25);
             this.UrlTB.TabIndex = 1;
             this.UrlTB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UrlTB_KeyDown);
             // 
@@ -60,6 +62,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -70,16 +73,18 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.webBrowser1);
-            this.splitContainer1.Size = new System.Drawing.Size(902, 403);
-            this.splitContainer1.SplitterDistance = 38;
+            this.splitContainer1.Size = new System.Drawing.Size(1203, 504);
+            this.splitContainer1.SplitterDistance = 47;
+            this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 2;
             // 
             // MyBroswer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(902, 403);
+            this.ClientSize = new System.Drawing.Size(1203, 504);
             this.Controls.Add(this.splitContainer1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MyBroswer";
             this.Text = "MyBroswer";
             this.splitContainer1.Panel1.ResumeLayout(false);
