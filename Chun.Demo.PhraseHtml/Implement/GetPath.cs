@@ -46,12 +46,22 @@ namespace Chun.Demo.PhraseHtml {
                     var url = string.Empty;
                     var netpath = Tool.ConcatHttpPath(MyTools.FormPars.BasePath,
                         MyTools.FormPars.ExtendPath);
-                    if (i == 1) {
-                        url = netpath.Substring(0, netpath.LastIndexOf("-page-", StringComparison.Ordinal));
+                    if (i == 1 ) {
+                        if (netpath.Contains("-page-")) {
+                            url = netpath.Substring(0, netpath.LastIndexOf("-page-", StringComparison.Ordinal));
+                        }
+                        else {
+                            url = netpath.Substring(0, netpath.LastIndexOf("page=", StringComparison.Ordinal));
+
+                        }
                     }
                     else {
-                     
-                        url = netpath + i+".html";
+                        if (netpath.Contains("-page-")) {
+                            url = netpath + i + ".html";
+                        }
+                        else {
+                            url = netpath + i ;
+                        }
                     }
                     currentPathList.Add(url);
                 }
