@@ -12,10 +12,11 @@ using Chun.Demo.Model.Entity;
 namespace Chun.Demo.PhraseHtml {
     public class DownLoadPic : IGetService {
         public void GetService(int fileTypeId) {
+            LogHelper.TraceEnter();
             var formPars = MyTools.FormPars;
             var saveFilePath = formPars.SavePath;
             if (string.IsNullOrEmpty(saveFilePath) || !Directory.Exists(saveFilePath)) {
-                MyMessageBox.Add($"保存地址有误");
+                LogHelper.Error($"保存地址有误");
                 return;
             }
 
@@ -34,12 +35,13 @@ namespace Chun.Demo.PhraseHtml {
                 .Select(p => p).ToList();
 
             //最好不要使用全局变量
-            Parallel.ForEach(filePathList, CreateDirAndDownLoad);
-
+            Parallel.ForEach(filePathList, CreateDirAndDownload);
             #endregion
+            LogHelper.TraceExit();
         }
 
-        private void CreateDirAndDownLoad(filepath entity) {
+        private void CreateDirAndDownload(filepath entity) {
+            //LogHelper.TraceEnter();
             var path = entity.file_Path;
             var formPars = MyTools.FormPars;
             var saveFilePath = formPars.SavePath;
@@ -72,7 +74,7 @@ namespace Chun.Demo.PhraseHtml {
                         Directory.CreateDirectory(createDir);
                     }
                     catch {
-                        MyMessageBox.Add($"路径 {createDir} 存在错误！文件名 {fileName} ");
+                        LogHelper.Error($"路径 {createDir} 存在错误！文件名 {fileName} ");
                     }
                 fileName = createDir + fileName;
                 Tool.DownLoad(path, fileName);
@@ -80,6 +82,7 @@ namespace Chun.Demo.PhraseHtml {
             catch (Exception) {
                 // ignored
             }
+            //LogHelper.TraceExit();
         }
     }
 }

@@ -38,8 +38,8 @@ namespace MainFrom
             InitializeComponent();
         }
 
-       
-        private void 打开文件ToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (openFileDialog.ShowDialog() != DialogResult.OK)
                 return;
@@ -76,7 +76,8 @@ namespace MainFrom
         }
 
 
-        private void button1_Click(object sender, EventArgs e) {
+        private void button1_Click(object sender, EventArgs e)
+        {
             fileXpath.SelectedIndex = 1;
             PropertyName.SelectedIndex = 1;
             _fileTypeId = 1;
@@ -95,7 +96,7 @@ namespace MainFrom
 
         private void button3_Click(object sender, EventArgs e)
         {
-        
+
             _fileTypeId = Convert.ToInt32(ConfigerHelper.GetAppConfig("FilePathId"));
             Download();
         }
@@ -133,35 +134,8 @@ namespace MainFrom
 
             #region Backgroudworker 实现
 
-            //if (!backgroundWorker1.IsBusy)
-            //{
-
-            #region 线程池实现异步
-
-            //线程池实现异步
-            //ThreadPool.QueueUserWorkItem(item =>
-            //{
-            //Igetsrv = new GetPath( );
-            //Igetsrv._saveFilePath = SaveTextBox.Text.Trim( );
-            //Igetsrv._basePath = BasePathTextBox.Text.Trim( );
-            //Igetsrv._fileXpath = fileXpath.Text.Trim( );
-            //Igetsrv._netPath = AddressTextBox.Text.Trim( );
-            //Igetsrv._PropertyName = PropertyName.Text.Trim( );
-            //Igetsrv.GetService(_file_type_id);
-            //Invoke(new MethodInvoker(( ) => MessageBox.Show("完成了操作")));
-            //backgroundWorker1.RunWorkerAsync( );
-            //}
-            //);
-            //Invoke(new MethodInvoker(( ) => MessageBox.Show("正在执行操作请耐心等待"))); 
-
-            #endregion
-
-            //}
-            //    else
-            //    {
-            //        MessageBox.Show("正在进行其他操作");
-            //    } 
-
+         
+          
             #endregion
         }
 
@@ -178,17 +152,18 @@ namespace MainFrom
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender,
-            RunWorkerCompletedEventArgs e) {
+            RunWorkerCompletedEventArgs e)
+        {
             MessageBox.Show(!e.Cancelled ? "正常完成了操作" : "用户取消了操作");
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
             ThreadPool.QueueUserWorkItem(item =>
-                {
-                    Tool.DelEmptyDirAndFile(DelEmptyFile.Text.Trim());
-                    Invoke(new MethodInvoker(() => MessageBox.Show(Resources.DeletedDirDone)));
-                }
+             {
+                 Tool.DelEmptyDirAndFile(DelEmptyFile.Text.Trim());
+                 Invoke(new MethodInvoker(() => MessageBox.Show(Resources.DeletedDirDone)));
+             }
             );
         }
 
@@ -202,9 +177,11 @@ namespace MainFrom
             var returnExs = new List<string>();
             var queryId = 0;
             var operOpenerWindow = new OpenerWindow();
-            foreach (var arg in args) {
+            foreach (var arg in args)
+            {
                 var inputType = arg.GetType().Name.ToUpper();
-                switch (inputType) {
+                switch (inputType)
+                {
                     case "STRING":
                         returnExs[0] = arg.ToString();
                         break;
@@ -212,7 +189,7 @@ namespace MainFrom
                         queryId = Convert.ToInt32(arg);
                         break;
                     case "STRING[]":
-                        returnExs.AddRange(from singlearg in (object[]) arg select singlearg.ToString());
+                        returnExs.AddRange(from singlearg in (object[])arg select singlearg.ToString());
                         break;
                     case "INT32[]":
                         Console.WriteLine(Resources.MainForm_SayHello_输入的是int__);
@@ -233,23 +210,26 @@ namespace MainFrom
 
         private void SetMessageBox()
         {
-            BeginInvoke(new MethodInvoker(() => {
+            BeginInvoke(new MethodInvoker(() =>
+            {
                 var msg = MyMessageBox.GetMessageBuilder() + Environment.NewLine;
-                Console.WriteLine(msg);
-                try {
+                try
+                {
                     LogTools.LogInfo(msg);
                 }
-                catch (Exception e) {
-                    Console.WriteLine(e);
+                catch (Exception e)
+                {
+                    LogHelper.Debug(msg, e);
                 }
-                
-                textBox1.AppendText(msg);
-                textBox1.SelectionStart = textBox1.Text.Length;
-                textBox1.ScrollToCaret();
+
+                txtLogger.AppendText(msg);
+                txtLogger.SelectionStart = txtLogger.Text.Length;
+                txtLogger.ScrollToCaret();
             }));
         }
 
-        private void button6_Click(object sender, EventArgs e) {
+        private void button6_Click(object sender, EventArgs e)
+        {
 
             var x = new AddPictureForm();
             x.Show();
@@ -310,22 +290,22 @@ namespace MainFrom
             var savePath = ConfigerHelper.GetAppConfig("SavePath");
             //var hm = new FormPars(basicUrl, "thread.php?mod=viewthread&fid=16&page=", "//div[@class='tpc_content']/img",
             var hm = new FormPars(basicUrl, "pw/thread.php?fid=16&page=", "//div[@class='tpc_content']/img",
-                "src", savePath, "","");
+                "src", savePath, "", "");
             MyTools.FormPars = hm;
             htmlModelBindingSource.DataSource = MyTools.FormPars;
-            
-            BasePathTextBox.DataBindings.Add(new Binding("Text",  htmlModelBindingSource, "BasePath", true, DataSourceUpdateMode.OnPropertyChanged));
-            BasePathTextBox.DataBindings.Add(new Binding("Tag",  htmlModelBindingSource, "BasePath", true, DataSourceUpdateMode.OnPropertyChanged));
-            
+
+            BasePathTextBox.DataBindings.Add(new Binding("Text", htmlModelBindingSource, "BasePath", true, DataSourceUpdateMode.OnPropertyChanged));
+            BasePathTextBox.DataBindings.Add(new Binding("Tag", htmlModelBindingSource, "BasePath", true, DataSourceUpdateMode.OnPropertyChanged));
+
             AddressTextBox.DataBindings.Add(new Binding("Text", htmlModelBindingSource, "ExtendPath", true, DataSourceUpdateMode.OnPropertyChanged));
-            AddressTextBox.DataBindings.Add(new Binding("Tag",htmlModelBindingSource, "ExtendPath", true, DataSourceUpdateMode.OnPropertyChanged));
-            
+            AddressTextBox.DataBindings.Add(new Binding("Tag", htmlModelBindingSource, "ExtendPath", true, DataSourceUpdateMode.OnPropertyChanged));
+
             fileXpath.DataBindings.Add(new Binding("Text", htmlModelBindingSource, "Match", true, DataSourceUpdateMode.OnPropertyChanged));
             fileXpath.DataBindings.Add(new Binding("Tag", htmlModelBindingSource, "Match", true, DataSourceUpdateMode.OnPropertyChanged));
-            
+
             PropertyName.DataBindings.Add(new Binding("Text", htmlModelBindingSource, "AttrName", true, DataSourceUpdateMode.OnPropertyChanged));
             PropertyName.DataBindings.Add(new Binding("Tag", htmlModelBindingSource, "AttrName", true, DataSourceUpdateMode.OnPropertyChanged));
-            
+
             SaveTextBox.DataBindings.Add(new Binding("Text", htmlModelBindingSource, "SavePath", true, DataSourceUpdateMode.OnPropertyChanged));
             startDateTime.DataBindings.Add(new Binding("Value", htmlModelBindingSource, "StartDateTime", true, DataSourceUpdateMode.OnPropertyChanged));
             EndDateTime.DataBindings.Add(new Binding("Value", htmlModelBindingSource, "EndDateTime", true, DataSourceUpdateMode.OnPropertyChanged));
@@ -333,8 +313,8 @@ namespace MainFrom
 
             typeText.DataBindings.Add(new Binding("Text", htmlModelBindingSource, "PicType", true, DataSourceUpdateMode.OnPropertyChanged));
 
-            MyTools.FormPars.StartDateTime =DateTime.Now;
-            MyTools.FormPars.EndDateTime =DateTime.MaxValue;
+            MyTools.FormPars.StartDateTime = DateTime.Now;
+            MyTools.FormPars.EndDateTime = DateTime.MaxValue;
         }
 
         private delegate void Test(string fileName);
@@ -343,9 +323,29 @@ namespace MainFrom
         {
         }
 
-        private void Button7_Click(object sender, EventArgs e) {
+        private void Button7_Click(object sender, EventArgs e)
+        {
             var savePath = MyTools.FormPars.SavePath;
             PathTools.OpenDir(savePath);
+        }
+
+        private void OpenLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LogHelper.TraceEnter();
+            try
+            {
+                var logfile = PathTools.PathCombine(MyTools.FormPars.AppPath, "Logs", "info.log");
+                System.Diagnostics.Process.Start("notepad.exe", logfile);
+            }
+            catch(Exception ex)
+            {
+                LogHelper.Error(ex,"Open log error");
+            }
+            finally
+            {
+                LogHelper.TraceExit();
+            }
+          
         }
     }
 }

@@ -46,8 +46,10 @@ namespace MainFrom
             this.button4 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtLogger = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.typeText = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
             this.IgnoreFailed = new System.Windows.Forms.CheckBox();
             this.EndDateTime = new System.Windows.Forms.DateTimePicker();
@@ -68,8 +70,8 @@ namespace MainFrom
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.htmlModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.typeText = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
+            this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.查看日志ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -92,7 +94,8 @@ namespace MainFrom
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.文件ToolStripMenuItem,
-            this.设置ToolStripMenuItem});
+            this.设置ToolStripMenuItem,
+            this.帮助ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
@@ -113,9 +116,9 @@ namespace MainFrom
             this.打开文件ToolStripMenuItem.Name = "打开文件ToolStripMenuItem";
             this.打开文件ToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.打开文件ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.O)));
-            this.打开文件ToolStripMenuItem.Size = new System.Drawing.Size(197, 26);
+            this.打开文件ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.打开文件ToolStripMenuItem.Text = "打开文件";
-            this.打开文件ToolStripMenuItem.Click += new System.EventHandler(this.打开文件ToolStripMenuItem_Click);
+            this.打开文件ToolStripMenuItem.Click += new System.EventHandler(this.ToolStripMenuItem_Click);
             // 
             // 设置ToolStripMenuItem
             // 
@@ -128,7 +131,7 @@ namespace MainFrom
             // 目录ToolStripMenuItem
             // 
             this.目录ToolStripMenuItem.Name = "目录ToolStripMenuItem";
-            this.目录ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
+            this.目录ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.目录ToolStripMenuItem.Text = "目录";
             // 
             // button1
@@ -220,17 +223,17 @@ namespace MainFrom
             this.label2.TabIndex = 11;
             this.label2.Text = "请输入XPATH：";
             // 
-            // textBox1
+            // txtLogger
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(4, 22);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(1276, 144);
-            this.textBox1.TabIndex = 12;
-            this.textBox1.Text = "基址：访问相对路径，地址：访问起始地址，,XPATH:查找的项目，获取项目：获取哪一项";
+            this.txtLogger.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtLogger.Location = new System.Drawing.Point(4, 22);
+            this.txtLogger.Margin = new System.Windows.Forms.Padding(4);
+            this.txtLogger.Multiline = true;
+            this.txtLogger.Name = "txtLogger";
+            this.txtLogger.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtLogger.Size = new System.Drawing.Size(1276, 138);
+            this.txtLogger.TabIndex = 12;
+            this.txtLogger.Text = "基址：访问相对路径，地址：访问起始地址，,XPATH:查找的项目，获取项目：获取哪一项";
             // 
             // groupBox1
             // 
@@ -265,10 +268,32 @@ namespace MainFrom
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(1284, 381);
+            this.groupBox1.Size = new System.Drawing.Size(1284, 387);
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "参数信息";
+            // 
+            // typeText
+            // 
+            this.typeText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.typeText.Location = new System.Drawing.Point(921, 29);
+            this.typeText.Margin = new System.Windows.Forms.Padding(4);
+            this.typeText.Name = "typeText";
+            this.typeText.Size = new System.Drawing.Size(169, 25);
+            this.typeText.TabIndex = 29;
+            // 
+            // label8
+            // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(861, 36);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(52, 15);
+            this.label8.TabIndex = 30;
+            this.label8.Text = "类型：";
             // 
             // button7
             // 
@@ -470,13 +495,13 @@ namespace MainFrom
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.txtLogger);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(1284, 170);
+            this.groupBox2.Size = new System.Drawing.Size(1284, 164);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "输出信息";
@@ -498,31 +523,25 @@ namespace MainFrom
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
             this.splitContainer1.Size = new System.Drawing.Size(1284, 552);
-            this.splitContainer1.SplitterDistance = 381;
+            this.splitContainer1.SplitterDistance = 387;
             this.splitContainer1.SplitterWidth = 1;
             this.splitContainer1.TabIndex = 15;
             // 
-            // typeText
+            // 帮助ToolStripMenuItem
             // 
-            this.typeText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.typeText.Location = new System.Drawing.Point(921, 29);
-            this.typeText.Margin = new System.Windows.Forms.Padding(4);
-            this.typeText.Name = "typeText";
-            this.typeText.Size = new System.Drawing.Size(169, 25);
-            this.typeText.TabIndex = 29;
+            this.帮助ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.查看日志ToolStripMenuItem});
+            this.帮助ToolStripMenuItem.Name = "帮助ToolStripMenuItem";
+            this.帮助ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
+            this.帮助ToolStripMenuItem.Text = "帮助";
             // 
-            // label8
+            // 查看日志ToolStripMenuItem
             // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(861, 36);
-            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(52, 15);
-            this.label8.TabIndex = 30;
-            this.label8.Text = "类型：";
+            this.查看日志ToolStripMenuItem.Name = "查看日志ToolStripMenuItem";
+            this.查看日志ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this.查看日志ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.查看日志ToolStripMenuItem.Text = "查看日志";
+            this.查看日志ToolStripMenuItem.Click += new System.EventHandler(this.OpenLogToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -571,7 +590,7 @@ namespace MainFrom
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtLogger;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label3;
@@ -595,5 +614,7 @@ namespace MainFrom
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TextBox typeText;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ToolStripMenuItem 帮助ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 查看日志ToolStripMenuItem;
     }
 }

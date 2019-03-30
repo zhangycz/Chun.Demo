@@ -17,13 +17,14 @@ namespace Chun.Demo.PhraseHtml {
         /// </summary>
         /// <param name="fileTypeId">当前要获取的文件类型</param>
         public void GetService(int fileTypeId) {
+            LogHelper.TraceEnter();
             var formPars = MyTools.FormPars;
             if (!Tool.ValidateHtml(formPars.BasePath)) {
-                MyMessageBox.Add("网站基址不是正确的格式");
+                LogHelper.Error("网站基址不是正确的格式");
                 return;
             }
             if (IsNullOrEmpty(formPars.Match) || IsNullOrEmpty(formPars.AttrName)) {
-                MyMessageBox.Add("匹配字符不可为空");
+                LogHelper.Error("匹配字符不可为空");
                 return;
             }
             var gt = new GetHtml();
@@ -33,6 +34,7 @@ namespace Chun.Demo.PhraseHtml {
             var appConfig = ConfigerHelper.GetAppConfig("MaxDirPath");
             var minDirPathConfig = ConfigerHelper.GetAppConfig("MinDirPath");
             if (fileTypeId.ToString().EndsWith("1")) {
+                LogHelper.Debug("获取目录地址");
                 //获取目录地址
                 //获取多少页目录
                 if (appConfig == null)
@@ -43,7 +45,7 @@ namespace Chun.Demo.PhraseHtml {
 
                 //for (var i = 1; i <= maxDirPath; i++) {
                 for (var i = mixDirPath; i <= maxDirPath; i++) {
-                    var url = string.Empty;
+                    var url = Empty;
                     var netpath = Tool.ConcatHttpPath(MyTools.FormPars.BasePath,
                         MyTools.FormPars.ExtendPath);
                     if (i == 1 ) {
@@ -67,6 +69,7 @@ namespace Chun.Demo.PhraseHtml {
                 }
             }
             else {
+                LogHelper.Debug("获取文件地址");
                 var iognoreFailed = formPars.IgnoreFailed;
                 //是否忽略操作失败的，不勾选则不忽略
                 var type = 3;
@@ -90,24 +93,16 @@ namespace Chun.Demo.PhraseHtml {
                     ? item
                     : Tool.ConcatHttpPath(MyTools.FormPars.BasePath, item);
 
-                gt = new GetHtml {
-                    // Match = FileXpath,
-                    DirPath = targetPathList
-                };
-                //gt.Html.Match = FileXpath;
-                if (gt.Run(MyTools.FormPars.AttrName, url, fileTypeId)) {
-                    lock (Locker) {
-                        Tool.UpdatefilePath(item, fileTypeId - 1, 1);
-                    }
-                    MyMessageBox.Add($"线程 {Thread.CurrentThread.ManagedThreadId} 已经完成了文件 {url} 的获取！");
+                if (gt.Phrasehtml(MyTools.FormPars.AttrName, url, fileTypeId)) {
+                    Tool.UpdatefilePath(item, fileTypeId - 1, 1);
+                    LogHelper.Debug($"{url} 的获取完成");
                 }
                 else {
-                    lock (Locker) {
-                        Tool.UpdatefilePath(item, fileTypeId - 1, 2);
-                    }
-                    MyMessageBox.Add($"线程 {Thread.CurrentThread.ManagedThreadId} 对 {url} 的获取失败了！");
+                    Tool.UpdatefilePath(item, fileTypeId - 1, 2);
+                    LogHelper.Debug($"{url} 的获取失败");
                 }
             });
+            LogHelper.TraceExit();
         }
     }
 }

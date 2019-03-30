@@ -9,8 +9,14 @@ using Chun.Demo.Model.Entity;
 using HtmlAgilityPack;
 
 namespace Chun.Demo.PhraseHtml {
+    /// <summary>
+    /// 解析html
+    /// </summary>
     public class GetHtml {
-        public List<string> DirPath { get; set; }
+        /// <summary>
+        /// 过滤已加入得目标
+        /// </summary>
+        public  List<string> DirPath { get; set; }
 
         //--------------------------------------------------------
         public List<filepath> DirPathEntity { get; set; }
@@ -29,133 +35,66 @@ namespace Chun.Demo.PhraseHtml {
         /// <param name="attrName">获取指定内容</param>
         /// <param name="url"></param>
         /// <param name="fileType"></param>
-        public bool Run(string attrName, string url, int fileType) {
-            var successed = false;
-
-            HtmlNodeCollection hnCollection;
-            HtmlNodeCollection titleCollection;
+        public bool Phrasehtml(string attrName, string url, int fileType) {
+            LogHelper.TraceEnter();
             //获取目录地址
             try
             {
+                var successed = false;
                 var htmlDocument = HtmlTool.LoadHtml(url);
-               // Console.WriteLine($"获取内容：{htmlDocument.DocumentNode.InnerHtml}");
-                hnCollection = HtmlTool.GetNodeCollect(htmlDocument, MyTools.FormPars.Match);
-                titleCollection = HtmlTool.GetNodeCollect(htmlDocument, "//head/title");
+                var hnCollection = HtmlTool.GetNodeCollect(htmlDocument, MyTools.FormPars.Match);
+                var titleCollection = HtmlTool.GetNodeCollect(htmlDocument, "//head/title");
+
+                foreach (var hn in hnCollection)
+                {
+                    var path = hn.Attributes[attrName].Value;
+                    var innerTxt = string.IsNullOrEmpty(hn.InnerHtml)
+                        ? (!string.IsNullOrEmpty(hn.InnerText)
+                            ? hn.InnerText
+                            : (titleCollection != null
+                                ? (titleCollection.Count > 0 ? titleCollection[0].InnerHtml : "")
+                                : ""))
+                        : hn.InnerHtml;
+                    if (string.IsNullOrEmpty(path))
+                        continue;
+                    if (!DirPath.Contains(path))
+                    {
+                        DirPath.Add(path);
+                        try
+                        {
+                            if (path.ToUpper().StartsWith("READ"))
+                            {
+                                var loc = path.LastIndexOf("&", StringComparison.Ordinal);
+                                path = path.Substring(0, loc);
+                            }
+
+                            InsertfilePath(path, innerTxt, fileType, 0, url);
+                        }
+                        catch
+                        {
+                            return successed;
+                        }
+                        successed = true;
+                    }
+                    else
+                    {
+                        successed = true;
+                    }
+                }
+                return successed;
             }
             catch (Exception ex)
             {
-                MyMessageBox.Add(
-                    $"线程 {Thread.CurrentThread.ManagedThreadId} 获取文件 {url} 时发生了错误，错误信息 {ex.Message} ，错误详情 {ex.Data} ");
-
+                LogHelper.Error($"解析 { url}时发生了错误，错误信息 {ex.Message} ，错误详情 {ex.Data} ");
                 return false;
             }
-
-
-            if (hnCollection == null)
+            finally
             {
-                MyMessageBox.Add($"线程 {Thread.CurrentThread.ManagedThreadId} 获取文件 {url} 时发生了错误 ,解析时发生错误！");
-
-                return false;
+                LogHelper.TraceExit();
             }
-            // Console.WriteLine("线程 {0} 获取文件 {1} 正在操作，锁定中……", System.Threading.Thread.CurrentThread.ManagedThreadId, URL);
-            foreach (var hn in hnCollection)
-            {
-                var path = hn.Attributes[attrName].Value;
-                var innerTxt = string.IsNullOrEmpty(hn.InnerHtml)
-                    ? (!string.IsNullOrEmpty(hn.InnerText)
-                        ? hn.InnerText
-                        : (titleCollection != null
-                            ? (titleCollection.Count > 0 ? titleCollection[0].InnerHtml : "")
-                            : ""))
-                    : hn.InnerHtml;
-                if (string.IsNullOrEmpty(path))
-                    continue;
-                if (!DirPath.Contains(path))
-                {
-                    DirPath.Add(path);
-                    try
-                    {
-                        if (path.ToUpper().StartsWith("READ"))
-                        {
-                            var loc = path.LastIndexOf("&", StringComparison.Ordinal);
-                            path = path.Substring(0, loc);
-                        }
-
-                        InsertfilePath(path, innerTxt, fileType, 0, url);
-                    }
-                    catch
-                    {
-                        return successed;
-                    }
-                    successed = true;
-                }
-                else
-                {
-                    successed = true;
-                }
-            }
-            return successed;
+           
         }
 
-        public bool Run(string attrName, filepath fileEntity) {
-            var success = false;
-
-            HtmlNodeCollection hnCollection;
-            HtmlNodeCollection titleCollection;
-            //获取目录地址
-            try {
-                var htmlDocument = HtmlTool.LoadHtml(fileEntity.file_Path);
-                hnCollection = HtmlTool.GetNodeCollect(htmlDocument, MyTools.FormPars.Match);
-                titleCollection = HtmlTool.GetNodeCollect(htmlDocument, "//head/title");
-            }
-            catch (Exception ex) {
-                Console.WriteLine("线程 {0} 获取文件 {1} 时发生了错误，错误信息 {2} ，错误详情 {3} ", Thread.CurrentThread.ManagedThreadId,
-                    fileEntity.file_Path, ex.Message, ex.Data);
-                //InsertSql(fileType,URL);
-                return success;
-            }
-
-
-            if (hnCollection == null) {
-                //errorList.Add(URL);
-                Console.WriteLine("线程 {0} 获取文件 {1} 时发生了错误 ,未能加载网页！", Thread.CurrentThread.ManagedThreadId,
-                    fileEntity.file_Path);
-                //InsertSql(fileType, URL);
-                return success;
-            }
-            // Console.WriteLine("线程 {0} 获取文件 {1} 正在操作，锁定中……", System.Threading.Thread.CurrentThread.ManagedThreadId, URL);
-            foreach (var hn in hnCollection) {
-                var path = hn.Attributes[attrName].Value;
-                var innerTxt = string.IsNullOrEmpty(hn.InnerHtml)
-                    ? !string.IsNullOrEmpty(hn.InnerText)
-                        ? hn.InnerText
-                        : (titleCollection != null
-                            ? ""
-                            : (titleCollection.Count > 0 ? titleCollection[0].InnerHtml : ""))
-                    : hn.InnerHtml;
-                if (string.IsNullOrEmpty(path))
-                    continue;
-                if (!DirPathEntity.Any(p => p.file_Path.Equals(path)))
-                    // if (!dirPath.Contains(path))
-                {
-                    DirPath.Add(path);
-                    try {
-                        //  InsertfilePath(path, innerTxt, fileType, 0, URL);
-                    }
-                    catch {
-                        return success;
-                    }
-                    success = true;
-                }
-                //else if(!dirPathEntity.Any(p=>p.file_innerTxt))
-                //  else
-                success = true;
-                //}
-            }
-
-
-            return success;
-        }
 
         #region
 
@@ -170,6 +109,7 @@ namespace Chun.Demo.PhraseHtml {
         }
 
         public void InsertfilePath(string path, string innerTxt, int fileType, int fileStatusId, string url) {
+          //  LogHelper.TraceEnter();
             var xinnerText = innerTxt.MyReplace("xp1024,核工厂,1024,.com,-,_,露出激情,图文欣賞,美图欣賞,|,powered by phpwind.net, ");
             var filepath = new filepath {
                 file_Path = path,
@@ -189,7 +129,7 @@ namespace Chun.Demo.PhraseHtml {
                 };
                 Tool.InsertCategoryInfo(categoryInfo);
             }
-           
+            //LogHelper.TraceExit();
 
             //  InfoDAL.InsertfilePath(path, innerTxt, fileType, file_status_id, URL);
         }

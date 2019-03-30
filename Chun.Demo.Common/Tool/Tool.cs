@@ -135,7 +135,7 @@ namespace Chun.Demo.Common
             var newfileName = fileName;
             if (Existed(address, fileName))
             {
-                MyMessageBox.Add($"文件{fileName} 已经存在！");
+                LogHelper.Debug($"文件{fileName} 已经存在！");
                 lock (locker)
                 {
                     UpdatefilePath(address, 12, 1);
@@ -150,8 +150,7 @@ namespace Chun.Demo.Common
                 {
                     UpdatefilePath(address, 12, 1);
                 }
-            
-                MyMessageBox.Add($"线程：{Thread.CurrentThread.ManagedThreadId} 退出，文件 {newfileName} 下载完成,地址 ： {address}");
+                LogHelper.Debug($"文件 {newfileName} 下载完成,地址 ： {address}");
             }
             catch (WebException e)
             {
@@ -159,8 +158,7 @@ namespace Chun.Demo.Common
                 {
                     UpdatefilePath(address, 12, 2);
                 }
-                MyMessageBox.Add(
-                    $" 线程 {Thread.CurrentThread.ManagedThreadId} 下载失败了，文件 {address} 错误信息 {e.Message} 错误详情 {e.Data} ");
+                LogHelper.Error( $"文件 {address}下载失败! 错误信息 {e.Message} 错误详情 {e.Data} ");
             }
             catch (Exception e)
             {
@@ -168,8 +166,7 @@ namespace Chun.Demo.Common
                 {
                     UpdatefilePath(address, 12, 2);
                 }
-                MyMessageBox.Add(
-                    $" 线程 {Thread.CurrentThread.ManagedThreadId} 下载失败了，文件 {address} 错误信息 {e.Message} 错误详情 {e.Data} ");
+                LogHelper.Error($"文件 {address}下载失败! 错误信息 {e.Message} 错误详情 {e.Data} ");
             }
         }
 
