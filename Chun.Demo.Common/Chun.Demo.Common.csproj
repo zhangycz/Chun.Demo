@@ -86,9 +86,10 @@
     <Compile Include="Events\OnCompletedEventArgs.cs" />
     <Compile Include="Events\OnErrorEventArgs.cs" />
     <Compile Include="Events\OnStartEventArgs.cs" />
+    <Compile Include="Helper\AsyncHleper.cs" />
     <Compile Include="MyFolderBrowser.cs" />
     <Compile Include="Tool\CommonTool.cs" />
-    <Compile Include="Tool\DbgHelper.cs" />
+    <Compile Include="Helper\DbgHelper.cs" />
     <Compile Include="Tool\ExtendTools.cs" />
     <Compile Include="Helper\CellDrawHelper.cs" />
     <Compile Include="Helper\DebugHelper.cs" />
@@ -100,7 +101,7 @@
     </Compile>
     <Compile Include="Tool\HardwareTools.cs" />
     <Compile Include="Tool\ICrawler.cs" />
-    <Compile Include="Tool\LogHelper.cs" />
+    <Compile Include="Helper\LogHelper.cs" />
     <Compile Include="Tool\MyTools.cs" />
     <Compile Include="Tool\HtmlTool.cs" />
     <Compile Include="Tool\LogTools.cs" />
@@ -117,7 +118,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helper\TextBoxHelper.cs" />
-    <Compile Include="Tool\ConnectionStatusTool.cs" />
+    <Compile Include="Helper\ConnectionStatusTool.cs" />
     <Compile Include="Tool\MyMessageBox.cs" />
     <Compile Include="Tool\PathTools.cs" />
     <Compile Include="Tool\SimpleCrawler.cs" />

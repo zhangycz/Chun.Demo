@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Chun.Demo.Common;
+using Chun.Demo.Common.Helper;
 using Chun.Demo.ICommon;
 using Chun.Demo.PhraseHtml;
 using MainFrom.Properties;

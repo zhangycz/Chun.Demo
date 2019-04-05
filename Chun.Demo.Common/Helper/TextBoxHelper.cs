@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Chun.Demo.Common
+namespace Chun.Demo.Common.Helper
 {
     public partial class TextBoxHelper
     {

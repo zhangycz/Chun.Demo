@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Chun.Demo.Common.Helper;
 
 namespace MainFrom
 {

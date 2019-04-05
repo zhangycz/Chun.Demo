@@ -7,13 +7,11 @@
 * 备注描述：更新系统时间
 *           
 *************************************************/
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.InteropServices;
 
-namespace Chun.Demo.Common
+namespace Chun.Demo.Common.Helper
 {
     /// </summary>   
     public class SysTimeHelper

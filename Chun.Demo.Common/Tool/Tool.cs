@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using Chun.Demo.Common.Helper;
 using Chun.Demo.Model;
 using Chun.Demo.Model.Entity;
 using static System.String;

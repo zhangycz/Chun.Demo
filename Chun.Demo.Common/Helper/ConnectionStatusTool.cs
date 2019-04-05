@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.NetworkInformation;
 
-namespace Chun.Demo.Common
+namespace Chun.Demo.Common.Helper
 {
      public class ConnectionStatusTool
     {

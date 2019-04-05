@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Chun.Demo.Common;
+using Chun.Demo.Common.Helper;
 using Chun.Demo.ICommon;
 using Chun.Demo.Model.Entity;
 

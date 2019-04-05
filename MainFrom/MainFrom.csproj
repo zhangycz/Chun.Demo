@@ -96,6 +96,10 @@
       <Project>{dd70d187-d0aa-49a5-baa7-1d11661b66f7}</Project>
       <Name>Chun.Demo.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Chun.Demo.ICommon\Chun.Demo.ICommon.csproj">
+      <Project>{077f870d-b5a6-4142-8f20-23ea21f6d561}</Project>
+      <Name>Chun.Demo.ICommon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Chun.Demo.Model\Chun.Demo.Model.csproj">
       <Project>{917b7aa2-c739-41a1-a750-b479c3e1b35c}</Project>
       <Name>Chun.Demo.Model</Name>

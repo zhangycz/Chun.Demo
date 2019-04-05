@@ -7,13 +7,10 @@
 * 备注描述：DebugHelper
 *           
 *************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using System.Diagnostics;
 
-namespace Chun.Demo.Common
+namespace Chun.Demo.Common.Helper
 {
     public class DebugHelper
     {

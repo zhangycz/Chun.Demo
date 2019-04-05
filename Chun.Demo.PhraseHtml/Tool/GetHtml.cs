@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Chun.Demo.Common;
+using Chun.Demo.Common.Helper;
 using Chun.Demo.Model.Entity;
 using HtmlAgilityPack;
 

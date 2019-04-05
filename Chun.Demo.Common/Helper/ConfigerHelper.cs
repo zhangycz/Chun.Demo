@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace Chun.Demo.Common
+namespace Chun.Demo.Common.Helper
 {
     public  static  class ConfigerHelper
     {

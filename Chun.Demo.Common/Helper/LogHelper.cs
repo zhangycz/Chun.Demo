@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
 using System.Diagnostics;
-using System.Threading;
+using System.IO;
 using System.Reflection;
+using System.Threading;
 using NLog;
-using NLog.Targets;
 using NLog.Config;
-using NLog.Windows.Forms;
-namespace Chun.Demo.Common
+using NLog.Targets;
+
+namespace Chun.Demo.Common.Helper
 {
 
 
