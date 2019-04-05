@@ -108,6 +108,10 @@
       <Project>{8276f6bb-bc20-4d5c-a5db-cb2a7e8b35d7}</Project>
       <Name>Chun.Demo.PhraseHtml</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Chun.Demo.TestHelper\Chun.Demo.TestHelper.csproj">
+      <Project>{10BBC506-3CBD-42EA-950B-133BE71EBCFA}</Project>
+      <Name>Chun.Demo.TestHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Chun.Demo.UserControl\Chun.Demo.myUserControl.csproj">
       <Project>{75290958-8E7B-44E0-8407-092C1E32BD1E}</Project>
       <Name>Chun.Demo.myUserControl</Name>

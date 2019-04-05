@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Chun.Demo.Common.Helper;
+using Chun.Demo.TestHelper;
 
 namespace MainFrom
 {
@@ -27,6 +28,7 @@ namespace MainFrom
         [STAThread]
         static void Main()
         {
+          
             try
             {
               
