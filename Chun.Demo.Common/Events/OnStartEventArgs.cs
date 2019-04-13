@@ -11,11 +11,8 @@ namespace Chun.Demo.Common.Events
     /// </summary>
     public class OnStartEventArgs
     {
-        public Uri Uri { get; set; }// 爬虫URL地址
-
         public OnStartEventArgs(Uri uri)
         {
-            this.Uri = uri;
         }
     }
 }
