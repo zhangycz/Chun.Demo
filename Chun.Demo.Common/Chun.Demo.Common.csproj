@@ -124,7 +124,7 @@
     <Compile Include="Tool\SimpleCrawler.cs" />
     <Compile Include="Tool\SortBindingList.cs" />
     <Compile Include="Tool\Tool.cs" />
-    <Compile Include="Torrent.cs" />
+    <Compile Include="TorrentHelper.cs" />
     <Compile Include="TxtFileRead.cs" />
   </ItemGroup>
   <ItemGroup>

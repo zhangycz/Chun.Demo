@@ -41,7 +41,7 @@ namespace Chun.Demo.DAL
             return mySqlCommand;
         }
 
-        public  void Run(string sql,excuteSql<MySqlCommand> exec)
+        public  void Run(string sql, Action<MySqlCommand> exec)
         {
             var mySqlCommand = GetSqlCommand(sql);
             SqlConn.Open();

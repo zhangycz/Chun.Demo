@@ -209,7 +209,7 @@ namespace Chun.Demo.Common
             if (IsNullOrEmpty(fileName) || !Path.GetExtension(fileName).ToUpper().Equals(fileEx))
                 return false;
             try {
-                var tor = new Torrent(fileName);
+                var tor = new TorrentHelper(fileName);
                 if (!IsNullOrEmpty(tor.NameUTF8) || !IsNullOrEmpty(tor.Name)) {
                     var newFilePath = newDirPath + @"\" +
                                       (IsNullOrEmpty(tor.NameUTF8) ? tor.Name : tor.NameUTF8) + ".TORRENT";

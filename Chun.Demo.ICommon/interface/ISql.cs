@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Chun.Demo.ICommon
 {
-    public delegate void excuteSql<T>(T mycommand);
+    
     public interface ISql<T,U>
     {
         U SqlConn
@@ -19,7 +19,7 @@ namespace Chun.Demo.ICommon
             get;
             set;
         }
-        void Run(string sql,excuteSql<T> exec);
+        void Run(string sql,Action<T> exec);
 
         /// <summary>
         /// 查询并获得结果集并遍历

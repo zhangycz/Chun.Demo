@@ -22,7 +22,7 @@ namespace Chun.Demo.DAL.Tool {
 
         public List<string> PathList { get; set; }
 
-        public void Run(string sql, excuteSql<SqlCommand> exec) {
+        public void Run(string sql, Action<SqlCommand> exec) {
             try
             {
                 using (var conn = SqlConn) {
