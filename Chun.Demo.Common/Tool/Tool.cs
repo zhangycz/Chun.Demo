@@ -8,9 +8,8 @@ using Chun.Demo.Common.Helper;
 using Chun.Demo.DAL;
 using Chun.Demo.Model;
 using Chun.Demo.Model.Entity;
-using static System.String;
 
-namespace Chun.Demo.Common
+namespace Chun.Demo.Common.Tool
 {
     public static class Tool
     {
@@ -45,7 +44,7 @@ namespace Chun.Demo.Common
                 var sr = new StreamReader(new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             ) {
                 string strLine;
-                while (!IsNullOrEmpty(strLine = sr.ReadLine()))
+                while (!String.IsNullOrEmpty(strLine = sr.ReadLine()))
                     dirPath.Add(strLine);
                 sr.Close();
             }
@@ -206,13 +205,13 @@ namespace Chun.Demo.Common
             var success = false;
             if (!Directory.Exists(newDirPath))
                 Directory.CreateDirectory(newDirPath);
-            if (IsNullOrEmpty(fileName) || !Path.GetExtension(fileName).ToUpper().Equals(fileEx))
+            if (String.IsNullOrEmpty(fileName) || !Path.GetExtension(fileName).ToUpper().Equals(fileEx))
                 return false;
             try {
                 var tor = new TorrentHelper(fileName);
-                if (!IsNullOrEmpty(tor.NameUTF8) || !IsNullOrEmpty(tor.Name)) {
+                if (!String.IsNullOrEmpty(tor.NameUTF8) || !String.IsNullOrEmpty(tor.Name)) {
                     var newFilePath = newDirPath + @"\" +
-                                      (IsNullOrEmpty(tor.NameUTF8) ? tor.Name : tor.NameUTF8) + ".TORRENT";
+                                      (String.IsNullOrEmpty(tor.NameUTF8) ? tor.Name : tor.NameUTF8) + ".TORRENT";
                     if (File.Exists(newFilePath))
                         newFilePath = newDirPath + @"\" + Path.GetFileNameWithoutExtension(newFilePath) + "(1)" +
                                       ".TORRENT";
@@ -244,14 +243,14 @@ namespace Chun.Demo.Common
             }
         }
 
-        public static void CreateRootDir(string NetPath) {
+        public static void CreateRootDir(string netPath) {
             var MaxCreateDirPath = ConfigerHelper.GetAppConfig("MaxCreateDirPath");
             if (MaxCreateDirPath == null)
                 throw new ArgumentNullException(nameof(MaxCreateDirPath));
             try {
                 var maxCreateDirPath = Convert.ToInt32(MaxCreateDirPath);
                 for (var i = 1; i < maxCreateDirPath; i++) {
-                    var url = NetPath + i;
+                    var url = netPath + i;
 
                     var filepath = new filepath {
                         file_Path = url,
@@ -272,16 +271,16 @@ namespace Chun.Demo.Common
         /// <summary>
         ///     校验网址
         /// </summary>
-        /// <param name="NetPath"></param>
+        /// <param name="netPath"></param>
         /// <returns></returns>
-        public static bool ValidateHtml(string NetPath) {
+        public static bool ValidateHtml(string netPath) {
             //支持http或https打头的字符串；
             //不含http的，但是以www打头的字符串；
             //不含http，但是支持xxx.com\xxx.cn\xxx.com.cn\xxx.net\xxx.net.cn 的字符串；
             var httpMatch =
                 @"^((http|https)://)?(www.)?[A-Za-z0-9]+\.(com|net|cn|com\.cn|com\.net|net\.cn)?";
             //   @"(http | ftp | https):\/\/[\w\-_] + (\.[\w\-_]+)+([\w\-\.,@?^=% &amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?";
-            return Regex.IsMatch(NetPath, httpMatch);
+            return Regex.IsMatch(netPath, httpMatch);
         }
 
         /// <summary>
@@ -289,13 +288,13 @@ namespace Chun.Demo.Common
         /// </summary>
         public static string ConcatHttpPath(string bathpath, params string[] paths) {
             if (!Regex.IsMatch(bathpath, @"^((http|https)://)"))
-                bathpath = Concat(@"http://", bathpath);
-            var extendPath = Empty;
+                bathpath = String.Concat(@"http://", bathpath);
+            var extendPath = String.Empty;
             foreach (var path in paths) {
                 if (extendPath.EndsWith(@"/")) {
                     var substring = extendPath.Substring(0, extendPath.Length - 2);
                 }
-                extendPath = path.StartsWith(@"/") ? Concat(extendPath, path) : Concat(extendPath, @"/", path);
+                extendPath = path.StartsWith(@"/") ? String.Concat(extendPath, path) : String.Concat(extendPath, @"/", path);
             }
 
             return bathpath + extendPath;

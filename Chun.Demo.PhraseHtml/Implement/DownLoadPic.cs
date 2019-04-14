@@ -1,18 +1,21 @@
 ﻿using System;
-using System.Data;
-using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Chun.Demo.Common;
 using Chun.Demo.Common.Helper;
+using Chun.Demo.Common.Tool;
 using Chun.Demo.ICommon;
 using Chun.Demo.Model.Entity;
 
 // ReSharper disable once CheckNamespace
-namespace Chun.Demo.PhraseHtml {
-    public class DownLoadPic : IGetService {
-        public void GetService(int fileTypeId) {
+namespace Chun.Demo.PhraseHtml
+{
+    public class DownLoadPic : IGetService
+    {
+        public event Action OnCompleted;
+
+        public void GetService(PhraseHtmlType phraseHtmlType) {
             LogHelper.TraceEnter();
             var formPars = MyTools.FormPars;
             var saveFilePath = formPars.SavePath;
@@ -28,16 +31,19 @@ namespace Chun.Demo.PhraseHtml {
             var startTime = formPars.StartDateTime;
             var endTime = formPars.EndDateTime;
 
-       
+
             #region
+
             //获取未下载的地址
-            var filePathList = Tool.ReadPathByLinq(fileTypeId, type)
+            var filePathList = Tool.ReadPathByLinq(Convert.ToInt32(phraseHtmlType), type)
                 .Where(p => p.file_CreateTime >= startTime && p.file_CreateTime <= endTime)
                 .Select(p => p).ToList();
 
             //最好不要使用全局变量
             Parallel.ForEach(filePathList, CreateDirAndDownload);
+
             #endregion
+
             LogHelper.TraceExit();
         }
 

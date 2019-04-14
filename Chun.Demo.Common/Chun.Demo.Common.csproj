@@ -43,7 +43,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.6.1\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.6.2\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="NLog.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.Windows.Forms.4.2.3\lib\net35\NLog.Windows.Forms.dll</HintPath>
@@ -83,9 +83,9 @@
   <ItemGroup>
     <Compile Include="BaseTableConfigFile.cs" />
     <Compile Include="Calculagraph.cs" />
-    <Compile Include="Events\OnCompletedEventArgs.cs" />
-    <Compile Include="Events\OnErrorEventArgs.cs" />
-    <Compile Include="Events\OnStartEventArgs.cs" />
+    <Compile Include="EventArgs\OnCompletedEventArgs.cs" />
+    <Compile Include="EventArgs\OnErrorEventArgs.cs" />
+    <Compile Include="EventArgs\OnStartEventArgs.cs" />
     <Compile Include="Helper\AsyncHleper.cs" />
     <Compile Include="MyFolderBrowser.cs" />
     <Compile Include="Tool\CommonTool.cs" />
@@ -103,7 +103,7 @@
     <Compile Include="Tool\ICrawler.cs" />
     <Compile Include="Helper\LogHelper.cs" />
     <Compile Include="Tool\MyTools.cs" />
-    <Compile Include="Tool\HtmlTool.cs" />
+    <Compile Include="Helper\HtmlHelper.cs" />
     <Compile Include="Tool\LogTools.cs" />
     <Compile Include="Tool\OperatorInfo.cs" />
     <Compile Include="Helper\SysTimeHelper.cs" />
@@ -143,7 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="NLog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>

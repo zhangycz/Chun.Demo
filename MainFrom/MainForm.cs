@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Chun.Demo.Common;
 using Chun.Demo.Common.Helper;
+using Chun.Demo.Common.Tool;
 using Chun.Demo.ICommon;
 using Chun.Demo.PhraseHtml;
 using MainFrom.Properties;
 using Chun.Demo.Model;
+using Chun.Demo.PhraseHtml.Implement;
 using Chun.Demo.VIEW;
 
 namespace MainFrom
@@ -19,7 +21,8 @@ namespace MainFrom
 
     public partial class MainForm : Form
     {
-        private int _fileTypeId;
+       // private int _fileTypeId;
+        private PhraseHtmlType PhraseHtmlType { get; set; }
 
         private Task _myTask;
         private int _currentCount;
@@ -81,8 +84,7 @@ namespace MainFrom
         {
             fileXpath.SelectedIndex = 1;
             PropertyName.SelectedIndex = 1;
-            _fileTypeId = 1;
-            _fileTypeId = 11;
+            PhraseHtmlType = PhraseHtmlType.Dir;
             //获取目录
             GetPath();
         }
@@ -91,14 +93,15 @@ namespace MainFrom
         {
             fileXpath.SelectedIndex = 0;
             PropertyName.SelectedIndex = 0;
-            _fileTypeId = 12;
+            PhraseHtmlType = PhraseHtmlType.Img;
             GetPath();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
 
-            _fileTypeId = Convert.ToInt32(ConfigerHelper.GetAppConfig("FilePathId"));
+           // _fileTypeId = Convert.ToInt32(ConfigerHelper.GetAppConfig("FilePathId"));
+
             Download();
         }
 
@@ -120,6 +123,9 @@ namespace MainFrom
             #region Task实现
 
             Getsrv = new GetPath();
+            Getsrv.OnCompleted += () => {
+                Invoke(new MethodInvoker(() => MessageBox.Show(Resources.Completed)));
+            };
             if (_myTask != null && !_myTask.IsCompleted)
             {
                 Invoke(new MethodInvoker(() => MessageBox.Show(Resources.IsRunning)));
@@ -128,8 +134,8 @@ namespace MainFrom
             _myTask = Task.Factory.StartNew(() =>
             {
                 Invoke(new MethodInvoker(() => MessageBox.Show(Resources.IsRunning)));
-                Getsrv.GetService(_fileTypeId);
-                Invoke(new MethodInvoker(() => MessageBox.Show(Resources.Completed)));
+                Getsrv.GetService(PhraseHtmlType);
+              
             });
             #endregion
 
@@ -148,7 +154,7 @@ namespace MainFrom
             }
             else
             {
-                Getsrv.GetService(_fileTypeId);
+                Getsrv.GetService(PhraseHtmlType);
             }
         }
 
@@ -209,11 +215,11 @@ namespace MainFrom
             Console.WriteLine(Resources.Completed);
         }
 
-        private void SetMessageBox()
+        private void SetMessageBox(string msg)
         {
             BeginInvoke(new MethodInvoker(() =>
             {
-                var msg = MyMessageBox.GetMessageBuilder() + Environment.NewLine;
+                 msg +=  Environment.NewLine;
                 try
                 {
                     LogTools.LogInfo(msg);

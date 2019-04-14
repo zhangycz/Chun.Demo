@@ -46,6 +46,7 @@
     <Compile Include="interface\IGetRunService.cs" />
     <Compile Include="interface\IGetService.cs" />
     <Compile Include="interface\ISql.cs" />
+    <Compile Include="Models.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

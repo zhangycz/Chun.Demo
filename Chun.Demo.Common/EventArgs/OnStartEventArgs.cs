@@ -11,8 +11,9 @@ namespace Chun.Demo.Common.Events
     /// </summary>
     public class OnStartEventArgs
     {
-        public OnStartEventArgs(Uri uri)
-        {
+        public Uri Uri { get; private set; }
+        public OnStartEventArgs(Uri uri) {
+            this.Uri = uri;
         }
     }
 }

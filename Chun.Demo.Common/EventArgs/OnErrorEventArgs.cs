@@ -11,10 +11,12 @@ namespace Chun.Demo.Common.Events
         public Uri Uri { get; set; }
 
         public Exception Exception { get; set; }
+        public string OrignUrl { get; set; }
 
-        public OnErrorEventArgs(Uri uri,Exception exception) {
+        public OnErrorEventArgs(Uri uri,Exception exception, string orignUrl="") {
             this.Uri = uri;
             this.Exception = exception;
+            OrignUrl = orignUrl;
         }
     }
 }

@@ -4,6 +4,7 @@ namespace Chun.Demo.ICommon
 {
     public interface IGetService
     {
-        void GetService(int fileTypeId);
+        event Action OnCompleted;
+        void GetService(PhraseHtmlType phraseHtmlType);
     }
 }

@@ -216,8 +216,9 @@ namespace Chun.Demo.Common.Helper {
         /// <param name="args"></param>
         public static void LogEvent(LogLevel level, string message, params object[] args) {
             if (logger != null) {
-                if (level != LogLevel.Trace)
+                if (level != LogLevel.Trace) {
                     MyMessageBox.Add($"线程 {Thread.CurrentThread.ManagedThreadId}  {message}");
+                }
                 logger.Log(level, message, args);
             }
         }
