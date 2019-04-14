@@ -10,7 +10,7 @@ using Chun.Demo.Model.Entity;
 
 namespace Chun.Demo.DAL
 {
-    public class InfoDal
+    public static class InfoDal
     {
         /// <summary>
         ///     从数据库读入list
@@ -25,7 +25,7 @@ namespace Chun.Demo.DAL
         /// <param name="fileTypeId"></param>
         /// <param name="fileStatusId"></param>
         /// <returns></returns>
-        public static IEnumerable<filepath> ReadPathByLinq(int fileTypeId, int fileStatusId)
+        public static IQueryable<filepath> ReadToQueryable(int fileTypeId, int fileStatusId)
         {
             var newFileStatusId = fileStatusId == 0
                 ? new int?[] {0}
@@ -36,11 +36,40 @@ namespace Chun.Demo.DAL
                         : (fileStatusId == 3
                             ? new int?[] {0, 2}
                             : new int?[] {0, 1, 2})));
-            Expression<Func<filepath, bool>> func =
-                c => c.file_Type_id == fileTypeId && newFileStatusId.Contains(c.file_status_id);
-            var ls = new BaseDataQuery<filepath>().QueryByLinq(func);
-            return ls;
+            var predicate  = PredicateBuilder.True<filepath>();
+            predicate= predicate.And(p => p.file_Type_id == fileTypeId);
+            predicate= predicate.And(p => newFileStatusId.Contains(p.file_status_id));
+            return Execute(predicate);
         }
+
+        //public static Expression<Func<T, TU>> GeneratExpression<T,TU>(List<string> paraList,object[] values) {
+        //    var parameter = Expression.Parameter(typeof(T), "f");
+        //    var fileTypeIdExpression = Expression.PropertyOrField(parameter, "file_Type_id");
+        //    var fileStatusExpression = Expression.PropertyOrField(parameter, "file_status_id");
+        //    var constant1 = Expression.Constant("郑浩");
+
+        //    var constant2 = Expression.Constant("河北");
+
+        //}
+
+
+        /// <summary>
+        ///     从数据库读入list
+        ///     type 1 目录
+        ///     2 文件
+        ///     file_status 0 未操作
+        ///     1  已经操作
+        ///     2  操作失败
+        ///     3  未操作和操作失败的
+        ///     其他 全部
+        /// </summary>
+        /// <returns></returns>
+        public static IQueryable<filepath> Execute(Expression<Func<filepath, bool>> funcExpression)
+        {
+            //return new BaseDataQuery<filepath>().QueryByLinq(funcExpression);
+            return new BaseDataQuery<filepath>().Query(funcExpression);
+        }
+
         public static IEnumerable<QueryTitleModel> QueryTitle(string procedureStr, object[] sqlparms)
         {
 

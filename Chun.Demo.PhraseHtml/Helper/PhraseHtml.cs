@@ -8,6 +8,7 @@ using Chun.Demo.Common;
 using Chun.Demo.Common.Events;
 using Chun.Demo.Common.Helper;
 using Chun.Demo.Common.Tool;
+using Chun.Demo.ICommon;
 using Chun.Demo.Model.Entity;
 
 namespace Chun.Demo.PhraseHtml.Helper
@@ -39,7 +40,7 @@ namespace Chun.Demo.PhraseHtml.Helper
         ///     1.目录
         ///     2.文件地址
         /// </summary>
-        public int FileType {  get; set; }
+        public PhraseHtmlType PhraseHtmlType {  get; set; }
         private Queue<filepath> Filepaths { get; } = new Queue<filepath>();
 
 
@@ -121,9 +122,11 @@ namespace Chun.Demo.PhraseHtml.Helper
             Uri uri = null;
             //获取目录地址
             try {
-               var url=orignUrl.ToUpper().StartsWith("HTTP")
+                var url = orignUrl.ToUpper().StartsWith("HTTP")
                     ? orignUrl
-                    : Tool.ConcatHttpPath(MyTools.FormPars.BasePath, orignUrl);
+                    : PhraseHtmlType.Equals(PhraseHtmlType.Img)
+                        ? Tool.ConcatHttpPath(MyTools.FormPars.BasePath, "pw", orignUrl)
+                        : Tool.ConcatHttpPath(MyTools.FormPars.BasePath, orignUrl);
                 uri = new Uri(url);
 
                 OnStart?.Invoke(this, new OnStartEventArgs(uri));
@@ -157,7 +160,7 @@ namespace Chun.Demo.PhraseHtml.Helper
                         pathList.Add(new filepath {
                             file_Path = path,
                             file_innerTxt = innerTxt,
-                            file_Type_id = FileType,
+                            file_Type_id = Convert.ToInt32(PhraseHtmlType),
                             file_status_id = 0,
                             file_CreateTime = DateTime.Now,
                             file_parent_path = uri.AbsoluteUri

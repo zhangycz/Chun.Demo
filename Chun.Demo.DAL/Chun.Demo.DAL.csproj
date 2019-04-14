@@ -58,6 +58,7 @@
     <Compile Include="Tool\DataBaseFactory.cs" />
     <Compile Include="Tool\MsSql.cs" />
     <Compile Include="Tool\Mysql.cs" />
+    <Compile Include="Tool\PredicateBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Chun.Demo.ICommon\Chun.Demo.ICommon.csproj">

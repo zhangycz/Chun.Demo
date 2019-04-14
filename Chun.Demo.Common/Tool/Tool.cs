@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -81,7 +82,9 @@ namespace Chun.Demo.Common.Tool
         /// <param name="fileStatus">读取类型</param>
         /// <returns></returns>
         public static IEnumerable<filepath> ReadPathByLinq(int type, int fileStatus) {
-            return InfoDal.ReadPathByLinq(type, fileStatus);
+            //return InfoDal.ReadPathByLinq(type, fileStatus);
+            return InfoDal.ReadToQueryable(type, fileStatus);
+
         }
 
         public static IEnumerable<QueryTitleModel> QueryTitle(string procedureStr, object[] sqlparms) {

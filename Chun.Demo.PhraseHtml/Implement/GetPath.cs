@@ -85,7 +85,6 @@ namespace Chun.Demo.PhraseHtml.Implement
                     .ToList();
             }
 
-
             //获取数据库中已经有的文件地址，即过滤这些地址
             var filterPath = Tool.ReadPathByLinq(Convert.ToInt32(phraseHtmlType), 4).Select(p => p.file_Path).ToList();
 

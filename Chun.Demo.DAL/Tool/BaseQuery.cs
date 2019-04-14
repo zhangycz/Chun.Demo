@@ -154,6 +154,17 @@ namespace Chun.Demo.DAL
                 .Where(fun).Distinct()
                 .ToList();
         }
+        /// <summary>
+        ///     LINQ执行查询返回实体
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="fun"></param>
+        /// <returns></returns>
+        public IQueryable<T> Query(Expression<Func<T, bool>> fun)
+        {
+            return Context.Set<T>()
+                .Where(fun.Compile()).Distinct().AsQueryable();
+        }
 
         public List<U> QueryByStoredProcedure<U>(string procedureStr, object[] sqlparms) {
             var articles =

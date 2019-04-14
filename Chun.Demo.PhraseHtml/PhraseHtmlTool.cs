@@ -13,8 +13,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using Chun.Demo.Common.Helper;
 using Chun.Demo.Common.Tool;
 using Chun.Demo.ICommon;
@@ -33,7 +31,7 @@ namespace Chun.Demo.PhraseHtml
             PhraseHtml = new Helper.PhraseHtml {
                 MatchNode = formPars.Match,
                 AttrName = formPars.AttrName,
-                FileType = Convert.ToInt32(phraseHtmlType),
+                PhraseHtmlType = phraseHtmlType,
                 FilterPath = filterPath,
                 TargetPath = targetPath
             };
@@ -62,7 +60,7 @@ namespace Chun.Demo.PhraseHtml
         }
 
         private void EventHandler(string url, string msg, int type, int tagartCount) {
-            Tool.UpdatefilePath(url, PhraseHtml.FileType-1 , type);
+            Tool.UpdatefilePath(url, Convert.ToInt32(PhraseHtml.PhraseHtmlType) - 1, type);
             LogHelper.Debug(msg);
 
             _current++;
@@ -71,6 +69,5 @@ namespace Chun.Demo.PhraseHtml
             PhraseHtml.StopInsertListener();
             OnCompleted?.Invoke();
         }
-
     }
 }

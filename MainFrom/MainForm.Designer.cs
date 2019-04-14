@@ -37,6 +37,8 @@ namespace MainFrom
             this.打开文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.目录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.查看日志ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
             this.AddressTextBox = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
@@ -70,8 +72,6 @@ namespace MainFrom
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.htmlModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.查看日志ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -116,7 +116,7 @@ namespace MainFrom
             this.打开文件ToolStripMenuItem.Name = "打开文件ToolStripMenuItem";
             this.打开文件ToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.打开文件ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.O)));
-            this.打开文件ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.打开文件ToolStripMenuItem.Size = new System.Drawing.Size(197, 26);
             this.打开文件ToolStripMenuItem.Text = "打开文件";
             this.打开文件ToolStripMenuItem.Click += new System.EventHandler(this.ToolStripMenuItem_Click);
             // 
@@ -131,8 +131,24 @@ namespace MainFrom
             // 目录ToolStripMenuItem
             // 
             this.目录ToolStripMenuItem.Name = "目录ToolStripMenuItem";
-            this.目录ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.目录ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
             this.目录ToolStripMenuItem.Text = "目录";
+            // 
+            // 帮助ToolStripMenuItem
+            // 
+            this.帮助ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.查看日志ToolStripMenuItem});
+            this.帮助ToolStripMenuItem.Name = "帮助ToolStripMenuItem";
+            this.帮助ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
+            this.帮助ToolStripMenuItem.Text = "帮助";
+            // 
+            // 查看日志ToolStripMenuItem
+            // 
+            this.查看日志ToolStripMenuItem.Name = "查看日志ToolStripMenuItem";
+            this.查看日志ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this.查看日志ToolStripMenuItem.Size = new System.Drawing.Size(198, 26);
+            this.查看日志ToolStripMenuItem.Text = "查看日志";
+            this.查看日志ToolStripMenuItem.Click += new System.EventHandler(this.OpenLogToolStripMenuItem_Click);
             // 
             // button1
             // 
@@ -231,7 +247,7 @@ namespace MainFrom
             this.txtLogger.Multiline = true;
             this.txtLogger.Name = "txtLogger";
             this.txtLogger.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtLogger.Size = new System.Drawing.Size(1276, 138);
+            this.txtLogger.Size = new System.Drawing.Size(1276, 135);
             this.txtLogger.TabIndex = 12;
             this.txtLogger.Text = "基址：访问相对路径，地址：访问起始地址，,XPATH:查找的项目，获取项目：获取哪一项";
             // 
@@ -268,15 +284,14 @@ namespace MainFrom
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(1284, 387);
+            this.groupBox1.Size = new System.Drawing.Size(1284, 390);
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "参数信息";
             // 
             // typeText
             // 
-            this.typeText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.typeText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.typeText.Location = new System.Drawing.Point(921, 29);
             this.typeText.Margin = new System.Windows.Forms.Padding(4);
             this.typeText.Name = "typeText";
@@ -285,8 +300,7 @@ namespace MainFrom
             // 
             // label8
             // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(861, 36);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -501,7 +515,7 @@ namespace MainFrom
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(1284, 164);
+            this.groupBox2.Size = new System.Drawing.Size(1284, 161);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "输出信息";
@@ -523,25 +537,9 @@ namespace MainFrom
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
             this.splitContainer1.Size = new System.Drawing.Size(1284, 552);
-            this.splitContainer1.SplitterDistance = 387;
+            this.splitContainer1.SplitterDistance = 390;
             this.splitContainer1.SplitterWidth = 1;
             this.splitContainer1.TabIndex = 15;
-            // 
-            // 帮助ToolStripMenuItem
-            // 
-            this.帮助ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.查看日志ToolStripMenuItem});
-            this.帮助ToolStripMenuItem.Name = "帮助ToolStripMenuItem";
-            this.帮助ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
-            this.帮助ToolStripMenuItem.Text = "帮助";
-            // 
-            // 查看日志ToolStripMenuItem
-            // 
-            this.查看日志ToolStripMenuItem.Name = "查看日志ToolStripMenuItem";
-            this.查看日志ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
-            this.查看日志ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
-            this.查看日志ToolStripMenuItem.Text = "查看日志";
-            this.查看日志ToolStripMenuItem.Click += new System.EventHandler(this.OpenLogToolStripMenuItem_Click);
             // 
             // MainForm
             // 
