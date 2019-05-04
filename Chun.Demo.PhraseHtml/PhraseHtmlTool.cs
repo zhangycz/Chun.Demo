@@ -17,6 +17,7 @@ using Chun.Demo.Common.Helper;
 using Chun.Demo.Common.Tool;
 using Chun.Demo.ICommon;
 using Chun.Demo.Model;
+using Chun.Work.Common.Helper;
 
 namespace Chun.Demo.PhraseHtml
 {

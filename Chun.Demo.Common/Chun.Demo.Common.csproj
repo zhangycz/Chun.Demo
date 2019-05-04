@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Chun.Demo.Common</RootNamespace>
     <AssemblyName>Chun.Demo.Common</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,12 +42,6 @@
     <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Office.Interop.Word.15.0.4797.1003\lib\net20\Microsoft.Office.Interop.Word.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.6.2\lib\net45\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.Windows.Forms.4.2.3\lib\net35\NLog.Windows.Forms.dll</HintPath>
     </Reference>
     <Reference Include="NPOI, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.dll</HintPath>
@@ -83,15 +78,9 @@
   <ItemGroup>
     <Compile Include="BaseTableConfigFile.cs" />
     <Compile Include="Calculagraph.cs" />
-    <Compile Include="EventArgs\OnCompletedEventArgs.cs" />
-    <Compile Include="EventArgs\OnErrorEventArgs.cs" />
-    <Compile Include="EventArgs\OnStartEventArgs.cs" />
-    <Compile Include="Helper\AsyncHleper.cs" />
-    <Compile Include="Helper\ThreadHelper.cs" />
     <Compile Include="MyFolderBrowser.cs" />
     <Compile Include="Helper\PredicateBuilder.cs" />
     <Compile Include="Tool\CommonTool.cs" />
-    <Compile Include="Helper\DbgHelper.cs" />
     <Compile Include="Tool\ExtendTools.cs" />
     <Compile Include="Helper\CellDrawHelper.cs" />
     <Compile Include="Helper\DebugHelper.cs" />
@@ -103,7 +92,6 @@
     </Compile>
     <Compile Include="Tool\HardwareTools.cs" />
     <Compile Include="Tool\ICrawler.cs" />
-    <Compile Include="Helper\LogHelper.cs" />
     <Compile Include="Tool\MyTools.cs" />
     <Compile Include="Helper\HtmlHelper.cs" />
     <Compile Include="Tool\LogTools.cs" />
@@ -114,7 +102,6 @@
     <Compile Include="Tool\ExcelExporter.cs" />
     <Compile Include="Tool\ExcelExporterByNPOI.cs" />
     <Compile Include="ExcelSaver.cs" />
-    <Compile Include="Helper\ConfigerHelper.cs" />
     <Compile Include="MyWebClient .cs">
       <SubType>Component</SubType>
     </Compile>
@@ -130,6 +117,10 @@
     <Compile Include="TxtFileRead.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Chun.Work.Common\Chun.Work.Common\Chun.Work.Common.csproj">
+      <Project>{c456afaa-9d39-472f-9b65-55e13e2736cb}</Project>
+      <Name>Chun.Work.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Chun.Demo.DAL\Chun.Demo.DAL.csproj">
       <Project>{394253dc-5f57-4081-80f9-caac8e3458c3}</Project>
       <Name>Chun.Demo.DAL</Name>
@@ -147,9 +138,7 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="NLog.xsd">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

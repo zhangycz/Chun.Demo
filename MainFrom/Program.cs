@@ -1,101 +1,82 @@
-﻿using Chun.Demo.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Chun.Demo.Common.Helper;
-using Chun.Demo.TestHelper;
+using Chun.Work.Common.Helper;
+using MainForm.Properties;
 
 namespace MainForm
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
-        /// 用于检测启动程序
+        ///     用于检测启动程序
         /// </summary>
-        private static Mutex __instanceMutex = null;
+        private static Mutex _instanceMutex;
 
         /// <summary>
-        /// 处理异常
+        ///     处理异常
         /// </summary>
-        private static DbgHelper.UnhandledExceptionFilter exceptionCallback = null;
+        private static DbgHelper.UnhandledExceptionFilter _exceptionCallback;
 
         /// <summary>
-        /// 应用程序的主入口点。
+        ///     应用程序的主入口点。
         /// </summary>
         [STAThread]
-        static void Main()
-        {
-          
-            try
-            {
-              
+        private static void Main() {
+            try {
                 LogHelper.Debug($"Client Startup! Version = {Application.ProductVersion}");
 
                 //互斥量，启动一个
                 bool flag;
 
-                __instanceMutex = new Mutex(true, "Pactera.CTIClient", out flag);
+                _instanceMutex = new Mutex(true, "Pactera.CTIClient", out flag);
 
-                if (!flag)
-                {
+                if (!flag) {
                     LogHelper.Debug("Client is already running.");
-                    return;
                 }
-                else
-                {
-                    exceptionCallback = new DbgHelper.UnhandledExceptionFilter(UnhandledExceptionFilter);
+                else {
+                    _exceptionCallback = UnhandledExceptionFilter;
 
-                    GC.KeepAlive(exceptionCallback);
+                    GC.KeepAlive(_exceptionCallback);
 
-                    DbgHelper.SetUnhandledExceptionFilter(exceptionCallback);
+                    DbgHelper.SetUnhandledExceptionFilter(_exceptionCallback);
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
 
                     Application.Run(new MainForm());
                 }
             }
-            catch(Exception ex)
-            {
+            catch (Exception ex) {
                 LogHelper.Error("Client startup failed. {0}", ex);
 
-                MessageBox.Show("启动客户端失败. " + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                MessageBox.Show(Resources.ClientStartupFail + ex.Message, Application.ProductName, MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
-            finally
-            {
+            finally {
                 LogHelper.Flush();
             }
-
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
-        {
+        private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e) {
             LogHelper.Error("Application_ThreadException: {0}", e.Exception);
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e) {
             LogHelper.Error("CurrentDomain_UnhandledException: {0}", e.ExceptionObject);
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="exceptionPointer"></param>
-        static int UnhandledExceptionFilter(IntPtr exceptionPointer)
-        {
+        private static int UnhandledExceptionFilter(IntPtr exceptionPointer) {
             uint code, address;
 
             DbgHelper.GetExceptionInfo(exceptionPointer, out code, out address);
@@ -105,7 +86,8 @@ namespace MainForm
 
             //MiniDump.Write(LogHelper.LogPath + "crash.dmp", MiniDump.Option.WithFullMemory, MiniDump.ExceptionInfo.None, exceptionPointer);
 
-            MessageBox.Show("客户端遇到问题需要关闭，请联系技术支持。", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Stop, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
+            MessageBox.Show(Resources.ClientClosed, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Stop,
+                MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
 
             return 1;
         }

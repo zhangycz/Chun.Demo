@@ -36,10 +36,13 @@ namespace Chun.Demo.DAL
                         : (fileStatusId == 3
                             ? new int?[] {0, 2}
                             : new int?[] {0, 1, 2})));
-            var predicate  = PredicateBuilder.True<filepath>();
-            predicate= predicate.And(p => p.file_Type_id == fileTypeId);
-            predicate= predicate.And(p => newFileStatusId.Contains(p.file_status_id));
-            return Execute(predicate);
+            //var predicate = PredicateBuilder.True<filepath>();
+            //predicate = predicate.And(p => p.file_Type_id == fileTypeId);
+            //predicate = predicate.And(p => newFileStatusId.Contains(p.file_status_id));
+           
+            Expression<Func<filepath, bool>> funcExpression =
+                p => p.file_Type_id == fileTypeId && newFileStatusId.Contains(p.file_status_id);
+           return Execute(funcExpression);
         }
 
         //public static Expression<Func<T, TU>> GeneratExpression<T,TU>(List<string> paraList,object[] values) {
@@ -66,7 +69,6 @@ namespace Chun.Demo.DAL
         /// <returns></returns>
         public static IQueryable<filepath> Execute(Expression<Func<filepath, bool>> funcExpression)
         {
-            //return new BaseDataQuery<filepath>().QueryByLinq(funcExpression);
             return new BaseDataQuery<filepath>().Query(funcExpression);
         }
 

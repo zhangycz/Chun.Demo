@@ -12,11 +12,11 @@
 */
 
 
+using Chun.Work.Common.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Chun.Demo.Common.Helper;
 using static Chun.Demo.TestHelper.AgentState;
 
 namespace Chun.Demo.TestHelper
@@ -100,12 +100,12 @@ namespace Chun.Demo.TestHelper
         {
             Init();
             for (var i=0; i < 5; i++) {
-                AsyncHleper.RunAsync(() => GetCaller(110));
-                AsyncHleper.RunAsync(() => GetCaller(120));
-                AsyncHleper.RunAsync(() => GetCaller(130));
+                AsyncHelper.RunAsync(() => GetCaller(110));
+                AsyncHelper.RunAsync(() => GetCaller(120));
+                AsyncHelper.RunAsync(() => GetCaller(130));
             }
-         
-            AsyncHleper.RunAsync(DispatchCaller);
+
+            AsyncHelper.RunAsync(DispatchCaller);
         }
 
 
@@ -113,7 +113,7 @@ namespace Chun.Demo.TestHelper
             string[] callers = { "lili", "wangping", "junu", "hoh", "golad", "mimi" };
             var r = new Random(unchecked((int)DateTime.Now.Ticks));
             var call = callers[r.Next(0, 5)];
-            AsyncHleper.RunAsync(() => CallerComing(call, calledId));
+            AsyncHelper.RunAsync(() => CallerComing(call, calledId));
         }
 
         private void Init()
@@ -179,7 +179,7 @@ namespace Chun.Demo.TestHelper
                     {
                         caller = _callerInfos.Dequeue();
                         if (caller != null)
-                            AsyncHleper.RunAsync(() => ConnectAgent(caller));
+                            AsyncHelper.RunAsync(() => ConnectAgent(caller));
                     }
                     else
                     {

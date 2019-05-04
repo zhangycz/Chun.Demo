@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ using MainForm.Properties;
 using Chun.Demo.Model;
 using Chun.Demo.PhraseHtml.Implement;
 using Chun.Demo.VIEW;
+using Chun.Work.Common.Helper;
 
 namespace MainForm
 {
@@ -41,7 +43,10 @@ namespace MainForm
 
         public MainForm()
         {
+         
+
             InitializeComponent();
+         
         }
 
 
@@ -280,10 +285,10 @@ namespace MainForm
             }
         }
 
+       
 
-
-        private void button6_Click(object sender, EventArgs e)
-        {
+        private void button6_Click(object sender, EventArgs e) {
+           
             ThreadHelper.StopInsertListener(ref _getThread);
             return;
             var x = new AddPictureForm();
@@ -336,8 +341,8 @@ namespace MainForm
             #endregion
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
+        private void MainForm_Load(object sender, EventArgs e) {
+            LogHelper.SupportRichLog();
             MyMessageBox.MessageBoxEvent += SetMessageBox;
 
             //获取目录地址
@@ -405,6 +410,26 @@ namespace MainForm
                 LogHelper.TraceExit();
             }
 
+        }
+
+        private void button6_Click_1(object sender, EventArgs e)
+        {
+            LogHelper.ChangeTargetControl(this, "txtLogger");
+        }
+
+        private LogForm LogForm { get; set; }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            if (LogForm == null) {
+                LogForm = new LogForm {StartPosition = FormStartPosition.CenterScreen};
+                LogHelper.ChangeTargetControl(LogForm, "LogBox");
+                LogForm.Show();
+            }
+            else {
+                ;
+            }
+            
         }
     }
 }

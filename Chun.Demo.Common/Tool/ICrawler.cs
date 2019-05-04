@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Chun.Work.Common.EventArgs;
+using System;
 using System.Threading.Tasks;
-using Chun.Demo.Common.Events;
 
 namespace Chun.Demo.Common
 {

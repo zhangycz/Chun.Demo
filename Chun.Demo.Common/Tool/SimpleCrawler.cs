@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Chun.Demo.Common.Events;
+using Chun.Work.Common.EventArgs;
 
 namespace Chun.Demo.Common
 {

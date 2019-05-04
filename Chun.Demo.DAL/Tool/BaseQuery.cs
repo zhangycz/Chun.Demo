@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using Chun.Demo.ICommon;
@@ -137,7 +138,7 @@ namespace Chun.Demo.DAL
         /// <typeparam name="T"></typeparam>
         /// <param name="fun"></param>
         /// <returns></returns>
-        public List<T> QueryByLinq(Expression<Func<T, bool>> fun)
+        public IQueryable<T> QueryByLinq(Expression<Func<T, bool>> fun)
         {
             #region
 
@@ -151,8 +152,9 @@ namespace Chun.Demo.DAL
             #endregion
 
             return Context.Set<T>()
-                .Where(fun).Distinct()
-                .ToList();
+                .Where(fun)
+                .Distinct();
+            //    .ToList();
         }
         /// <summary>
         ///     LINQ执行查询返回实体
@@ -163,7 +165,7 @@ namespace Chun.Demo.DAL
         public IQueryable<T> Query(Expression<Func<T, bool>> fun)
         {
             return Context.Set<T>()
-                .Where(fun.Compile()).Distinct().AsQueryable();
+                     .Where(fun).Distinct();
         }
 
         public List<U> QueryByStoredProcedure<U>(string procedureStr, object[] sqlparms) {

@@ -30,6 +30,7 @@ namespace MainForm
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -44,11 +45,10 @@ namespace MainForm
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.button4 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtLogger = new System.Windows.Forms.TextBox();
+            this.txtLogger = new System.Windows.Forms.RichTextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.typeText = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -57,7 +57,7 @@ namespace MainForm
             this.EndDateTime = new System.Windows.Forms.DateTimePicker();
             this.label7 = new System.Windows.Forms.Label();
             this.startDateTime = new System.Windows.Forms.DateTimePicker();
-            this.button6 = new System.Windows.Forms.Button();
+            this.TextButton = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button5 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -72,6 +72,9 @@ namespace MainForm
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.htmlModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.button6 = new System.Windows.Forms.Button();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.subMaxBtn = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -80,6 +83,7 @@ namespace MainForm
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // openFileDialog
@@ -241,18 +245,19 @@ namespace MainForm
             // 
             // txtLogger
             // 
-            this.txtLogger.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtLogger.Location = new System.Drawing.Point(4, 22);
+            this.txtLogger.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtLogger.Location = new System.Drawing.Point(0, 46);
             this.txtLogger.Margin = new System.Windows.Forms.Padding(4);
-            this.txtLogger.Multiline = true;
             this.txtLogger.Name = "txtLogger";
-            this.txtLogger.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtLogger.Size = new System.Drawing.Size(1276, 132);
+            this.txtLogger.Size = new System.Drawing.Size(1284, 105);
             this.txtLogger.TabIndex = 12;
             this.txtLogger.Text = "基址：访问相对路径，地址：访问起始地址，,XPATH:查找的项目，获取项目：获取哪一项";
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button6);
             this.groupBox1.Controls.Add(this.typeText);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.button7);
@@ -260,7 +265,7 @@ namespace MainForm
             this.groupBox1.Controls.Add(this.EndDateTime);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.startDateTime);
-            this.groupBox1.Controls.Add(this.button6);
+            this.groupBox1.Controls.Add(this.TextButton);
             this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.label6);
@@ -328,7 +333,7 @@ namespace MainForm
             // IgnoreFailed
             // 
             this.IgnoreFailed.AutoSize = true;
-            this.IgnoreFailed.Location = new System.Drawing.Point(585, 189);
+            this.IgnoreFailed.Location = new System.Drawing.Point(587, 189);
             this.IgnoreFailed.Name = "IgnoreFailed";
             this.IgnoreFailed.Size = new System.Drawing.Size(164, 19);
             this.IgnoreFailed.TabIndex = 27;
@@ -337,8 +342,6 @@ namespace MainForm
             // 
             // EndDateTime
             // 
-            this.EndDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.EndDateTime.Location = new System.Drawing.Point(385, 189);
             this.EndDateTime.Name = "EndDateTime";
             this.EndDateTime.Size = new System.Drawing.Size(192, 25);
@@ -356,24 +359,22 @@ namespace MainForm
             // 
             // startDateTime
             // 
-            this.startDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.startDateTime.Location = new System.Drawing.Point(179, 189);
             this.startDateTime.Name = "startDateTime";
             this.startDateTime.Size = new System.Drawing.Size(184, 25);
             this.startDateTime.TabIndex = 24;
             // 
-            // button6
+            // TextButton
             // 
-            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button6.Location = new System.Drawing.Point(695, 61);
-            this.button6.Margin = new System.Windows.Forms.Padding(4);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(133, 29);
-            this.button6.TabIndex = 21;
-            this.button6.Text = "测试用";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.TextButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.TextButton.Location = new System.Drawing.Point(695, 61);
+            this.TextButton.Margin = new System.Windows.Forms.Padding(4);
+            this.TextButton.Name = "TextButton";
+            this.TextButton.Size = new System.Drawing.Size(133, 29);
+            this.TextButton.TabIndex = 21;
+            this.TextButton.Text = "测试用";
+            this.TextButton.UseVisualStyleBackColor = true;
+            this.TextButton.Click += new System.EventHandler(this.button6_Click);
             // 
             // comboBox1
             // 
@@ -509,13 +510,14 @@ namespace MainForm
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.toolStrip1);
             this.groupBox2.Controls.Add(this.txtLogger);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(1284, 158);
+            this.groupBox2.Size = new System.Drawing.Size(1284, 155);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "输出信息";
@@ -524,7 +526,6 @@ namespace MainForm
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 28);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -538,8 +539,43 @@ namespace MainForm
             this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
             this.splitContainer1.Size = new System.Drawing.Size(1284, 552);
             this.splitContainer1.SplitterDistance = 393;
-            this.splitContainer1.SplitterWidth = 1;
             this.splitContainer1.TabIndex = 15;
+            // 
+            // button6
+            // 
+            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button6.Location = new System.Drawing.Point(695, 101);
+            this.button6.Margin = new System.Windows.Forms.Padding(4);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(133, 29);
+            this.button6.TabIndex = 31;
+            this.button6.Text = "测试用";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click_1);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.AutoSize = false;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.subMaxBtn});
+            this.toolStrip1.Location = new System.Drawing.Point(4, 22);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.toolStrip1.Size = new System.Drawing.Size(1276, 25);
+            this.toolStrip1.Stretch = true;
+            this.toolStrip1.TabIndex = 13;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // subMaxBtn
+            // 
+            this.subMaxBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.subMaxBtn.Image = ((System.Drawing.Image)(resources.GetObject("subMaxBtn.Image")));
+            this.subMaxBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.subMaxBtn.Name = "subMaxBtn";
+            this.subMaxBtn.Size = new System.Drawing.Size(23, 22);
+            this.subMaxBtn.Text = "X";
+            this.subMaxBtn.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // MainForm
             // 
@@ -560,12 +596,13 @@ namespace MainForm
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.htmlModelBindingSource)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -584,11 +621,10 @@ namespace MainForm
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.ComponentModel.BackgroundWorker backgroundWorker2;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtLogger;
+        private System.Windows.Forms.RichTextBox txtLogger;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label3;
@@ -600,7 +636,7 @@ namespace MainForm
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TextBox DelEmptyFile;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button TextButton;
         private System.Windows.Forms.TextBox SaveTextBox;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.BindingSource htmlModelBindingSource;
@@ -614,5 +650,8 @@ namespace MainForm
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ToolStripMenuItem 帮助ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 查看日志ToolStripMenuItem;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton subMaxBtn;
     }
 }

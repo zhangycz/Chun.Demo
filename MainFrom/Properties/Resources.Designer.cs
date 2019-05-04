@@ -61,6 +61,24 @@ namespace MainForm.Properties {
         }
         
         /// <summary>
+        ///   查找类似 客户端遇到问题需要关闭，请联系技术支持。 的本地化字符串。
+        /// </summary>
+        internal static string ClientClosed {
+            get {
+                return ResourceManager.GetString("ClientClosed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 启动客户端失败.  的本地化字符串。
+        /// </summary>
+        internal static string ClientStartupFail {
+            get {
+                return ResourceManager.GetString("ClientStartupFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 完成 的本地化字符串。
         /// </summary>
         internal static string Completed {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using Chun.Work.Common.Helper;
 using HtmlAgilityPack;
 
 namespace Chun.Demo.Common.Helper

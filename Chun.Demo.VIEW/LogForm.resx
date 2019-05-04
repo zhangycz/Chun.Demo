@@ -117,44 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MainForm_打开文件ToolStripMenuItem_Click_" xml:space="preserve">
-    <value>出现了失败！</value>
-  </data>
-  <data name="MainForm_SayHello_输入的是_String" xml:space="preserve">
-    <value>输入的是 String</value>
-  </data>
-  <data name="MainForm_SayHello_输入的是int" xml:space="preserve">
-    <value>输入的是int</value>
-  </data>
-  <data name="MainForm_SayHello_输入的是string__" xml:space="preserve">
-    <value>输入的是string[]</value>
-  </data>
-  <data name="MainForm_SayHello_输入的是int__" xml:space="preserve">
-    <value>输入的是int[]</value>
-  </data>
-  <data name="Completed" xml:space="preserve">
-    <value>完成</value>
-  </data>
-  <data name="IsRunning" xml:space="preserve">
-    <value>正在执行{0},请耐心等待……</value>
-  </data>
-  <data name="DeletedDirDone" xml:space="preserve">
-    <value>完成！你可能需要执行多次以删除空文件夹！</value>
-  </data>
-  <data name="DoOtherWork" xml:space="preserve">
-    <value>正在进行其他操作</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\logo.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spider" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Spider.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ClientClosed" xml:space="preserve">
-    <value>客户端遇到问题需要关闭，请联系技术支持。</value>
-  </data>
-  <data name="ClientStartupFail" xml:space="preserve">
-    <value>启动客户端失败. </value>
-  </data>
 </root>

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Chun.Demo.TestHelper</RootNamespace>
     <AssemblyName>Chun.Demo.TestHelper</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -46,9 +46,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Chun.Demo.Common\Chun.Demo.Common.csproj">
-      <Project>{dd70d187-d0aa-49a5-baa7-1d11661b66f7}</Project>
-      <Name>Chun.Demo.Common</Name>
+    <ProjectReference Include="..\..\Chun.Work.Common\Chun.Work.Common\Chun.Work.Common.csproj">
+      <Project>{c456afaa-9d39-472f-9b65-55e13e2736cb}</Project>
+      <Name>Chun.Work.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

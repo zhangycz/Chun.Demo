@@ -5,14 +5,14 @@ namespace Chun.Demo.Model {
         public FormPars() {
         }
 
-        public FormPars(string BasePath, string ExtendPath, string Match, string AttrName,string SavePath, string ECode, string PicType) {
-            this.Match = Match;
-            this.BasePath = BasePath;
-            this.ExtendPath = ExtendPath;
-            this.AttrName = AttrName;
-            this.ECode = ECode;
-            this.SavePath = SavePath;
-            this.PicType = PicType;
+        public FormPars(string basePath, string extendPath, string match, string attrName,string savePath, string eCode, string picType) {
+            this.Match = match;
+            this.BasePath = basePath;
+            this.ExtendPath = extendPath;
+            this.AttrName = attrName;
+            this.ECode = eCode;
+            this.SavePath = savePath;
+            this.PicType = picType;
         }
 
         public string AppPath { get; set; } = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;

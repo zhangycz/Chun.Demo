@@ -1,35 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using Chun.Demo.Common.Helper;
 using Chun.Demo.DAL;
 using Chun.Demo.Model;
 using Chun.Demo.Model.Entity;
+using Chun.Work.Common.Helper;
+using static System.String;
 
 namespace Chun.Demo.Common.Tool
 {
     public static class Tool
     {
-        private static readonly object locker = new object();
-
         /// <summary>
         ///     将list写入文件
         /// </summary>
         /// <param name="dirPath"> list 文件</param>
         /// <param name="filepath"> 文本文件</param>
-        public static void WriteTxt(List<string> dirPath, string filepath)
-        {
-            foreach (var path in dirPath)
-            {
+        public static void WriteTxt(List<string> dirPath, string filepath) {
+            foreach (var path in dirPath) {
                 var bytes = Encoding.Default.GetBytes(path + Environment.NewLine);
 
-                using (var fs = new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
-                {
+                using (var fs = new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
                     fs.Position = fs.Length;
                     fs.Write(bytes, 0, bytes.Length);
                     fs.Flush();
@@ -43,15 +38,13 @@ namespace Chun.Demo.Common.Tool
         /// </summary>
         /// <param name="filepath">文本文件</param>
         /// <returns></returns>
-        public static List<string> ReadTxt(string filepath)
-        {
+        public static List<string> ReadTxt(string filepath) {
             var dirPath = new List<string>();
             using (
                 var sr = new StreamReader(new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
-            )
-            {
+            ) {
                 string strLine;
-                while (!String.IsNullOrEmpty(strLine = sr.ReadLine()))
+                while (!IsNullOrEmpty(strLine = sr.ReadLine()))
                     dirPath.Add(strLine);
                 sr.Close();
             }
@@ -70,8 +63,7 @@ namespace Chun.Demo.Common.Tool
         /// <param name="type">读取类型</param>
         /// <param name="fileStatus">读取类型</param>
         /// <returns></returns>
-        public static List<string> ReadPathByMySql(int type, int fileStatus)
-        {
+        public static List<string> ReadPathByMySql(int type, int fileStatus) {
             return InfoDal.ReadPathByMySql(type, fileStatus);
         }
 
@@ -88,15 +80,12 @@ namespace Chun.Demo.Common.Tool
         /// <param name="type">读取类型</param>
         /// <param name="fileStatus">读取类型</param>
         /// <returns></returns>
-        public static IEnumerable<filepath> ReadPathByLinq(int type, int fileStatus)
-        {
+        public static IQueryable<filepath> ReadPathByLinq(int type, int fileStatus) {
             //return InfoDal.ReadPathByLinq(type, fileStatus);
             return InfoDal.ReadToQueryable(type, fileStatus);
-
         }
 
-        public static IEnumerable<QueryTitleModel> QueryTitle(string procedureStr, object[] sqlparms)
-        {
+        public static IEnumerable<QueryTitleModel> QueryTitle(string procedureStr, object[] sqlparms) {
             return InfoDal.QueryTitle(procedureStr, sqlparms);
         }
 
@@ -104,8 +93,7 @@ namespace Chun.Demo.Common.Tool
         ///     将实体数据插入到errorpath
         /// </summary>
         /// <param name="errorpath"></param>
-        public static void InserErrorFileByLinq(errorpath errorpath)
-        {
+        public static void InserErrorFileByLinq(errorpath errorpath) {
             InfoDal.InserErrorFileByLinq(errorpath);
         }
 
@@ -113,8 +101,7 @@ namespace Chun.Demo.Common.Tool
         ///     将实体数据插入到filepath
         /// </summary>
         /// <param name="filepath"></param>
-        public static void InsertfilePathByLinq(filepath filepath)
-        {
+        public static void InsertfilePathByLinq(filepath filepath) {
             InfoDal.InsertfilePathByLinq(filepath);
         }
 
@@ -122,8 +109,7 @@ namespace Chun.Demo.Common.Tool
         ///     将实体数据插入到分类信息
         /// </summary>
         /// <param name="filepath"></param>
-        public static void InsertCategoryInfo(category_info filepath)
-        {
+        public static void InsertCategoryInfo(category_info filepath) {
             InfoDal.InsertCategoryByLinq(filepath);
         }
 
@@ -132,40 +118,34 @@ namespace Chun.Demo.Common.Tool
         /// </summary>
         /// <param name="address">网络地址</param>
         /// <param name="fileName">本地地址</param>
-        public static void DownLoad(string address, string fileName)
-        {
+        /// <param name="updateAction">访问状态处理</param>
+        public static void DownLoad(string address, string fileName, Action<int> updateAction) {
             //100s无响应取消
-           
+
             var newfileName = fileName;
-            if (Existed(address, fileName))
-            {
+            if (Existed(address, fileName)) {
                 LogHelper.Debug($"文件{fileName} 已经存在！");
-                UpdatefilePath(address, 12, 1);
+                updateAction(1);
                 return;
             }
 
-            try
-            {
-                using (var wc = new MyWebClient { Timeout = 1000 }) {
+            try {
+                using (var wc = new MyWebClient {Timeout = 1000}) {
                     wc.DownloadFileAsync(new Uri(address), newfileName);
                     //wc.DownloadFileAsyncWithTimeout(new Uri(address), newfileName, "");
                     wc.DownloadFileCompleted += delegate {
                         LogHelper.Debug($"文件 {newfileName} 下载完成,地址 ： {address}");
-                        UpdatefilePath(address, 12, 1);
+                        updateAction(1);
                     };
-                  
                 }
-              
             }
-            catch (WebException e)
-            {
-                UpdatefilePath(address, 12, 2);
+            catch (WebException e) {
+                updateAction(2);
                 LogHelper.Error($"文件 {address}下载失败! 错误信息 {e.Message} 错误详情 {e.Data} ");
                 LogHelper.Error(e);
             }
-            catch (Exception e)
-            {
-                UpdatefilePath(address, 12, 2);
+            catch (Exception e) {
+                updateAction(2);
                 LogHelper.Error($"文件 {address}下载失败! 错误信息 {e.Message} 错误详情 {e.Data} ");
                 LogHelper.Error(e);
             }
@@ -179,8 +159,7 @@ namespace Chun.Demo.Common.Tool
         /// <param name="path">路径</param>
         /// <param name="filetype">类型</param>
         /// <param name="fileStatus">状态</param>
-        public static void UpdatefilePath(string path, int filetype, int fileStatus)
-        {
+        public static void UpdatefilePath(string path, int filetype, int fileStatus) {
             //InfoDal.UpdatefilePath(path, filetype, fileStatus);
 
             InfoDal.UpdatefilePathByLinq(path, filetype, fileStatus);
@@ -192,8 +171,7 @@ namespace Chun.Demo.Common.Tool
         /// <param name="address"></param>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static bool Existed(string address, string fileName)
-        {
+        public static bool Existed(string address, string fileName) {
             var existed = false;
 
             if (!File.Exists(fileName))
@@ -208,7 +186,7 @@ namespace Chun.Demo.Common.Tool
                     size = response.ContentLength;
                     LogHelper.Debug($"本地文件存在，文件 {fileName} 长度 {size} ，本地长度 {fileSize}");
                 }
-                if (size<=-1 || fileSize.Equals(size))
+                if (size <= -1 || fileSize.Equals(size))
                     //>= 102400
                     existed = true;
             }
@@ -226,20 +204,17 @@ namespace Chun.Demo.Common.Tool
         /// <param name="newDirPath">存放目录</param>
         /// <param name="fileEx">文件扩展名</param>
         /// <returns></returns>
-        public static bool ChangFileName(string fileName, string newDirPath, string fileEx)
-        {
+        public static bool ChangFileName(string fileName, string newDirPath, string fileEx) {
             var success = false;
             if (!Directory.Exists(newDirPath))
                 Directory.CreateDirectory(newDirPath);
-            if (String.IsNullOrEmpty(fileName) || !Path.GetExtension(fileName).ToUpper().Equals(fileEx))
+            if (IsNullOrEmpty(fileName) || !Path.GetExtension(fileName).ToUpper().Equals(fileEx))
                 return false;
-            try
-            {
+            try {
                 var tor = new TorrentHelper(fileName);
-                if (!String.IsNullOrEmpty(tor.NameUTF8) || !String.IsNullOrEmpty(tor.Name))
-                {
+                if (!IsNullOrEmpty(tor.NameUtf8) || !IsNullOrEmpty(tor.Name)) {
                     var newFilePath = newDirPath + @"\" +
-                                      (String.IsNullOrEmpty(tor.NameUTF8) ? tor.Name : tor.NameUTF8) + ".TORRENT";
+                                      (IsNullOrEmpty(tor.NameUtf8) ? tor.Name : tor.NameUtf8) + ".TORRENT";
                     if (File.Exists(newFilePath))
                         newFilePath = newDirPath + @"\" + Path.GetFileNameWithoutExtension(newFilePath) + "(1)" +
                                       ".TORRENT";
@@ -248,15 +223,13 @@ namespace Chun.Demo.Common.Tool
                     success = true;
                 }
             }
-            catch (Exception e1)
-            {
+            catch (Exception e1) {
                 Console.WriteLine(e1.Message);
             }
             return success;
         }
 
-        public static void DelEmptyDirAndFile(string basePath)
-        {
+        public static void DelEmptyDirAndFile(string basePath) {
             if (!Directory.Exists(basePath))
                 return;
             var baseDir = new DirectoryInfo(basePath);
@@ -266,28 +239,23 @@ namespace Chun.Demo.Common.Tool
                 if (nextFile.Length == 0)
                     nextFile.Delete();
 
-            foreach (var nextFolder in baseDir.GetDirectories())
-            {
+            foreach (var nextFolder in baseDir.GetDirectories()) {
                 if (nextFolder.GetDirectories().Length == 0 && nextFolder.GetFiles().Length == 0)
                     nextFolder.Delete();
                 DelEmptyDirAndFile(nextFolder.FullName);
             }
         }
 
-        public static void CreateRootDir(string netPath)
-        {
+        public static void CreateRootDir(string netPath) {
             var MaxCreateDirPath = ConfigerHelper.GetAppConfig("MaxCreateDirPath");
             if (MaxCreateDirPath == null)
                 throw new ArgumentNullException(nameof(MaxCreateDirPath));
-            try
-            {
+            try {
                 var maxCreateDirPath = Convert.ToInt32(MaxCreateDirPath);
-                for (var i = 1; i < maxCreateDirPath; i++)
-                {
+                for (var i = 1; i < maxCreateDirPath; i++) {
                     var url = netPath + i;
 
-                    var filepath = new filepath
-                    {
+                    var filepath = new filepath {
                         file_Path = url,
                         file_innerTxt = "",
                         file_Type_id = 10,
@@ -298,9 +266,8 @@ namespace Chun.Demo.Common.Tool
                     InsertfilePathByLinq(filepath);
                 }
             }
-            catch (Exception)
-            {
-              //  MyMessageBox.Add("创建根目录时发生错误！");
+            catch (Exception) {
+                //  MyMessageBox.Add("创建根目录时发生错误！");
             }
         }
 
@@ -309,8 +276,7 @@ namespace Chun.Demo.Common.Tool
         /// </summary>
         /// <param name="netPath"></param>
         /// <returns></returns>
-        public static bool ValidateHtml(string netPath)
-        {
+        public static bool ValidateHtml(string netPath) {
             //支持http或https打头的字符串；
             //不含http的，但是以www打头的字符串；
             //不含http，但是支持xxx.com\xxx.cn\xxx.com.cn\xxx.net\xxx.net.cn 的字符串；
@@ -323,18 +289,15 @@ namespace Chun.Demo.Common.Tool
         /// <summary>
         ///     拼接网址
         /// </summary>
-        public static string ConcatHttpPath(string bathpath, params string[] paths)
-        {
+        public static string ConcatHttpPath(string bathpath, params string[] paths) {
             if (!Regex.IsMatch(bathpath, @"^((http|https)://)"))
-                bathpath = String.Concat(@"http://", bathpath);
-            var extendPath = String.Empty;
-            foreach (var path in paths)
-            {
-                if (extendPath.EndsWith(@"/"))
-                {
+                bathpath = Concat(@"http://", bathpath);
+            var extendPath = Empty;
+            foreach (var path in paths) {
+                if (extendPath.EndsWith(@"/")) {
                     var substring = extendPath.Substring(0, extendPath.Length - 2);
                 }
-                extendPath = path.StartsWith(@"/") ? String.Concat(extendPath, path) : String.Concat(extendPath, @"/", path);
+                extendPath = path.StartsWith(@"/") ? Concat(extendPath, path) : Concat(extendPath, @"/", path);
             }
 
             return bathpath + extendPath;

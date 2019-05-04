@@ -7,6 +7,7 @@ using Chun.Demo.Common.Helper;
 using Chun.Demo.Common.Tool;
 using Chun.Demo.ICommon;
 using Chun.Demo.Model;
+using Chun.Work.Common.Helper;
 using static System.String;
 
 namespace Chun.Demo.PhraseHtml.Implement
