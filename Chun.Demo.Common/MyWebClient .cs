@@ -50,10 +50,10 @@ namespace Chun.Demo.Common
         {
             if (_timer == null)
             {
-                _timer = new Calculagraph(this);
-                _timer.Timeout = Timeout;
-                _timer.TimeOver += new TimeoutCaller(_timer_TimeOver);
-                this.DownloadProgressChanged += new DownloadProgressChangedEventHandler(CNNWebClient_DownloadProgressChanged);
+                _timer = new Calculagraph(this) {Timeout = Timeout};
+                _timer.TimeOver += _timer_TimeOver;
+                this.DownloadProgressChanged += CNNWebClient_DownloadProgressChanged;
+               
             }
 
             DownloadFileAsync(address, fileName, userToken);

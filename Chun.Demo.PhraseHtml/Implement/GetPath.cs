@@ -11,14 +11,59 @@ using static System.String;
 
 namespace Chun.Demo.PhraseHtml.Implement
 {
-     
+    public static class PhraseHtmlConfig
+    {
+        private static string _maxDirPath;
+
+        private static string _minDirPath;
+
+        private static FormPars FormPars => MyTools.FormPars;
+        /// <summary>
+        /// 获取目录最大量
+        /// </summary>
+        public static string MaxDirNum
+        {
+            get
+            {
+                if (IsNullOrEmpty(_maxDirPath))
+                {
+                    _maxDirPath = ConfigerHelper.GetAppConfig("MaxDirNum");
+                }
+                return _maxDirPath;
+            }
+        }
+        /// <summary>
+        /// 获取目录最小量
+        /// </summary>
+        public static string MinDirNum
+        {
+            get
+            {
+                if (IsNullOrEmpty(_maxDirPath))
+                {
+                    _minDirPath = ConfigerHelper.GetAppConfig("MinDirNum");
+                }
+                return _minDirPath;
+            }
+        }
+        public static bool ValidateHtml() {
+            var pass = true;
+            if (!Tool.ValidateHtml(FormPars.BasePath))
+            {
+                LogHelper.Error("网站基址不是正确的格式");
+                pass = false;
+            }
+            if (IsNullOrEmpty(FormPars.Match) || IsNullOrEmpty(FormPars.AttrName))
+            {
+                LogHelper.Error("匹配字符不可为空");
+                pass = false; 
+            }
+            return pass;
+        }
+    }
     public class GetPath : IGetService
     {
         public event Action OnCompleted;
-
-
-
-        //Action IGetService.OnCompleted { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         /// <summary>
         ///     提供文件类型与获取属性获取文件地址
@@ -28,30 +73,19 @@ namespace Chun.Demo.PhraseHtml.Implement
         public void GetService(PhraseHtmlType phraseHtmlType) {
             LogHelper.TraceEnter();
             var formPars = MyTools.FormPars;
-            if (!Tool.ValidateHtml(formPars.BasePath)) {
-                LogHelper.Error("网站基址不是正确的格式");
-                return;
-            }
-            if (IsNullOrEmpty(formPars.Match) || IsNullOrEmpty(formPars.AttrName)) {
-                LogHelper.Error("匹配字符不可为空");
-                return;
-            }
+            if(!PhraseHtmlConfig.ValidateHtml())return;
 
-            //获取数据库中未操作和失败的
-            var currentPathList = new List<string>();
-            var appConfig = ConfigerHelper.GetAppConfig("MaxDirPath");
-            var minDirPathConfig = ConfigerHelper.GetAppConfig("MinDirPath");
+             //获取数据库中未操作和失败的
+             var currentPathList = new List<string>();
+          
             if (phraseHtmlType.Equals(PhraseHtmlType.Dir)) {
                 LogHelper.Debug("获取目录地址");
-                //获取目录地址
-                //获取多少页目录
-                if (appConfig == null)
-                    throw new ArgumentNullException(nameof(appConfig));
+                if (PhraseHtmlConfig.MaxDirNum == null)
+                    throw new ArgumentNullException(nameof(PhraseHtmlConfig.MaxDirNum));
 
-                var maxDirPath = Convert.ToInt32(appConfig);
-                var mixDirPath = Convert.ToInt32(minDirPathConfig);
-
-                //for (var i = 1; i <= maxDirPath; i++) {
+                var maxDirPath = Convert.ToInt32(PhraseHtmlConfig.MaxDirNum);
+                var mixDirPath = Convert.ToInt32(PhraseHtmlConfig.MinDirNum);
+                
                 for (var i = mixDirPath; i <= maxDirPath; i++) {
                     string url;
                     var netpath = Tool.ConcatHttpPath(MyTools.FormPars.BasePath,

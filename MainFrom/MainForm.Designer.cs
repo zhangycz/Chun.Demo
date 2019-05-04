@@ -1,5 +1,5 @@
 ﻿
-namespace MainFrom
+namespace MainForm
 {
     partial class MainForm
     {
@@ -247,7 +247,7 @@ namespace MainFrom
             this.txtLogger.Multiline = true;
             this.txtLogger.Name = "txtLogger";
             this.txtLogger.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtLogger.Size = new System.Drawing.Size(1276, 135);
+            this.txtLogger.Size = new System.Drawing.Size(1276, 132);
             this.txtLogger.TabIndex = 12;
             this.txtLogger.Text = "基址：访问相对路径，地址：访问起始地址，,XPATH:查找的项目，获取项目：获取哪一项";
             // 
@@ -284,7 +284,7 @@ namespace MainFrom
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(1284, 390);
+            this.groupBox1.Size = new System.Drawing.Size(1284, 393);
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "参数信息";
@@ -515,7 +515,7 @@ namespace MainFrom
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(1284, 161);
+            this.groupBox2.Size = new System.Drawing.Size(1284, 158);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "输出信息";
@@ -537,7 +537,7 @@ namespace MainFrom
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
             this.splitContainer1.Size = new System.Drawing.Size(1284, 552);
-            this.splitContainer1.SplitterDistance = 390;
+            this.splitContainer1.SplitterDistance = 393;
             this.splitContainer1.SplitterWidth = 1;
             this.splitContainer1.TabIndex = 15;
             // 

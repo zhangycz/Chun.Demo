@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MainFrom.Properties {
+namespace MainForm.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace MainFrom.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MainFrom.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MainForm.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -47,7 +47,7 @@ namespace MainFrom.Properties {
         }
         
         /// <summary>
-        ///   使用此强类型资源类，为所有资源查找
+        ///   重写当前线程的 CurrentUICulture 属性
         ///   重写当前线程的 CurrentUICulture 属性。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -88,11 +88,21 @@ namespace MainFrom.Properties {
         }
         
         /// <summary>
-        ///   查找类似 正在执行操作请耐心等待…… 的本地化字符串。
+        ///   查找类似 正在执行{0},请耐心等待…… 的本地化字符串。
         /// </summary>
         internal static string IsRunning {
             get {
                 return ResourceManager.GetString("IsRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Icon logo {
+            get {
+                object obj = ResourceManager.GetObject("logo", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -138,6 +148,16 @@ namespace MainFrom.Properties {
         internal static string MainForm_打开文件ToolStripMenuItem_Click_ {
             get {
                 return ResourceManager.GetString("MainForm_打开文件ToolStripMenuItem_Click_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Icon Spider {
+            get {
+                object obj = ResourceManager.GetObject("Spider", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }

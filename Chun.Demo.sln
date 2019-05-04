@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chun.Demo.ProgressBar", "Chun.Demo.ProgressBar\Chun.Demo.ProgressBar.csproj", "{99DEDBA2-622A-4B59-A303-F9863FC29815}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainFrom", "MainFrom\MainFrom.csproj", "{525C22B1-9FAD-4C39-A5FC-EBA49D347548}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainForm", "MainFrom\MainForm.csproj", "{525C22B1-9FAD-4C39-A5FC-EBA49D347548}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chun.Demo.AnalyzeTorrent", "Chun.Demo.AnalyzeTorrent\Chun.Demo.AnalyzeTorrent.csproj", "{8D6F0EA1-C0CB-439A-AF87-9E0FB44BDB9D}"
 EndProject

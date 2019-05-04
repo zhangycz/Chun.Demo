@@ -5,37 +5,39 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using Chun.Demo.Common;
 using Chun.Demo.Common.Helper;
 using Chun.Demo.Common.Tool;
 using Chun.Demo.ICommon;
 using Chun.Demo.PhraseHtml;
-using MainFrom.Properties;
+using MainForm.Properties;
 using Chun.Demo.Model;
 using Chun.Demo.PhraseHtml.Implement;
 using Chun.Demo.VIEW;
 
-namespace MainFrom
+namespace MainForm
 {
     public delegate void GetAddressAndMath();
 
     public partial class MainForm : Form
     {
-       // private int _fileTypeId;
         private PhraseHtmlType PhraseHtmlType { get; set; }
 
-        private Task _myTask;
+       
         private int _currentCount;
-
-        private IGetService _igetsrv;
 
 
         private object locker = new object();
-        private int loseCount;
+        private int _loseCount;
 
-        private int maxCount;
+        private int _maxCount;
 
-        public IGetService Getsrv { get => _igetsrv; set => _igetsrv = value; }
+        private Thread _getThread;
+        private Thread _msgThread;
+
+
+        private IGetService Getsrv { get; set; }
 
         public MainForm()
         {
@@ -50,8 +52,8 @@ namespace MainFrom
 
             timer1.Start();
             _currentCount = 0;
-            loseCount = 0;
-            maxCount = openFileDialog.FileNames.Length;
+            _loseCount = 0;
+            _maxCount = openFileDialog.FileNames.Length;
 
             ThreadPool.QueueUserWorkItem(w =>
             {
@@ -62,13 +64,13 @@ namespace MainFrom
                         if (Tool.ChangFileName(item, @"C:\Users\a2863\Desktop\种子", ".TORRENT"))
                         {
                             lock (locker)
-                                if (_currentCount < maxCount - loseCount)
+                                if (_currentCount < _maxCount - _loseCount)
                                     _currentCount++;
                         }
                         else
                         {
                             lock (locker)
-                                loseCount++;
+                                _loseCount++;
                         }
                     });
                 }
@@ -99,6 +101,7 @@ namespace MainFrom
 
         private void button3_Click(object sender, EventArgs e)
         {
+            PhraseHtmlType = PhraseHtmlType.Img;
             Download();
         }
 
@@ -115,32 +118,40 @@ namespace MainFrom
             }
         }
 
+
+
+        private void StartGetThread()
+        {
+
+            ThreadHelper.StartThread(() =>
+            {
+                Invoke(new MethodInvoker(() => MessageBox.Show(string.Format(Resources.IsRunning, PhraseHtmlType))));
+                Getsrv.GetService(PhraseHtmlType);
+            }, ref _getThread);
+
+        }
+
+
+
+        private void StopGetThread() {
+            ThreadHelper.StopInsertListener(ref _getThread);
+        }
         private void GetPath()
         {
             #region Task实现
 
             Getsrv = new GetPath();
-            Getsrv.OnCompleted += () => {
+
+            Getsrv.OnCompleted += () =>
+            {
                 Invoke(new MethodInvoker(() => MessageBox.Show(Resources.Completed)));
             };
-            if (_myTask != null && !_myTask.IsCompleted)
-            {
-                Invoke(new MethodInvoker(() => MessageBox.Show(Resources.IsRunning)));
-                return;
-            }
-            _myTask = Task.Factory.StartNew(() =>
-            {
-                Invoke(new MethodInvoker(() => MessageBox.Show(Resources.IsRunning)));
-                Getsrv.GetService(PhraseHtmlType);
-              
-            });
+
+            StartGetThread();
+            
+
             #endregion
 
-            #region Backgroudworker 实现
-
-         
-          
-            #endregion
         }
 
         private void BackgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -171,7 +182,7 @@ namespace MainFrom
             );
         }
 
-        internal void Button4_Click(object sender, EventArgs e)
+        private void Button4_Click(object sender, EventArgs e)
         {
             backgroundWorker1.CancelAsync();
         }
@@ -212,29 +223,69 @@ namespace MainFrom
             Console.WriteLine(Resources.Completed);
         }
 
+        private Queue<string> _msgQueue = new Queue<string>();
+
         private void SetMessageBox(string msg)
         {
-            BeginInvoke(new MethodInvoker(() =>
+            lock (_msgQueue)
             {
-                 msg +=  Environment.NewLine;
-                try
-                {
-                    LogTools.LogInfo(msg);
-                }
-                catch (Exception e)
-                {
-                    LogHelper.Debug(msg, e);
-                }
-
-                txtLogger.AppendText(msg);
-                txtLogger.SelectionStart = txtLogger.Text.Length;
-                txtLogger.ScrollToCaret();
-            }));
+                _msgQueue.Enqueue(msg);
+                Monitor.Pulse(_msgQueue);
+            }
         }
+        private void GetMessageBox( )
+        {
+            LogHelper.Debug("Loglistener thread start.");
+            try
+            {
+                while (true) {
+                    var msg = string.Empty;
+                    lock (_msgQueue) {
+                        if (_msgQueue != null && _msgQueue.Count > 0) {
+                            msg = _msgQueue.Dequeue();
+                        }
+                        else
+                            Monitor.Wait(_msgQueue);
+                    }
+                    if (!string.IsNullOrEmpty(msg)) {
+                        txtLogger.BeginInvoke( new MethodInvoker(() => {
+                            var appendLine = msg + Environment.NewLine;
+                            //try
+                            //{
+                            //    LogTools.LogInfo(msg);
+                            //}
+                            //catch (Exception e)
+                            //{
+                            //    LogHelper.Debug(msg, e);
+                            //}
+                            txtLogger.AppendText(appendLine);
+                            txtLogger.SelectionStart = txtLogger.Text.Length;
+                            txtLogger.ScrollToCaret();
+                        }));
+                      
+                    }
+                }
+            }
+            catch (ThreadAbortException)
+            {
+                LogHelper.Debug("LogListenerThread thread abort.");
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Debug("LogListenerThread error. {0}", ex);
+            }
+            finally
+            {
+                LogHelper.Debug("LogListenerThread  stopped.");
+            }
+        }
+
+
 
         private void button6_Click(object sender, EventArgs e)
         {
-
+            ThreadHelper.StopInsertListener(ref _getThread);
+            return;
             var x = new AddPictureForm();
             x.Show();
             //TextBoxHelper tb = new TextBoxHelper();
@@ -319,6 +370,8 @@ namespace MainFrom
 
             MyTools.FormPars.StartDateTime = DateTime.Now;
             MyTools.FormPars.EndDateTime = DateTime.MaxValue;
+
+            ThreadHelper.StartThread(GetMessageBox, ref _msgThread);
         }
 
         private delegate void Test(string fileName);
@@ -333,6 +386,8 @@ namespace MainFrom
             PathTools.OpenDir(savePath);
         }
 
+
+
         private void OpenLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LogHelper.TraceEnter();
@@ -341,15 +396,15 @@ namespace MainFrom
                 var logfile = PathTools.PathCombine(MyTools.FormPars.AppPath, "Logs", "info.log");
                 System.Diagnostics.Process.Start("notepad.exe", logfile);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                LogHelper.Error(ex,"Open log error");
+                LogHelper.Error(ex, "Open log error");
             }
             finally
             {
                 LogHelper.TraceExit();
             }
-          
+
         }
     }
 }

@@ -71,21 +71,7 @@ namespace Chun.Demo.PhraseHtml.Helper
         }
 
         private void StartInsertListener() {
-            try {
-                if (_insertListenerThread != null && _insertListenerThread.IsAlive)
-                    LogHelper.Debug(
-                        $"the InsertListenerThread {_insertListenerThread.ManagedThreadId} isAlive,ignore start");
-                var thread = new Thread( InsertfilePath) {IsBackground = true};
-                thread.Start();
-
-                var obj = Interlocked.Exchange(ref _insertListenerThread, thread);
-
-                if (obj != null && obj.IsAlive)
-                    obj.Abort();
-            }
-            catch {
-                // ignored
-            }
+            ThreadHelper.StartThread(InsertfilePath,ref _insertListenerThread);
         }
 
         /// <summary>
@@ -155,11 +141,11 @@ namespace Chun.Demo.PhraseHtml.Helper
 
                     if (string.IsNullOrEmpty(path))
                         continue;
-
+                    var repalceInnerText = innerTxt.MyReplace("xp1024,核工厂,1024,.com,-,_,露出激情,图文欣賞,美图欣賞,|,powered by phpwind.net, ");
                     if (!pathList.Any(p => p.file_Path.Equals(path)))
                         pathList.Add(new filepath {
                             file_Path = path,
-                            file_innerTxt = innerTxt,
+                            file_innerTxt = repalceInnerText,
                             file_Type_id = Convert.ToInt32(PhraseHtmlType),
                             file_status_id = 0,
                             file_CreateTime = DateTime.Now,
@@ -250,7 +236,7 @@ namespace Chun.Demo.PhraseHtml.Helper
             }
 
             //  LogHelper.TraceEnter();
-            //var xinnerText = innerTxt.MyReplace("xp1024,核工厂,1024,.com,-,_,露出激情,图文欣賞,美图欣賞,|,powered by phpwind.net, ");
+            //
 
             //  InfoDAL.InsertfilePath(path, innerTxt, fileType, file_status_id, URL);
         }

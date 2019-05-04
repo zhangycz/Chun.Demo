@@ -87,6 +87,7 @@
     <Compile Include="EventArgs\OnErrorEventArgs.cs" />
     <Compile Include="EventArgs\OnStartEventArgs.cs" />
     <Compile Include="Helper\AsyncHleper.cs" />
+    <Compile Include="Helper\ThreadHelper.cs" />
     <Compile Include="MyFolderBrowser.cs" />
     <Compile Include="Helper\PredicateBuilder.cs" />
     <Compile Include="Tool\CommonTool.cs" />

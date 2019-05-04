@@ -38,9 +38,22 @@ namespace Chun.Demo.PhraseHtml
             var filePathList = Tool.ReadPathByLinq(Convert.ToInt32(phraseHtmlType), type)
                 .Where(p => p.file_CreateTime >= startTime && p.file_CreateTime <= endTime)
                 .Select(p => p).ToList();
+            LogHelper.Debug($"{filePathList.Count} file  will be download");
+
+            var count = filePathList.Count;
+
+            var num = Math.Ceiling(count / 100.0);
+
+            for (var i = 0; i < num; i++) {
+               
+                var processList =  filePathList.Skip(i *100).Take(100).ToList();
+               
+                LogHelper.Debug($"批次{i} 处理数量 {processList.Count()}");
+                Parallel.ForEach(processList, CreateDirAndDownload);
+            }
 
             //最好不要使用全局变量
-            Parallel.ForEach(filePathList, CreateDirAndDownload);
+           // Parallel.ForEach(filePathList, CreateDirAndDownload);
 
             #endregion
 
@@ -91,5 +104,6 @@ namespace Chun.Demo.PhraseHtml
             }
             //LogHelper.TraceExit();
         }
+        
     }
 }

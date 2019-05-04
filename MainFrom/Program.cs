@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using Chun.Demo.Common.Helper;
 using Chun.Demo.TestHelper;
 
-namespace MainFrom
+namespace MainForm
 {
     static class Program
     {
@@ -54,7 +54,7 @@ namespace MainFrom
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
 
-                    Application.Run(new MainFrom.MainForm());
+                    Application.Run(new MainForm());
                 }
             }
             catch(Exception ex)
