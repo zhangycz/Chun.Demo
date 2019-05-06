@@ -13,7 +13,6 @@
 
 using System;
 using System.Collections.Generic;
-using Chun.Demo.Common.Helper;
 using Chun.Demo.Common.Tool;
 using Chun.Demo.ICommon;
 using Chun.Demo.Model;
@@ -36,36 +35,39 @@ namespace Chun.Demo.PhraseHtml
                 FilterPath = filterPath,
                 TargetPath = targetPath
             };
-            var tagartCount = targetPath.Count;
+            var targetCount = targetPath.Count;
             PhraseHtml.OnStart += (sender, data) => { LogHelper.Debug($"Begin Phrase {data.Uri.PathAndQuery}"); };
-
-            PhraseHtml.OnCompleted += (sender, data) => {
+            
+            PhraseHtml.OnPhraseUrlCompleted += (sender, data) => {
                 var msg = $"Complete Phrase {data.Uri.PathAndQuery},take time {data.Milliseconds}";
-                EventHandler(data.OrignUrl, msg, 1, tagartCount);
+                EventHandler(msg, targetCount);
             };
 
             PhraseHtml.OnError += (sender, data) => {
                 var msg = $"The Error Happened form {data.Uri.PathAndQuery},Exception {data.Exception}";
-                EventHandler(data.OrignUrl, msg, 2, tagartCount);
+                Tool.UpdatefilePath(data.OrignUrl, Convert.ToInt32(PhraseHtml.PhraseHtmlType) - 1, 2);
+                EventHandler(msg, targetCount);
             };
             PhraseHtml.OnCheckTaskCompleted += (sender, e) => {
-                if (!_current.Equals(tagartCount))
+                if (!_current.Equals(targetCount))
                     return;
-                var data = sender as Queue<string>;
-                if (data?.Count != 0)
-                    return;
+                PhraseHtml.StopInsertListener();
+                OnCompleted?.Invoke();
+            };
+            PhraseHtml.OnCompleted += (sender, e) => {
+                LogHelper.Debug("Complete Phrase");
                 PhraseHtml.StopInsertListener();
                 OnCompleted?.Invoke();
             };
             PhraseHtml.Start();
         }
 
-        private void EventHandler(string url, string msg, int type, int tagartCount) {
-            Tool.UpdatefilePath(url, Convert.ToInt32(PhraseHtml.PhraseHtmlType) - 1, type);
+        private void EventHandler(string msg,  int targetCount) {
+          
             LogHelper.Debug(msg);
 
             _current++;
-            if (!_current.Equals(tagartCount))
+            if (!_current.Equals(targetCount))
                 return;
             PhraseHtml.StopInsertListener();
             OnCompleted?.Invoke();

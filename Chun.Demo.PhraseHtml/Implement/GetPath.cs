@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Security.Policy;
 using Chun.Demo.Common;
-using Chun.Demo.Common.Helper;
 using Chun.Demo.Common.Tool;
 using Chun.Demo.ICommon;
 using Chun.Demo.Model;
@@ -19,49 +18,45 @@ namespace Chun.Demo.PhraseHtml.Implement
         private static string _minDirPath;
 
         private static FormPars FormPars => MyTools.FormPars;
+
         /// <summary>
-        /// 获取目录最大量
+        ///     获取目录最大量
         /// </summary>
-        public static string MaxDirNum
-        {
-            get
-            {
+        public static string MaxDirNum {
+            get {
                 if (IsNullOrEmpty(_maxDirPath))
-                {
                     _maxDirPath = ConfigerHelper.GetAppConfig("MaxDirNum");
-                }
                 return _maxDirPath;
             }
         }
+
         /// <summary>
-        /// 获取目录最小量
+        ///     获取目录最小量
         /// </summary>
-        public static string MinDirNum
-        {
-            get
-            {
+        public static string MinDirNum {
+            get {
                 if (IsNullOrEmpty(_maxDirPath))
-                {
                     _minDirPath = ConfigerHelper.GetAppConfig("MinDirNum");
-                }
                 return _minDirPath;
             }
         }
+
         public static bool ValidateHtml() {
             var pass = true;
-            if (!Tool.ValidateHtml(FormPars.BasePath))
-            {
+            if (!UrlHelper.ValidateHtml(FormPars.BasePath)) {
                 LogHelper.Error("网站基址不是正确的格式");
                 pass = false;
             }
-            if (IsNullOrEmpty(FormPars.Match) || IsNullOrEmpty(FormPars.AttrName))
-            {
+
+            if (IsNullOrEmpty(FormPars.Match) || IsNullOrEmpty(FormPars.AttrName)) {
                 LogHelper.Error("匹配字符不可为空");
-                pass = false; 
+                pass = false;
             }
+
             return pass;
         }
     }
+
     public class GetPath : IGetService
     {
         public event Action OnCompleted;
@@ -74,48 +69,49 @@ namespace Chun.Demo.PhraseHtml.Implement
         public void GetService(PhraseHtmlType phraseHtmlType) {
             LogHelper.TraceEnter();
             var formPars = MyTools.FormPars;
-            if(!PhraseHtmlConfig.ValidateHtml())return;
+           
 
-             //获取数据库中未操作和失败的
-             var currentPathList = new List<string>();
-          
+            //获取数据库中未操作和失败的
+            var currentPathList = new List<string>();
+
             if (phraseHtmlType.Equals(PhraseHtmlType.Dir)) {
-                LogHelper.Debug("获取目录地址");
+                LogHelper.Debug("Get DirPath");
                 if (PhraseHtmlConfig.MaxDirNum == null)
                     throw new ArgumentNullException(nameof(PhraseHtmlConfig.MaxDirNum));
 
                 var maxDirPath = Convert.ToInt32(PhraseHtmlConfig.MaxDirNum);
                 var mixDirPath = Convert.ToInt32(PhraseHtmlConfig.MinDirNum);
-                
+
                 for (var i = mixDirPath; i <= maxDirPath; i++) {
                     string url;
-                    var netpath = Tool.ConcatHttpPath(MyTools.FormPars.BasePath,
+                    var netPath = UrlHelper.ConcatHttpPath(MyTools.FormPars.BasePath,
                         MyTools.FormPars.ExtendPath);
                     if (i == 1) {
-                        url = netpath.Substring(0, netpath.Contains("-page-")
-                            ? netpath.LastIndexOf("-page-", StringComparison.Ordinal)
-                            : netpath.LastIndexOf("page=", StringComparison.Ordinal));
+                        url = netPath.Substring(0, netPath.Contains("-page-")
+                            ? netPath.LastIndexOf("-page-", StringComparison.Ordinal)
+                            : netPath.LastIndexOf("page=", StringComparison.Ordinal));
                     }
                     else {
-                        if (netpath.Contains("-page-"))
-                            url = netpath + i + ".html";
+                        if (netPath.Contains("-page-"))
+                            url = netPath + i + ".html";
                         else
-                            url = netpath + i;
+                            url = netPath + i;
                     }
+
                     currentPathList.Add(url);
                 }
             }
             else {
                 LogHelper.Debug("获取文件地址");
-                var iognoreFailed = formPars.IgnoreFailed;
+                var ignoreFailed = formPars.IgnoreFailed;
                 //是否忽略操作失败的，不勾选则不忽略
                 var type = 3;
-                if (iognoreFailed)
+                if (ignoreFailed)
                     type = 0;
                 var startTime = formPars.StartDateTime;
                 var endTime = formPars.EndDateTime;
                 //获取文件地址
-                currentPathList = Tool.ReadPathByLinq(Convert.ToInt32(phraseHtmlType) -1, type)
+                currentPathList = Tool.ReadPathByLinq(Convert.ToInt32(phraseHtmlType) - 1, type)
                     .Where(p => p.file_CreateTime >= startTime && p.file_CreateTime <= endTime).Select(p => p.file_Path)
                     .ToList();
             }
@@ -124,16 +120,12 @@ namespace Chun.Demo.PhraseHtml.Implement
             var filterPath = Tool.ReadPathByLinq(Convert.ToInt32(phraseHtmlType), 4).Select(p => p.file_Path).ToList();
 
             var phraseHtmlTool = new PhraseHtmlTool();
-            phraseHtmlTool.OnCompleted += () => {
-                OnCompleted?.Invoke();
-            };
+            phraseHtmlTool.OnCompleted += () => { OnCompleted?.Invoke(); };
+
             phraseHtmlTool.StartPhraseHtml(phraseHtmlType, formPars, filterPath, currentPathList);
 
 
             LogHelper.TraceExit();
-            
         }
-      
-      
     }
 }

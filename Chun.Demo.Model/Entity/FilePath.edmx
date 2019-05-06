@@ -5,14 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="phrasehtmlModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="category_info">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="category_id" Type="nvarchar" MaxLength="100" />
-          <Property Name="category_path" Type="nvarchar(max)" />
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-        </EntityType>
         <EntityType Name="errorpath">
           <Key>
             <PropertyRef Name="id" />
@@ -24,6 +16,19 @@
           <Property Name="error_UpdateTime" Type="datetime" />
           <Property Name="error_type" Type="int" />
           <Property Name="error_Status" Type="int" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“phrasehtml.dbo.file_category”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="file_category">
+          <Key>
+            <PropertyRef Name="category_id" />
+            <PropertyRef Name="category_name" />
+          </Key>
+          <Property Name="category_id" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="category_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="category_code" Type="nvarchar" MaxLength="100" />
+          <Property Name="parent_category_id" Type="nvarchar" MaxLength="100" />
+          <Property Name="create_time" Type="datetime" />
         </EntityType>
         <EntityType Name="filepath">
           <Key>
@@ -39,6 +44,7 @@
           <Property Name="file_parent_path" Type="varchar" MaxLength="255" />
           <Property Name="local_path" Type="varchar" MaxLength="255" />
           <Property Name="priview_pic_path" Type="varchar" MaxLength="255" />
+          <Property Name="category_id" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="filestatus">
           <Key>
@@ -48,10 +54,18 @@
           <Property Name="status_info" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityContainer Name="phrasehtmlModelStoreContainer">
-          <EntitySet Name="category_info" EntityType="Self.category_info" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="errorpath" EntityType="Self.errorpath" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="filepath" EntityType="Self.filepath" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="filestatus" EntityType="Self.filestatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="file_category" EntityType="Self.file_category" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [file_category].[category_id] AS [category_id], 
+    [file_category].[category_name] AS [category_name], 
+    [file_category].[category_code] AS [category_code], 
+    [file_category].[parent_category_id] AS [parent_category_id], 
+    [file_category].[create_time] AS [create_time]
+    FROM [dbo].[file_category] AS [file_category]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -83,6 +97,7 @@
           <Property Name="file_parent_path" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="local_path" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="priview_pic_path" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="category_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="filestatus">
           <Key>
@@ -95,15 +110,18 @@
           <EntitySet Name="errorpath" EntityType="Self.errorpath" />
           <EntitySet Name="filepath" EntityType="Self.filepath" />
           <EntitySet Name="filestatus" EntityType="Self.filestatus" />
-          <EntitySet Name="category_info" EntityType="phrasehtmlModel.category_info" />
+          <EntitySet Name="file_category" EntityType="phrasehtmlModel.file_category" />
         </EntityContainer>
-        <EntityType Name="category_info">
+        <EntityType Name="file_category">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="category_id" />
+            <PropertyRef Name="category_name" />
           </Key>
-          <Property Name="category_id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="category_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="category_id" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="category_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="category_code" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="parent_category_id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="create_time" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -127,6 +145,7 @@
           <EntitySetMapping Name="filepath">
             <EntityTypeMapping TypeName="phrasehtmlModel.filepath">
               <MappingFragment StoreEntitySet="filepath">
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
                 <ScalarProperty Name="priview_pic_path" ColumnName="priview_pic_path" />
                 <ScalarProperty Name="local_path" ColumnName="local_path" />
                 <ScalarProperty Name="id" ColumnName="id" />
@@ -148,11 +167,13 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="category_info">
-            <EntityTypeMapping TypeName="phrasehtmlModel.category_info">
-              <MappingFragment StoreEntitySet="category_info">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="category_path" ColumnName="category_path" />
+          <EntitySetMapping Name="file_category">
+            <EntityTypeMapping TypeName="phrasehtmlModel.file_category">
+              <MappingFragment StoreEntitySet="file_category">
+                <ScalarProperty Name="create_time" ColumnName="create_time" />
+                <ScalarProperty Name="parent_category_id" ColumnName="parent_category_id" />
+                <ScalarProperty Name="category_code" ColumnName="category_code" />
+                <ScalarProperty Name="category_name" ColumnName="category_name" />
                 <ScalarProperty Name="category_id" ColumnName="category_id" />
               </MappingFragment>
             </EntityTypeMapping>

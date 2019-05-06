@@ -1,57 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using Chun.Demo.Common;
-using Chun.Demo.Common.Helper;
 using Chun.Demo.Common.Tool;
 using Chun.Demo.ICommon;
-using Chun.Demo.PhraseHtml;
-using MainForm.Properties;
 using Chun.Demo.Model;
+using Chun.Demo.PhraseHtml;
 using Chun.Demo.PhraseHtml.Implement;
 using Chun.Demo.VIEW;
 using Chun.Work.Common.Helper;
+using MainForm.Properties;
 
 namespace MainForm
 {
-    public delegate void GetAddressAndMath();
-
     public partial class MainForm : Form
     {
-        private PhraseHtmlType PhraseHtmlType { get; set; }
-
-       
         private int _currentCount;
 
+        /// <summary>
+        ///     下载进程
+        /// </summary>
+        private Thread _downloadThread;
 
-        private object locker = new object();
+        /// <summary>
+        ///     获取目录、文件线程
+        /// </summary>
+        private Thread _getThread;
+
         private int _loseCount;
 
         private int _maxCount;
 
-        private Thread _getThread;
-        private Thread _msgThread;
 
+        private readonly object locker = new object();
+
+        public MainForm() {
+            InitializeComponent();
+        }
+
+        private PhraseHtmlType PhraseHtmlType { get; set; }
+
+        private LogForm LogForm { get; set; }
 
         private IGetService Getsrv { get; set; }
 
-        public MainForm()
-        {
-         
 
-            InitializeComponent();
-         
-        }
-
-
-        private void ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void ToolStripMenuItem_Click(object sender, EventArgs e) {
             if (openFileDialog.ShowDialog() != DialogResult.OK)
                 return;
 
@@ -60,35 +59,30 @@ namespace MainForm
             _loseCount = 0;
             _maxCount = openFileDialog.FileNames.Length;
 
-            ThreadPool.QueueUserWorkItem(w =>
-            {
-                try
-                {
-                    Parallel.ForEach(openFileDialog.FileNames, item =>
-                    {
-                        if (Tool.ChangFileName(item, @"C:\Users\a2863\Desktop\种子", ".TORRENT"))
-                        {
-                            lock (locker)
+            ThreadPool.QueueUserWorkItem(w => {
+                try {
+                    Parallel.ForEach(openFileDialog.FileNames, item => {
+                        if (Tool.ChangFileName(item, @"C:\Users\a2863\Desktop\种子", ".TORRENT")) {
+                            lock (locker) {
                                 if (_currentCount < _maxCount - _loseCount)
                                     _currentCount++;
+                            }
                         }
-                        else
-                        {
-                            lock (locker)
+                        else {
+                            lock (locker) {
                                 _loseCount++;
+                            }
                         }
                     });
                 }
-                catch (Exception)
-                {
+                catch (Exception) {
                     Invoke(new MethodInvoker(() => MessageBox.Show(Resources.MainForm_打开文件ToolStripMenuItem_Click_)));
                 }
             }, null);
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
-        {
+        private void button1_Click(object sender, EventArgs e) {
             fileXpath.SelectedIndex = 1;
             PropertyName.SelectedIndex = 1;
             PhraseHtmlType = PhraseHtmlType.Dir;
@@ -96,112 +90,89 @@ namespace MainForm
             GetPath();
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
+        private void button2_Click(object sender, EventArgs e) {
             fileXpath.SelectedIndex = 0;
             PropertyName.SelectedIndex = 0;
             PhraseHtmlType = PhraseHtmlType.Img;
             GetPath();
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
+        private void button3_Click(object sender, EventArgs e) {
             PhraseHtmlType = PhraseHtmlType.Img;
             Download();
         }
 
-        private void Download()
-        {
-            if (!backgroundWorker1.IsBusy)
-            {
-                Getsrv = new DownLoadPic();
-                backgroundWorker1.RunWorkerAsync();
-            }
-            else
-            {
+        private void Download() {
+            if (_downloadThread != null && _downloadThread.IsAlive) {
                 MessageBox.Show(Resources.DoOtherWork);
+            }
+            else {
+                Getsrv = new DownLoadPic();
+                Getsrv.OnCompleted += () => {
+                    Invoke(new MethodInvoker(() => MessageBox.Show(Resources.Completed)));
+                    StopGetThread(_downloadThread);
+                };
+                StartDownloadThread();
             }
         }
 
 
-
-        private void StartGetThread()
-        {
-
-            ThreadHelper.StartThread(() =>
-            {
+        private void StartGetThread() {
+            ThreadHelper.StartThread(() => {
                 Invoke(new MethodInvoker(() => MessageBox.Show(string.Format(Resources.IsRunning, PhraseHtmlType))));
                 Getsrv.GetService(PhraseHtmlType);
             }, ref _getThread);
-
         }
 
-
-
-        private void StopGetThread() {
-            ThreadHelper.StopInsertListener(ref _getThread);
+        private void StartDownloadThread() {
+            ThreadHelper.StartThread(() => {
+                Invoke(new MethodInvoker(() => MessageBox.Show(string.Format(Resources.IsRunning, PhraseHtmlType))));
+                Getsrv.GetService(PhraseHtmlType);
+            }, ref _downloadThread);
         }
-        private void GetPath()
-        {
+
+        private void StopGetThread(Thread thread) {
+            ThreadHelper.StopInsertListener(ref thread);
+        }
+
+        private void GetPath() {
             #region Task实现
+            if (!PhraseHtmlConfig.ValidateHtml())
+                return;
+
+            if (_getThread != null && _getThread.IsAlive) {
+                MessageBox.Show(Resources.DoOtherWork);
+                return;
+            }
 
             Getsrv = new GetPath();
 
-            Getsrv.OnCompleted += () =>
-            {
+            Getsrv.OnCompleted += () => {
                 Invoke(new MethodInvoker(() => MessageBox.Show(Resources.Completed)));
+                StopGetThread(_getThread);
             };
 
             StartGetThread();
-            
 
             #endregion
-
         }
 
-        private void BackgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
-        {
-            if (backgroundWorker1.CancellationPending)
-            {
-                e.Cancel = true;
-            }
-            else
-            {
-                Getsrv.GetService(PhraseHtmlType);
-            }
-        }
 
-        private void backgroundWorker1_RunWorkerCompleted(object sender,
-            RunWorkerCompletedEventArgs e)
-        {
-            MessageBox.Show(!e.Cancelled ? "正常完成了操作" : "用户取消了操作");
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            ThreadPool.QueueUserWorkItem(item =>
-             {
-                 Tool.DelEmptyDirAndFile(DelEmptyFile.Text.Trim());
-                 Invoke(new MethodInvoker(() => MessageBox.Show(Resources.DeletedDirDone)));
-             }
+        private void button5_Click(object sender, EventArgs e) {
+            ThreadPool.QueueUserWorkItem(item => {
+                    Tool.DelEmptyDirAndFile(DelEmptyFile.Text.Trim());
+                    Invoke(new MethodInvoker(() => MessageBox.Show(Resources.DeletedDirDone)));
+                }
             );
         }
 
-        private void Button4_Click(object sender, EventArgs e)
-        {
-            backgroundWorker1.CancelAsync();
-        }
-
-        private static void SayHello(params object[] args)
-        {
+        private static void SayHello(params object[] args) {
             var returnExs = new List<string>();
             var queryId = 0;
             var operOpenerWindow = new OpenerWindow();
-            foreach (var arg in args)
-            {
+            foreach (var arg in args) {
                 var inputType = arg.GetType().Name.ToUpper();
-                switch (inputType)
-                {
+                switch (inputType) {
                     case "STRING":
                         returnExs[0] = arg.ToString();
                         break;
@@ -209,7 +180,7 @@ namespace MainForm
                         queryId = Convert.ToInt32(arg);
                         break;
                     case "STRING[]":
-                        returnExs.AddRange(from singlearg in (object[])arg select singlearg.ToString());
+                        returnExs.AddRange(from singlearg in (object[]) arg select singlearg.ToString());
                         break;
                     case "INT32[]":
                         Console.WriteLine(Resources.MainForm_SayHello_输入的是int__);
@@ -218,78 +189,18 @@ namespace MainForm
                         break;
                 }
             }
+
             operOpenerWindow.QueryId = queryId;
 
             foreach (var returnEx in returnExs)
-            {
                 operOpenerWindow.ReturnExs.Add(returnEx);
-            }
 
             Console.WriteLine(Resources.Completed);
         }
 
-        private Queue<string> _msgQueue = new Queue<string>();
-
-        private void SetMessageBox(string msg)
-        {
-            lock (_msgQueue)
-            {
-                _msgQueue.Enqueue(msg);
-                Monitor.Pulse(_msgQueue);
-            }
-        }
-        private void GetMessageBox( )
-        {
-            LogHelper.Debug("Loglistener thread start.");
-            try
-            {
-                while (true) {
-                    var msg = string.Empty;
-                    lock (_msgQueue) {
-                        if (_msgQueue != null && _msgQueue.Count > 0) {
-                            msg = _msgQueue.Dequeue();
-                        }
-                        else
-                            Monitor.Wait(_msgQueue);
-                    }
-                    if (!string.IsNullOrEmpty(msg)) {
-                        txtLogger.BeginInvoke( new MethodInvoker(() => {
-                            var appendLine = msg + Environment.NewLine;
-                            //try
-                            //{
-                            //    LogTools.LogInfo(msg);
-                            //}
-                            //catch (Exception e)
-                            //{
-                            //    LogHelper.Debug(msg, e);
-                            //}
-                            txtLogger.AppendText(appendLine);
-                            txtLogger.SelectionStart = txtLogger.Text.Length;
-                            txtLogger.ScrollToCaret();
-                        }));
-                      
-                    }
-                }
-            }
-            catch (ThreadAbortException)
-            {
-                LogHelper.Debug("LogListenerThread thread abort.");
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Debug("LogListenerThread error. {0}", ex);
-            }
-            finally
-            {
-                LogHelper.Debug("LogListenerThread  stopped.");
-            }
-        }
-
-       
 
         private void button6_Click(object sender, EventArgs e) {
-           
-            ThreadHelper.StopInsertListener(ref _getThread);
+            ParseQuery($@"{MyTools.FormPars.BasePath}/{MyTools.FormPars.ExtendPath}");
             return;
             var x = new AddPictureForm();
             x.Show();
@@ -342,8 +253,6 @@ namespace MainForm
         }
 
         private void MainForm_Load(object sender, EventArgs e) {
-            LogHelper.SupportRichLog();
-            MyMessageBox.MessageBoxEvent += SetMessageBox;
 
             //获取目录地址
             var basicUrl = ConfigerHelper.GetAppConfig("BasicUrl");
@@ -352,84 +261,116 @@ namespace MainForm
             var hm = new FormPars(basicUrl, "pw/thread.php?fid=16&page=", "//div[@class='tpc_content']/img",
                 "src", savePath, "", "");
             MyTools.FormPars = hm;
-            htmlModelBindingSource.DataSource = MyTools.FormPars;
+            var htmlModelBindingSource = new BindingSource(components) {DataSource = MyTools.FormPars};
 
-            BasePathTextBox.DataBindings.Add(new Binding("Text", htmlModelBindingSource, "BasePath", true, DataSourceUpdateMode.OnPropertyChanged));
-            BasePathTextBox.DataBindings.Add(new Binding("Tag", htmlModelBindingSource, "BasePath", true, DataSourceUpdateMode.OnPropertyChanged));
+            BasePathTextBox.DataBindings.Add(new Binding("Text", htmlModelBindingSource, "BasePath", true,
+                DataSourceUpdateMode.OnPropertyChanged));
+            BasePathTextBox.DataBindings.Add(new Binding("Tag", htmlModelBindingSource, "BasePath", true,
+                DataSourceUpdateMode.OnPropertyChanged));
 
-            AddressTextBox.DataBindings.Add(new Binding("Text", htmlModelBindingSource, "ExtendPath", true, DataSourceUpdateMode.OnPropertyChanged));
-            AddressTextBox.DataBindings.Add(new Binding("Tag", htmlModelBindingSource, "ExtendPath", true, DataSourceUpdateMode.OnPropertyChanged));
+            AddressTextBox.DataBindings.Add(new Binding("Text", htmlModelBindingSource, "ExtendPath", true,
+                DataSourceUpdateMode.OnPropertyChanged));
+            AddressTextBox.DataBindings.Add(new Binding("Tag", htmlModelBindingSource, "ExtendPath", true,
+                DataSourceUpdateMode.OnPropertyChanged));
 
-            fileXpath.DataBindings.Add(new Binding("Text", htmlModelBindingSource, "Match", true, DataSourceUpdateMode.OnPropertyChanged));
-            fileXpath.DataBindings.Add(new Binding("Tag", htmlModelBindingSource, "Match", true, DataSourceUpdateMode.OnPropertyChanged));
+            fileXpath.DataBindings.Add(new Binding("Text", htmlModelBindingSource, "Match", true,
+                DataSourceUpdateMode.OnPropertyChanged));
+            fileXpath.DataBindings.Add(new Binding("Tag", htmlModelBindingSource, "Match", true,
+                DataSourceUpdateMode.OnPropertyChanged));
 
-            PropertyName.DataBindings.Add(new Binding("Text", htmlModelBindingSource, "AttrName", true, DataSourceUpdateMode.OnPropertyChanged));
-            PropertyName.DataBindings.Add(new Binding("Tag", htmlModelBindingSource, "AttrName", true, DataSourceUpdateMode.OnPropertyChanged));
+            PropertyName.DataBindings.Add(new Binding("Text", htmlModelBindingSource, "AttrName", true,
+                DataSourceUpdateMode.OnPropertyChanged));
+            PropertyName.DataBindings.Add(new Binding("Tag", htmlModelBindingSource, "AttrName", true,
+                DataSourceUpdateMode.OnPropertyChanged));
 
-            SaveTextBox.DataBindings.Add(new Binding("Text", htmlModelBindingSource, "SavePath", true, DataSourceUpdateMode.OnPropertyChanged));
-            startDateTime.DataBindings.Add(new Binding("Value", htmlModelBindingSource, "StartDateTime", true, DataSourceUpdateMode.OnPropertyChanged));
-            EndDateTime.DataBindings.Add(new Binding("Value", htmlModelBindingSource, "EndDateTime", true, DataSourceUpdateMode.OnPropertyChanged));
-            IgnoreFailed.DataBindings.Add(new Binding("Checked", htmlModelBindingSource, "IgnoreFailed", true, DataSourceUpdateMode.OnPropertyChanged));
+            SaveTextBox.DataBindings.Add(new Binding("Text", htmlModelBindingSource, "SavePath", true,
+                DataSourceUpdateMode.OnPropertyChanged));
+            startDateTime.DataBindings.Add(new Binding("Value", htmlModelBindingSource, "StartDateTime", true,
+                DataSourceUpdateMode.OnPropertyChanged));
+            EndDateTime.DataBindings.Add(new Binding("Value", htmlModelBindingSource, "EndDateTime", true,
+                DataSourceUpdateMode.OnPropertyChanged));
+            IgnoreFailed.DataBindings.Add(new Binding("Checked", htmlModelBindingSource, "IgnoreFailed", true,
+                DataSourceUpdateMode.OnPropertyChanged));
 
-            typeText.DataBindings.Add(new Binding("Text", htmlModelBindingSource, "PicType", true, DataSourceUpdateMode.OnPropertyChanged));
+            typeText.DataBindings.Add(new Binding("Text", htmlModelBindingSource, "PicType", true,
+                DataSourceUpdateMode.OnPropertyChanged));
 
             MyTools.FormPars.StartDateTime = DateTime.Now;
             MyTools.FormPars.EndDateTime = DateTime.MaxValue;
-
-            ThreadHelper.StartThread(GetMessageBox, ref _msgThread);
+            typeText.Text = "16";
+          //  LogHelper.SupportRichLog();
         }
 
-        private delegate void Test(string fileName);
-
-        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e) {
         }
 
-        private void Button7_Click(object sender, EventArgs e)
-        {
+        private void Button7_Click(object sender, EventArgs e) {
             var savePath = MyTools.FormPars.SavePath;
             PathTools.OpenDir(savePath);
         }
 
 
-
-        private void OpenLogToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void OpenLogToolStripMenuItem_Click(object sender, EventArgs e) {
             LogHelper.TraceEnter();
-            try
-            {
+            try {
                 var logfile = PathTools.PathCombine(MyTools.FormPars.AppPath, "Logs", "info.log");
-                System.Diagnostics.Process.Start("notepad.exe", logfile);
+                Process.Start("notepad++.exe", logfile);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 LogHelper.Error(ex, "Open log error");
             }
-            finally
-            {
+            finally {
                 LogHelper.TraceExit();
             }
-
         }
 
-        private void button6_Click_1(object sender, EventArgs e)
-        {
-            LogHelper.ChangeTargetControl(this, "txtLogger");
-        }
 
-        private LogForm LogForm { get; set; }
-
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-            if (LogForm == null) {
+        private void toolStripButton1_Click(object sender, EventArgs e) {
+            SplitContainer.Panel2Collapsed = true;
+            if (LogForm == null || LogForm.IsDisposed) {
                 LogForm = new LogForm {StartPosition = FormStartPosition.CenterScreen};
+                LogForm.Closed += (o, args) => {
+                    LogHelper.ChangeTargetControl(this, "txtLogger");
+                    SplitContainer.Panel2Collapsed = false;
+                };
                 LogHelper.ChangeTargetControl(LogForm, "LogBox");
                 LogForm.Show();
             }
             else {
-                ;
+                LogForm.WindowState = FormWindowState.Normal;
+                LogForm.Activate();
             }
-            
+        }
+
+        private void CancleBtn_Click(object sender, EventArgs e) {
+            StopGetThread(_downloadThread);
+        }
+
+        private object ParseQuery(string url) {
+            NameValueCollection queryObj = null;
+            queryObj = UrlPhraseHelper.Phrase(url);
+            foreach (string s in queryObj)
+                LogHelper.Debug($@"{s}--{queryObj[s]}");
+
+            var fid = UrlPhraseHelper.GetQueryParas( url);
+            return queryObj;
+        }
+
+        private void BasePathTextBox_Validated(object sender, EventArgs e) {
+        }
+
+        private void AddressTextBox_Validated(object sender, EventArgs e)
+        {
+            try {
+                var paras = UrlPhraseHelper.GetQueryParas(MyTools.FormPars.ExtendPath);
+                if (paras != null) {
+                    var fid = paras["fid"];
+                    typeText .Text= fid;
+                }
+            }
+            catch {
+
+            }
         }
     }
 }

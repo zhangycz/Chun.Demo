@@ -44,12 +44,11 @@ namespace MainForm
             this.AddressTextBox = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.button4 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtLogger = new System.Windows.Forms.RichTextBox();
+            this.txtLogger = new Chun.Demo.VIEW.RichTextBoxEx();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CancleBtn = new System.Windows.Forms.Button();
             this.typeText = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
@@ -70,20 +69,17 @@ namespace MainForm
             this.label3 = new System.Windows.Forms.Label();
             this.BasePathTextBox = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.htmlModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.button6 = new System.Windows.Forms.Button();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.subMaxBtn = new System.Windows.Forms.ToolStripButton();
+            this.SplitContainer = new System.Windows.Forms.SplitContainer();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.htmlModelBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer)).BeginInit();
+            this.SplitContainer.Panel1.SuspendLayout();
+            this.SplitContainer.Panel2.SuspendLayout();
+            this.SplitContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // openFileDialog
@@ -176,6 +172,7 @@ namespace MainForm
             this.AddressTextBox.Size = new System.Drawing.Size(398, 25);
             this.AddressTextBox.TabIndex = 4;
             this.AddressTextBox.Text = "http://x3.1024lualu.pw/pw/thread.php?fid=16&page=";
+            this.AddressTextBox.Validated += new System.EventHandler(this.AddressTextBox_Validated);
             // 
             // button2
             // 
@@ -200,24 +197,6 @@ namespace MainForm
             this.button3.Text = "下载文件";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.WorkerSupportsCancellation = true;
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorker1_DoWork);
-            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
-            // 
-            // button4
-            // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button4.Location = new System.Drawing.Point(587, 101);
-            this.button4.Margin = new System.Windows.Forms.Padding(4);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(100, 29);
-            this.button4.TabIndex = 8;
-            this.button4.Text = "取消操作";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.Button4_Click);
             // 
             // label1
             // 
@@ -251,13 +230,14 @@ namespace MainForm
             this.txtLogger.Location = new System.Drawing.Point(0, 46);
             this.txtLogger.Margin = new System.Windows.Forms.Padding(4);
             this.txtLogger.Name = "txtLogger";
+            this.txtLogger.PlaceHolderStr = "基址：访问相对路径，地址：访问起始地址，,XPATH:查找的项目，获取项目：获取哪一项";
             this.txtLogger.Size = new System.Drawing.Size(1284, 105);
             this.txtLogger.TabIndex = 12;
-            this.txtLogger.Text = "基址：访问相对路径，地址：访问起始地址，,XPATH:查找的项目，获取项目：获取哪一项";
+            this.txtLogger.Text = "";
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button6);
+            this.groupBox1.Controls.Add(this.CancleBtn);
             this.groupBox1.Controls.Add(this.typeText);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.button7);
@@ -275,7 +255,6 @@ namespace MainForm
             this.groupBox1.Controls.Add(this.PropertyName);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.button3);
@@ -293,6 +272,18 @@ namespace MainForm
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "参数信息";
+            // 
+            // CancleBtn
+            // 
+            this.CancleBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CancleBtn.Location = new System.Drawing.Point(587, 98);
+            this.CancleBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.CancleBtn.Name = "CancleBtn";
+            this.CancleBtn.Size = new System.Drawing.Size(100, 29);
+            this.CancleBtn.TabIndex = 31;
+            this.CancleBtn.Text = "取消下载";
+            this.CancleBtn.UseVisualStyleBackColor = true;
+            this.CancleBtn.Click += new System.EventHandler(this.CancleBtn_Click);
             // 
             // typeText
             // 
@@ -507,6 +498,7 @@ namespace MainForm
             this.BasePathTextBox.Size = new System.Drawing.Size(398, 25);
             this.BasePathTextBox.TabIndex = 12;
             this.BasePathTextBox.Text = "http://x3.1024lualu.pw";
+            this.BasePathTextBox.Validated += new System.EventHandler(this.BasePathTextBox_Validated);
             // 
             // groupBox2
             // 
@@ -521,37 +513,6 @@ namespace MainForm
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "输出信息";
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 28);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer1.Size = new System.Drawing.Size(1284, 552);
-            this.splitContainer1.SplitterDistance = 393;
-            this.splitContainer1.TabIndex = 15;
-            // 
-            // button6
-            // 
-            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button6.Location = new System.Drawing.Point(695, 101);
-            this.button6.Margin = new System.Windows.Forms.Padding(4);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(133, 29);
-            this.button6.TabIndex = 31;
-            this.button6.Text = "测试用";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click_1);
             // 
             // toolStrip1
             // 
@@ -577,13 +538,32 @@ namespace MainForm
             this.subMaxBtn.Text = "X";
             this.subMaxBtn.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
+            // SplitContainer
+            // 
+            this.SplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.SplitContainer.Location = new System.Drawing.Point(0, 28);
+            this.SplitContainer.Name = "SplitContainer";
+            this.SplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // SplitContainer.Panel1
+            // 
+            this.SplitContainer.Panel1.Controls.Add(this.groupBox1);
+            // 
+            // SplitContainer.Panel2
+            // 
+            this.SplitContainer.Panel2.Controls.Add(this.groupBox2);
+            this.SplitContainer.Size = new System.Drawing.Size(1284, 552);
+            this.SplitContainer.SplitterDistance = 393;
+            this.SplitContainer.TabIndex = 15;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(1284, 580);
-            this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.SplitContainer);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -596,13 +576,12 @@ namespace MainForm
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.htmlModelBindingSource)).EndInit();
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.SplitContainer.Panel1.ResumeLayout(false);
+            this.SplitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer)).EndInit();
+            this.SplitContainer.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -620,11 +599,9 @@ namespace MainForm
         private System.Windows.Forms.TextBox AddressTextBox;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.RichTextBox txtLogger;
+        private Chun.Demo.VIEW.RichTextBoxEx txtLogger;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label3;
@@ -639,19 +616,18 @@ namespace MainForm
         private System.Windows.Forms.Button TextButton;
         private System.Windows.Forms.TextBox SaveTextBox;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.BindingSource htmlModelBindingSource;
         private System.Windows.Forms.DateTimePicker EndDateTime;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DateTimePicker startDateTime;
         private System.Windows.Forms.CheckBox IgnoreFailed;
         private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.SplitContainer SplitContainer;
         private System.Windows.Forms.TextBox typeText;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ToolStripMenuItem 帮助ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 查看日志ToolStripMenuItem;
-        private System.Windows.Forms.Button button6;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton subMaxBtn;
+        private System.Windows.Forms.Button CancleBtn;
     }
 }

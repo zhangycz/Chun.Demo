@@ -108,6 +108,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Chun.Work.Common\Chun.Work.Common\Chun.Work.Common.csproj">
+      <Project>{c456afaa-9d39-472f-9b65-55e13e2736cb}</Project>
+      <Name>Chun.Work.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Chun.Demo.AnalyzeTorrent\Chun.Demo.AnalyzeTorrent.csproj">
       <Project>{8D6F0EA1-C0CB-439A-AF87-9E0FB44BDB9D}</Project>
       <Name>Chun.Demo.AnalyzeTorrent</Name>

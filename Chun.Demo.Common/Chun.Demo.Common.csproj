@@ -79,11 +79,10 @@
     <Compile Include="BaseTableConfigFile.cs" />
     <Compile Include="Calculagraph.cs" />
     <Compile Include="MyFolderBrowser.cs" />
-    <Compile Include="Helper\PredicateBuilder.cs" />
     <Compile Include="Tool\CommonTool.cs" />
+    <Compile Include="Tool\ControlTool.cs" />
     <Compile Include="Tool\ExtendTools.cs" />
     <Compile Include="Helper\CellDrawHelper.cs" />
-    <Compile Include="Helper\DebugHelper.cs" />
     <Compile Include="Helper\DgvHelper.cs" />
     <Compile Include="Tool\EnumTools.cs" />
     <Compile Include="Tool\FileSerializeOper.cs" />
@@ -96,7 +95,6 @@
     <Compile Include="Helper\HtmlHelper.cs" />
     <Compile Include="Tool\LogTools.cs" />
     <Compile Include="Tool\OperatorInfo.cs" />
-    <Compile Include="Helper\SysTimeHelper.cs" />
     <Compile Include="Tool\ComputerInfo.cs" />
     <Compile Include="Tool\DataTableExtensions .cs" />
     <Compile Include="Tool\ExcelExporter.cs" />
@@ -106,14 +104,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Helper\TextBoxHelper.cs" />
-    <Compile Include="Helper\ConnectionStatusTool.cs" />
     <Compile Include="Tool\MyMessageBox.cs" />
     <Compile Include="Tool\PathTools.cs" />
     <Compile Include="Tool\SimpleCrawler.cs" />
     <Compile Include="Tool\SortBindingList.cs" />
     <Compile Include="Tool\Tool.cs" />
-    <Compile Include="TorrentHelper.cs" />
+    <Compile Include="Tool\UrlPhraseHelper.cs" />
     <Compile Include="TxtFileRead.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -135,9 +131,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="NLog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>

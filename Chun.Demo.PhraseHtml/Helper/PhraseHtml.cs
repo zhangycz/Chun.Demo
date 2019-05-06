@@ -42,29 +42,53 @@ namespace Chun.Demo.PhraseHtml.Helper
         ///     2.文件地址
         /// </summary>
         public PhraseHtmlType PhraseHtmlType {  get; set; }
-        private Queue<filepath> Filepaths { get; } = new Queue<filepath>();
+        private Queue<filepath> FilepathQueue { get; } = new Queue<filepath>();
 
 
         public string MatchNode { private get; set; }
 
-        public event EventHandler<OnStartEventArgs> OnStart; //爬虫启动事件
+        /// <summary>
+        /// 启动事件
+        /// </summary>
+        public event EventHandler<OnStartEventArgs> OnStart;
+        /// <summary>
+        /// 解析完成事件
+        /// </summary>
+        public event EventHandler<OnCompletedEventArgs> OnPhraseUrlCompleted;
 
-        public event EventHandler<OnCompletedEventArgs> OnCompleted; //爬虫完成事件
+        /// <summary>
+        /// 插入数据库才算完成
+        /// </summary>
+        public event EventHandler<OnCompletedEventArgs> OnInsertCompleted; 
 
-        public event EventHandler<OnErrorEventArgs> OnError; //爬虫出错事件
+        /// <summary>
+        /// 解析出错
+        /// </summary>
+        public event EventHandler<OnErrorEventArgs> OnError; 
 
-        public event EventHandler OnCheckTaskCompleted; //检查任务完成情况
+        /// <summary>
+        /// 检查插入
+        /// </summary>
+        public event EventHandler OnCheckTaskCompleted; 
+
+        /// <summary>
+        /// 完成
+        /// </summary>
+        public event EventHandler OnCompleted; 
          
 
         public void Start() {
             try {
-                if (TargetPath == null || TargetPath.Count == 0) {
+                if (TargetPath == null || TargetPath.Count == 0)
+                {
                     LogHelper.Error("url list is null,return");
                     return;
                 }
                 //启动插入线程
                 StartInsertListener();
-                Parallel.ForEach(TargetPath, PhrasehtmlAsync);
+                Parallel.ForEach(TargetPath, new ParallelOptions() { MaxDegreeOfParallelism = 10 }, PhraseHtmlAsync);
+                TargetPath = null;
+                OnCompleted?.Invoke(null, null);
             }
             catch {
                 // ignored
@@ -72,32 +96,22 @@ namespace Chun.Demo.PhraseHtml.Helper
         }
 
         private void StartInsertListener() {
-            ThreadHelper.StartThread(InsertfilePath,ref _insertListenerThread);
+            ThreadHelper.StartThread(InsertFilePath,ref _insertListenerThread);
         }
 
         /// <summary>
         ///     数据库停止线程
         /// </summary>
         public void StopInsertListener() {
-            try {
-                var thread = Interlocked.Exchange(ref _insertListenerThread, null);
+            lock (FilepathQueue) {
+                if (FilepathQueue.Count > 0)
+                {
+                    LogHelper.Debug($@"Phrase Thread report Complete,but Insert Thread is Alive,return");
 
-                if (thread == null || !thread.IsAlive)
-                    return;
-                var flag = thread.Join(1000);
-
-                if (flag)
-                    return;
-                if (Filepaths.Count > 0) {
-                    LogHelper.Debug("Filepaths count > 0,Continue");
                     return;
                 }
-                
-                thread.Abort();
             }
-            catch {
-                // ignored
-            }
+            ThreadHelper.StopInsertListener(ref _insertListenerThread);
         }
 
         /// <summary>
@@ -105,15 +119,15 @@ namespace Chun.Demo.PhraseHtml.Helper
         ///     fileType
         /// </summary>
         /// <param name="orignUrl"></param>
-        private async void PhrasehtmlAsync(string orignUrl) {
+        private async void PhraseHtmlAsync(string orignUrl) {
             Uri uri = null;
             //获取目录地址
             try {
                 var url = orignUrl.ToUpper().StartsWith("HTTP")
                     ? orignUrl
                     : PhraseHtmlType.Equals(PhraseHtmlType.Img)
-                        ? Tool.ConcatHttpPath(MyTools.FormPars.BasePath, "pw", orignUrl)
-                        : Tool.ConcatHttpPath(MyTools.FormPars.BasePath, orignUrl);
+                        ? UrlHelper.ConcatHttpPath(MyTools.FormPars.BasePath, "pw", orignUrl)
+                        : UrlHelper.ConcatHttpPath(MyTools.FormPars.BasePath, orignUrl);
                 uri = new Uri(url);
 
                 OnStart?.Invoke(this, new OnStartEventArgs(uri));
@@ -142,16 +156,22 @@ namespace Chun.Demo.PhraseHtml.Helper
 
                     if (string.IsNullOrEmpty(path))
                         continue;
-                    var repalceInnerText = innerTxt.MyReplace("xp1024,核工厂,1024,.com,-,_,露出激情,图文欣賞,美图欣賞,|,powered by phpwind.net, ");
-                    if (!pathList.Any(p => p.file_Path.Equals(path)))
-                        pathList.Add(new filepath {
+                    var replaceInnerText = innerTxt.MyReplace("xp1024,核工厂,1024,.com,-,_,露出激情,图文欣賞,美图欣賞,唯美写真,网友自拍,|,powered by phpwind.net, ");
+                    if (!pathList.Any(p => p.file_Path.Equals(path))) {
+                        var filepath = new filepath {
                             file_Path = path,
-                            file_innerTxt = repalceInnerText,
+                            file_innerTxt = replaceInnerText,
                             file_Type_id = Convert.ToInt32(PhraseHtmlType),
                             file_status_id = 0,
                             file_CreateTime = DateTime.Now,
-                            file_parent_path = uri.AbsoluteUri
-                        });
+                            file_parent_path = orignUrl //uri.PathAndQuery
+                        };
+                        if (PhraseHtmlType.Equals(PhraseHtmlType.Dir)) {
+                            filepath.category_id = MyTools.FormPars.PicType;
+                        }
+
+                        pathList.Add(item: filepath);
+                    }
                 }
                 lock (FilterPath) {
                     pathList.ForEach(filePath => {
@@ -163,10 +183,10 @@ namespace Chun.Demo.PhraseHtml.Helper
                                 if (loc != -1)
                                     path = path.Substring(0, loc);
                             }
-                            lock (Filepaths) {
+                            lock (FilepathQueue) {
                                 filePath.file_Path = path;
-                                Filepaths.Enqueue(filePath);
-                                Monitor.Pulse(Filepaths);
+                                FilepathQueue.Enqueue(filePath);
+                                Monitor.Pulse(FilepathQueue);
                             }
                         }
                     });
@@ -175,7 +195,7 @@ namespace Chun.Demo.PhraseHtml.Helper
                 var threadId = Thread.CurrentThread.ManagedThreadId; //获取当前任务线程ID
                 var milliseconds = watch.ElapsedMilliseconds; //获取请求执行时间
               
-                OnCompleted?.Invoke(this,
+                OnPhraseUrlCompleted?.Invoke(this,
                     new OnCompletedEventArgs(uri, threadId, milliseconds, htmlDocument.ToString(),orignUrl));
             }
             catch (Exception ex) {
@@ -183,21 +203,23 @@ namespace Chun.Demo.PhraseHtml.Helper
             }
         }
 
-        private void InsertfilePath()
+        private void InsertFilePath()
         {
-            LogHelper.Debug("Insertlistener thread start.");
+            LogHelper.Debug("InsertListener thread start.");
             try
             {
                 while (true)
                 {
-                    OnCheckTaskCompleted?.Invoke(Filepaths,null);
+                    OnCheckTaskCompleted?.Invoke(null, null);
+
                     filepath filepath = null;
-                    lock (Filepaths)
+                    lock (FilepathQueue)
                     {
-                        if (Filepaths.Count > 0)
-                            filepath = Filepaths.Dequeue();
+
+                        if (FilepathQueue.Count > 0)
+                            filepath = FilepathQueue.Dequeue();
                         else
-                            Monitor.Wait(Filepaths);
+                            Monitor.Wait(FilepathQueue);
                     }
                     if (filepath == null)
                         continue;
@@ -206,16 +228,8 @@ namespace Chun.Demo.PhraseHtml.Helper
                         var type = filepath.file_Type_id.ToString().EndsWith("1") ? "dir" : "file";
                         LogHelper.Debug($@"Insert {type}, filePath {filepath.file_Path}");
                         Tool.InsertfilePathByLinq(filepath);
-                        var picType = MyTools.FormPars.PicType;
-                        if (!string.IsNullOrEmpty(picType) && filepath.file_Type_id.Equals(12))
-                        {
-                            var categoryInfo = new category_info
-                            {
-                                category_id = picType,
-                                category_path = filepath.file_Path
-                            };
-                            Tool.InsertCategoryInfo(categoryInfo);
-                        }
+                        Tool.UpdatefilePath(filepath.file_parent_path, Convert.ToInt32(PhraseHtmlType) - 1, 1);
+                        OnInsertCompleted?.Invoke(null,null);
                     }
                     catch (Exception e)
                     {
@@ -239,7 +253,7 @@ namespace Chun.Demo.PhraseHtml.Helper
             //  LogHelper.TraceEnter();
             //
 
-            //  InfoDAL.InsertfilePath(path, innerTxt, fileType, file_status_id, URL);
+            //  InfoDAL.InsertFilePath(path, innerTxt, fileType, file_status_id, URL);
         }
     }
 }

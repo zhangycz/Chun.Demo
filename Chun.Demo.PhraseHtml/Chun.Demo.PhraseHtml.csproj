@@ -75,6 +75,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Chun.Work.Common\Chun.Work.Common\Chun.Work.Common.csproj">
+      <Project>{c456afaa-9d39-472f-9b65-55e13e2736cb}</Project>
+      <Name>Chun.Work.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Chun.Demo.Common\Chun.Demo.Common.csproj">
       <Project>{dd70d187-d0aa-49a5-baa7-1d11661b66f7}</Project>
       <Name>Chun.Demo.Common</Name>

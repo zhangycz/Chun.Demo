@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chun.Demo.UnitTest", "Chun.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chun.Demo.ConsoleTest", "Chun.Demo.ConsoleTest\Chun.Demo.ConsoleTest.csproj", "{9BFA172C-7AB1-4218-A416-FAEB8BF04746}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chun.Work.Common", "..\Chun.Work.Common\Chun.Work.Common\Chun.Work.Common.csproj", "{C456AFAA-9D39-472F-9B65-55E13E2736CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{9BFA172C-7AB1-4218-A416-FAEB8BF04746}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BFA172C-7AB1-4218-A416-FAEB8BF04746}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BFA172C-7AB1-4218-A416-FAEB8BF04746}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C456AFAA-9D39-472F-9B65-55E13E2736CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C456AFAA-9D39-472F-9B65-55E13E2736CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C456AFAA-9D39-472F-9B65-55E13E2736CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C456AFAA-9D39-472F-9B65-55E13E2736CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

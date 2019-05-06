@@ -20,7 +20,7 @@ namespace Chun.Demo.PhraseHtml
         /// <summary>
         ///     更新url访问状态线程
         /// </summary>
-        private Thread _updataThread;
+        private Thread _updateThread;
 
         public event Action OnCompleted;
 
@@ -33,9 +33,9 @@ namespace Chun.Demo.PhraseHtml
                 return;
             }
 
-            var iognoreFailed = formPars.IgnoreFailed;
+            var ignoreFailed = formPars.IgnoreFailed;
             var type = 3;
-            if (iognoreFailed)
+            if (ignoreFailed)
                 type = 0;
             var startTime = formPars.StartDateTime;
             var endTime = formPars.EndDateTime;
@@ -53,7 +53,7 @@ namespace Chun.Demo.PhraseHtml
             var count = filePathList.Count;
             if (count <= 0)
                 return;
-            StartUpdataListener();
+            StartUpdateListener();
             var num = Math.Ceiling(count / 100.0);
 
             for (var i = 0; i < num; i++) {
@@ -62,7 +62,7 @@ namespace Chun.Demo.PhraseHtml
                 LogHelper.Debug($"Process patch {i} -- num {processList.Count}");
                 Parallel.ForEach(processList, CreateDirAndDownload);
             }
-            StopUpdataListener();
+            StopUpdateListener();
             OnCompleted?.Invoke();
 
             #endregion
@@ -70,15 +70,15 @@ namespace Chun.Demo.PhraseHtml
             LogHelper.TraceExit();
         }
 
-        public void StartUpdataListener() {
-            LogHelper.Debug("UpdataThread Start");
-            ThreadHelper.StartThread(UpdataUrlStatus, ref _updataThread);
+        public void StartUpdateListener() {
+            LogHelper.Debug("UpdateThread Start");
+            ThreadHelper.StartThread(UpdateUrlStatus, ref _updateThread);
         }
 
-        public void StopUpdataListener() {
-            LogHelper.Debug("UpdataThread Stop");
+        public void StopUpdateListener() {
+            LogHelper.Debug("UpdateThread Stop");
 
-            ThreadHelper.StopInsertListener(ref _updataThread);
+            ThreadHelper.StopInsertListener(ref _updateThread);
         }
 
         private void CreateDirAndDownload(filepath entity) {
@@ -133,7 +133,7 @@ namespace Chun.Demo.PhraseHtml
             //LogHelper.TraceExit();
         }
 
-        private void UpdataUrlStatus() {
+        private void UpdateUrlStatus() {
             try {
                 while (true) {
                     // OnCheckTaskCompleted?.Invoke(Filepaths, null);
@@ -149,7 +149,7 @@ namespace Chun.Demo.PhraseHtml
                     try {
                         var path = filepath.file_Path;
                         var status = filepath.file_status_id;
-                        LogHelper.Trace($@"updata {path}, status {status}");
+                        LogHelper.Trace($@"Update {path}, status {status}");
                         if (status != null)
                             Tool.UpdatefilePath(path, 12, (int) status);
                     }
@@ -159,13 +159,13 @@ namespace Chun.Demo.PhraseHtml
                 }
             }
             catch (ThreadAbortException) {
-                LogHelper.Debug("UpdataThread thread abort.");
+                LogHelper.Debug("UpdateThread thread abort.");
             }
             catch (Exception ex) {
-                LogHelper.Debug("UpdataThread error. {0}", ex);
+                LogHelper.Debug("UpdateThread error. {0}", ex);
             }
             finally {
-                LogHelper.Debug("UpdataThread  stopped.");
+                LogHelper.Debug("UpdateThread  stopped.");
             }
         }
     }

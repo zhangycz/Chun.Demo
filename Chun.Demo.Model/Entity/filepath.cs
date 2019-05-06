@@ -24,5 +24,6 @@ namespace Chun.Demo.Model.Entity
         public string file_parent_path { get; set; }
         public string local_path { get; set; }
         public string priview_pic_path { get; set; }
+        public string category_id { get; set; }
     }
 }

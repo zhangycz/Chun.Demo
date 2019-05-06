@@ -94,7 +94,7 @@ namespace Chun.Demo.Common.Tool
         /// </summary>
         /// <param name="errorpath"></param>
         public static void InserErrorFileByLinq(errorpath errorpath) {
-            InfoDal.InserErrorFileByLinq(errorpath);
+            InfoDal.InsertErrorFileByLinq(errorpath);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Chun.Demo.Common.Tool
         /// </summary>
         /// <param name="filepath"></param>
         public static void InsertfilePathByLinq(filepath filepath) {
-            InfoDal.InsertfilePathByLinq(filepath);
+            InfoDal.InsertFilePathByLinq(filepath);
         }
 
         /// <summary>
@@ -160,9 +160,9 @@ namespace Chun.Demo.Common.Tool
         /// <param name="filetype">类型</param>
         /// <param name="fileStatus">状态</param>
         public static void UpdatefilePath(string path, int filetype, int fileStatus) {
-            //InfoDal.UpdatefilePath(path, filetype, fileStatus);
+            //InfoDal.UpdateFilePath(path, filetype, fileStatus);
 
-            InfoDal.UpdatefilePathByLinq(path, filetype, fileStatus);
+            InfoDal.UpdateFilePathByLinq(path, filetype, fileStatus);
         }
 
         /// <summary>
@@ -271,36 +271,6 @@ namespace Chun.Demo.Common.Tool
             }
         }
 
-        /// <summary>
-        ///     校验网址
-        /// </summary>
-        /// <param name="netPath"></param>
-        /// <returns></returns>
-        public static bool ValidateHtml(string netPath) {
-            //支持http或https打头的字符串；
-            //不含http的，但是以www打头的字符串；
-            //不含http，但是支持xxx.com\xxx.cn\xxx.com.cn\xxx.net\xxx.net.cn 的字符串；
-            var httpMatch =
-                @"^((http|https)://)?(www.)?[A-Za-z0-9]+\.(com|net|cn|com\.cn|com\.net|net\.cn)?";
-            //   @"(http | ftp | https):\/\/[\w\-_] + (\.[\w\-_]+)+([\w\-\.,@?^=% &amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?";
-            return Regex.IsMatch(netPath, httpMatch);
-        }
-
-        /// <summary>
-        ///     拼接网址
-        /// </summary>
-        public static string ConcatHttpPath(string bathpath, params string[] paths) {
-            if (!Regex.IsMatch(bathpath, @"^((http|https)://)"))
-                bathpath = Concat(@"http://", bathpath);
-            var extendPath = Empty;
-            foreach (var path in paths) {
-                if (extendPath.EndsWith(@"/")) {
-                    var substring = extendPath.Substring(0, extendPath.Length - 2);
-                }
-                extendPath = path.StartsWith(@"/") ? Concat(extendPath, path) : Concat(extendPath, @"/", path);
-            }
-
-            return bathpath + extendPath;
-        }
+        
     }
 }

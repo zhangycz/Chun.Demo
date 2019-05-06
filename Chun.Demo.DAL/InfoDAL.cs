@@ -80,24 +80,24 @@ namespace Chun.Demo.DAL
         }
         
 
-        public static void InsertfilePathByLinq(filepath filepath)
+        public static void InsertFilePathByLinq(filepath filepath)
         {
             new BaseDataQuery<filepath>().Add(filepath);
         }
         public static void InsertCategoryByLinq(category_info categoryInfo)
         {
-            var sql = "insert into category_info ( category_id , category_path ) values ('" + categoryInfo.category_id + "','" +
-                      categoryInfo.category_path + "')";
+            var sql = $@"insert into category_info ( category_id , category_path,create_time ) values ('{categoryInfo.category_id}','
+                      {categoryInfo.category_path}','{DateTime.Now}')";
             ISql<SqlCommand, SqlConnection> mysql = new MsSql();
             mysql.Run(sql, mysql.GetInsert);
         }
 
-        public static void InserErrorFileByLinq(errorpath errorpath)
+        public static void InsertErrorFileByLinq(errorpath errorPath)
         {
-            new BaseDataQuery<errorpath>().Add(errorpath);
+            new BaseDataQuery<errorpath>().Add(errorPath);
         }
 
-        public static void UpdatefilePathByLinq(string filePath, int fileTypeId, int fileStatusId)
+        public static void UpdateFilePathByLinq(string filePath, int fileTypeId, int fileStatusId)
         {
             // new BaseDataQuery<filepath>( ).Update(filepath);
             var sql =
@@ -115,7 +115,7 @@ namespace Chun.Demo.DAL
         /// <param name="url"></param>
         public static void InsertSql(int fileType, string url)
         {
-            var sql = "insert into errorpath (error_path,error_type,error_CreateTime) values ('" + url + "','" +
+            var sql = "insert into errorPath (error_path,error_type,error_CreateTime) values ('" + url + "','" +
                       fileType + "','" + DateTime.Now + "')";
             ISql<SqlCommand, SqlConnection> mysql = new MsSql();
             mysql.Run(sql, mysql.GetInsert);
@@ -129,7 +129,7 @@ namespace Chun.Demo.DAL
         /// <param name="fileType"></param>
         /// <param name="fileStatus"></param>
         /// <param name="fileParentPath"></param>
-        public static void InsertfilePath(string path, string innerTxt, int fileType, int fileStatus,
+        public static void InsertFilePath(string path, string innerTxt, int fileType, int fileStatus,
             string fileParentPath)
         {
             var sql =
@@ -169,7 +169,7 @@ namespace Chun.Demo.DAL
         /// <param name="path">路径</param>
         /// <param name="filetype">类型</param>
         /// <param name="fileStatus">状态</param>
-        public static void UpdatefilePath(string path, int filetype, int fileStatus)
+        public static void UpdateFilePath(string path, int filetype, int fileStatus)
         {
             var sql = $@"update filepath set file_status_id ={fileStatus},file_updatetime = { DateTime.Now }
                        where  file_path=  {path}   and file_type_id = {filetype}" ;
