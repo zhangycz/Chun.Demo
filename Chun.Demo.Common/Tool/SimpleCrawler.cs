@@ -12,10 +12,13 @@ namespace Chun.Demo.Common
 {
     public class SimpleCrawler : ICrawler
     {
-        public SimpleCrawler(CookieContainer cookiesContainer) {
+         
+        public SimpleCrawler(CookieContainer cookiesContainer, Encoding encoding) {
             CookiesContainer = cookiesContainer;
+            Encoding = encoding;
         }
 
+        public Encoding Encoding { get; set; }
         private CookieContainer CookiesContainer { get; set; } //定义Cookie容器
         public event EventHandler<OnStartEventArgs> OnStart; //爬虫启动事件
 
@@ -30,7 +33,7 @@ namespace Chun.Demo.Common
         /// <param name="uri">爬虫URL地址</param>
         /// <param name="proxy">代理服务器</param>
         /// <returns>网页源代码</returns>
-        public async Task<string> Start(Uri uri, string proxy = null) {
+        public async Task<string> Start(Uri uri,  string proxy = null) {
             return await Task.Run(() => {
                 var pageSource = string.Empty;
                 try {
@@ -61,29 +64,28 @@ namespace Chun.Demo.Common
                     request.ServicePoint.ConnectionLimit = int.MaxValue; //定义最大连接数
 
                     using (var response = (HttpWebResponse) request.GetResponse()) {
-//获取请求响应
-
+                        //获取请求响应
                         foreach (Cookie cookie in response.Cookies)
                             CookiesContainer.Add(cookie); //将Cookie加入容器，保存登录状态
 
                         if (response.ContentEncoding.ToLower().Contains("gzip")) //解压
                             using (var stream =
-                                new GZipStream(response.GetResponseStream(), mode: CompressionMode.Decompress)) {
-                                using (var reader = new StreamReader(stream, Encoding.UTF8)) {
+                                new GZipStream(stream: response.GetResponseStream() ?? throw new InvalidOperationException(), mode: CompressionMode.Decompress)) {
+                                using (var reader = new StreamReader(stream, Encoding)) {
                                     pageSource = reader.ReadToEnd();
                                 }
                             }
                         else if (response.ContentEncoding.ToLower().Contains("deflate")) //解压
                             using (var stream =
-                                new DeflateStream(response.GetResponseStream(), CompressionMode.Decompress)) {
-                                using (var reader = new StreamReader(stream, Encoding.UTF8)) {
+                                new DeflateStream(response.GetResponseStream() ?? throw new InvalidOperationException(), CompressionMode.Decompress)) {
+                                using (var reader = new StreamReader(stream, Encoding)) {
                                     pageSource = reader.ReadToEnd();
                                 }
                             }
                         else
                             using (var stream = response.GetResponseStream()) //原始
                             {
-                                using (var reader = new StreamReader(stream, Encoding.UTF8)) {
+                                using (var reader = new StreamReader(stream, Encoding)) {
                                     pageSource = reader.ReadToEnd();
                                 }
                             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using Chun.Work.Common.Helper;
 using HtmlAgilityPack;
@@ -8,14 +9,14 @@ namespace Chun.Demo.Common.Helper
 {
     public static class HtmlHelper
     {
-        public static async Task<HtmlDocument> Start(Uri uri) {
+        public static async Task<HtmlDocument> Start(Uri uri,Encoding encoding) {
             var htmlDocument = new HtmlDocument();
             try {
-                var sc = new SimpleCrawler(new CookieContainer());
+                var sc = new SimpleCrawler(new CookieContainer(), encoding);
                 sc.OnCompleted += (sender, data) => {
                     LogHelper.Debug($"Complete Load  {data.Uri.PathAndQuery} ,take time {data.Milliseconds}");
-                    var hmtl = data.PageSource;
-                    htmlDocument.LoadHtml(hmtl);
+                    var html = data.PageSource;
+                    htmlDocument.LoadHtml(html);
                 };
                 sc.OnError += (sender, data) => {
                     LogHelper.Error($"Load {data.Uri.PathAndQuery} Fail,exception:{data.Exception}");

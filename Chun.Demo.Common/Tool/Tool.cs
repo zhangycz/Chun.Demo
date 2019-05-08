@@ -85,23 +85,26 @@ namespace Chun.Demo.Common.Tool
             return InfoDal.ReadToQueryable(type, fileStatus);
         }
 
-        public static IEnumerable<QueryTitleModel> QueryTitle(string procedureStr, object[] sqlparms) {
-            return InfoDal.QueryTitle(procedureStr, sqlparms);
+        public static IEnumerable<QueryTitleModel> QueryTitle(string procedureStr, object[] sqlparams) {
+            return InfoDal.QueryTitle(procedureStr, sqlparams);
+        }
+        public static void UpdateLocalPath(string procedureStr) {
+             InfoDal.UpdateLocalPath(procedureStr);
         }
 
         /// <summary>
-        ///     将实体数据插入到errorpath
+        ///     errorPath
         /// </summary>
-        /// <param name="errorpath"></param>
-        public static void InserErrorFileByLinq(errorpath errorpath) {
-            InfoDal.InsertErrorFileByLinq(errorpath);
+        /// <param name="errorPath"></param>
+        public static void InsertErrorFileByLinq(errorpath errorPath) {
+            InfoDal.InsertErrorFileByLinq(errorPath);
         }
 
         /// <summary>
         ///     将实体数据插入到filepath
         /// </summary>
         /// <param name="filepath"></param>
-        public static void InsertfilePathByLinq(filepath filepath) {
+        public static void InsertFilePathByLinq(filepath filepath) {
             InfoDal.InsertFilePathByLinq(filepath);
         }
 
@@ -113,43 +116,7 @@ namespace Chun.Demo.Common.Tool
             InfoDal.InsertCategoryByLinq(filepath);
         }
 
-        /// <summary>
-        ///     将文件下载到本地
-        /// </summary>
-        /// <param name="address">网络地址</param>
-        /// <param name="fileName">本地地址</param>
-        /// <param name="updateAction">访问状态处理</param>
-        public static void DownLoad(string address, string fileName, Action<int> updateAction) {
-            //100s无响应取消
-
-            var newfileName = fileName;
-            if (Existed(address, fileName)) {
-                LogHelper.Debug($"文件{fileName} 已经存在！");
-                updateAction(1);
-                return;
-            }
-
-            try {
-                using (var wc = new MyWebClient {Timeout = 1000}) {
-                    wc.DownloadFileAsync(new Uri(address), newfileName);
-                    //wc.DownloadFileAsyncWithTimeout(new Uri(address), newfileName, "");
-                    wc.DownloadFileCompleted += delegate {
-                        LogHelper.Debug($"文件 {newfileName} 下载完成,地址 ： {address}");
-                        updateAction(1);
-                    };
-                }
-            }
-            catch (WebException e) {
-                updateAction(2);
-                LogHelper.Error($"文件 {address}下载失败! 错误信息 {e.Message} 错误详情 {e.Data} ");
-                LogHelper.Error(e);
-            }
-            catch (Exception e) {
-                updateAction(2);
-                LogHelper.Error($"文件 {address}下载失败! 错误信息 {e.Message} 错误详情 {e.Data} ");
-                LogHelper.Error(e);
-            }
-        }
+      
 
         /// <summary>
         ///     更新文件状态
@@ -157,47 +124,28 @@ namespace Chun.Demo.Common.Tool
         ///     1 已操作 2 操作出错
         /// </summary>
         /// <param name="path">路径</param>
-        /// <param name="filetype">类型</param>
+        /// <param name="title"></param>
+        /// <param name="fileType">类型</param>
         /// <param name="fileStatus">状态</param>
-        public static void UpdatefilePath(string path, int filetype, int fileStatus) {
-            //InfoDal.UpdateFilePath(path, filetype, fileStatus);
+        public static void UpdateFilePath(string path,string title, int fileType, int fileStatus) {
+            //InfoDal.UpdateFilePath(path, fileType, fileStatus);
 
-            InfoDal.UpdateFilePathByLinq(path, filetype, fileStatus);
-        }
-
+            InfoDal.UpdateFilePathByLinq(path, title,fileType, fileStatus);
+        }  
         /// <summary>
-        ///     检查文件是否存在
+        ///     更新文件状态
+        ///     file_status 0 未操作
+        ///     1 已操作 2 操作出错
         /// </summary>
-        /// <param name="address"></param>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-        public static bool Existed(string address, string fileName) {
-            var existed = false;
+        /// <param name="id"></param>
+        /// <param name="fileStatus">状态</param>
+        public static void UpdateFilePath(int id,  int fileStatus) {
+            //InfoDal.UpdateFilePath(path, fileType, fileStatus);
 
-            if (!File.Exists(fileName))
-                return false;
-
-            var fileSize = new FileInfo(fileName).Length;
-            try {
-                var request = (HttpWebRequest) WebRequest.Create(address);
-                request.Method = "HEAD";
-                long size;
-                using (var response = (HttpWebResponse) request.GetResponse()) {
-                    size = response.ContentLength;
-                    LogHelper.Debug($"本地文件存在，文件 {fileName} 长度 {size} ，本地长度 {fileSize}");
-                }
-                if (size <= -1 || fileSize.Equals(size))
-                    //>= 102400
-                    existed = true;
-            }
-            catch (WebException e) {
-                LogHelper.Debug($"校验文件大小时异常");
-                LogHelper.Error(e);
-                return false;
-            }
-
-            return existed;
+            InfoDal.UpdateFilePathByLinq(id, fileStatus);
         }
+
+       
 
         /// 更改种子文件的内部名称对文件重命名
         /// <param name="fileName">文件名</param>
@@ -243,31 +191,6 @@ namespace Chun.Demo.Common.Tool
                 if (nextFolder.GetDirectories().Length == 0 && nextFolder.GetFiles().Length == 0)
                     nextFolder.Delete();
                 DelEmptyDirAndFile(nextFolder.FullName);
-            }
-        }
-
-        public static void CreateRootDir(string netPath) {
-            var MaxCreateDirPath = ConfigerHelper.GetAppConfig("MaxCreateDirPath");
-            if (MaxCreateDirPath == null)
-                throw new ArgumentNullException(nameof(MaxCreateDirPath));
-            try {
-                var maxCreateDirPath = Convert.ToInt32(MaxCreateDirPath);
-                for (var i = 1; i < maxCreateDirPath; i++) {
-                    var url = netPath + i;
-
-                    var filepath = new filepath {
-                        file_Path = url,
-                        file_innerTxt = "",
-                        file_Type_id = 10,
-                        file_status_id = 0,
-                        file_CreateTime = DateTime.Now,
-                        file_parent_path = "0"
-                    };
-                    InsertfilePathByLinq(filepath);
-                }
-            }
-            catch (Exception) {
-                //  MyMessageBox.Add("创建根目录时发生错误！");
             }
         }
 

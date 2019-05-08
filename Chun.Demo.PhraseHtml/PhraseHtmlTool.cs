@@ -13,64 +13,93 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Channels;
 using Chun.Demo.Common.Tool;
 using Chun.Demo.ICommon;
 using Chun.Demo.Model;
+using Chun.Demo.Model.Entity;
+using Chun.Demo.PhraseHtml.Interface;
 using Chun.Work.Common.Helper;
 
 namespace Chun.Demo.PhraseHtml
 {
+
     public class PhraseHtmlTool
     {
-        private int _current;
+        public PhraseHtmlTool() {
+            _completedAction =  new CompletedAction();
+            _completedAction.Action += ()=>PhraseHtml.StopInsertListener();
+        }
+
+        private readonly CompletedAction _completedAction;
+      
         public Action OnCompleted;
         private Helper.PhraseHtml PhraseHtml { get; set; }
 
-        public void StartPhraseHtml(PhraseHtmlType phraseHtmlType, FormPars formPars, List<string> filterPath,
-            List<string> targetPath) {
+        public void StartPhraseHtml(PhraseHtmlType phraseHtmlType, SiteInfo siteInfo, List<filepath> filterPath,
+            List<filepath> targetPath) {
             PhraseHtml = new Helper.PhraseHtml {
-                MatchNode = formPars.Match,
-                AttrName = formPars.AttrName,
+                SiteInfo = siteInfo,
                 PhraseHtmlType = phraseHtmlType,
                 FilterPath = filterPath,
                 TargetPath = targetPath
             };
             var targetCount = targetPath.Count;
-            PhraseHtml.OnStart += (sender, data) => { LogHelper.Debug($"Begin Phrase {data.Uri.PathAndQuery}"); };
+            _completedAction.TargetCount = targetCount;
+            PhraseHtml.OnStart += (sender, data) => {
+                LogHelper.Debug($"Begin Phrase {data.Uri.PathAndQuery}");
+            };
             
             PhraseHtml.OnPhraseUrlCompleted += (sender, data) => {
-                var msg = $"Complete Phrase {data.Uri.PathAndQuery},take time {data.Milliseconds}";
-                EventHandler(msg, targetCount);
+                LogHelper.Debug( $"Complete Phrase {data.Uri.PathAndQuery},take time {data.Milliseconds}");
+                _completedAction.EventHandler();
             };
 
             PhraseHtml.OnError += (sender, data) => {
-                var msg = $"The Error Happened form {data.Uri.PathAndQuery},Exception {data.Exception}";
-                Tool.UpdatefilePath(data.OrignUrl, Convert.ToInt32(PhraseHtml.PhraseHtmlType) - 1, 2);
-                EventHandler(msg, targetCount);
+                LogHelper.Debug($"The Error Happened form {data.Uri.PathAndQuery},Exception {data.Exception}");
+                //Tool.UpdateFilePath(data.OrignUrl,??, Convert.ToInt32(PhraseHtml.PhraseHtmlType) - 1, 2);
+                Tool.UpdateFilePath((int)sender, 2);
+                _completedAction.EventHandler();
             };
             PhraseHtml.OnCheckTaskCompleted += (sender, e) => {
-                if (!_current.Equals(targetCount))
+                if (!_completedAction.Current.Equals(targetCount))
                     return;
                 PhraseHtml.StopInsertListener();
-                OnCompleted?.Invoke();
             };
             PhraseHtml.OnCompleted += (sender, e) => {
-                LogHelper.Debug("Complete Phrase");
-                PhraseHtml.StopInsertListener();
+                LogHelper.Debug("Completed All PhraseHtml");
                 OnCompleted?.Invoke();
             };
             PhraseHtml.Start();
         }
+    }
 
-        private void EventHandler(string msg,  int targetCount) {
-          
-            LogHelper.Debug(msg);
-
-            _current++;
-            if (!_current.Equals(targetCount))
+    public class CompletedAction
+    {
+        /// <summary>
+        /// 当前访问数
+        /// </summary>
+        private int _current;
+        /// <summary>
+        /// 总数量
+        /// </summary>
+        public int TargetCount;
+        public CompletedAction() {
+            _current = 0;
+        }
+        public int Current => _current;
+        private readonly object _locker = new object();
+        public Action Action;
+        public void EventHandler()
+        {
+            lock (_locker)
+            {
+                if(_current< TargetCount)
+                _current++;
+            }
+            if (!_current.Equals(TargetCount))
                 return;
-            PhraseHtml.StopInsertListener();
-            OnCompleted?.Invoke();
+            Action?.Invoke();
         }
     }
 }

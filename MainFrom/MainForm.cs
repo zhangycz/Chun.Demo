@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -107,7 +108,17 @@ namespace MainForm
                 MessageBox.Show(Resources.DoOtherWork);
             }
             else {
-                Getsrv = new DownLoadPic();
+                Getsrv = new DownloadService() {
+                    SiteInfo = new Xp1024PageInfo() {
+                        BaseUrl = MyTools.FormPars.BasePath,
+                        ExtendUrl = MyTools.FormPars.ExtendPath,
+                        Type = MyTools.FormPars.PicType,
+                        TargetMatch = MyTools.FormPars.Match,
+                        ExtendMatch = @"//head/title",
+                        AttrName = MyTools.FormPars.AttrName,
+                        Encoding = Encoding.UTF8
+                    }
+                };
                 Getsrv.OnCompleted += () => {
                     Invoke(new MethodInvoker(() => MessageBox.Show(Resources.Completed)));
                     StopGetThread(_downloadThread);
@@ -145,7 +156,17 @@ namespace MainForm
                 return;
             }
 
-            Getsrv = new GetPath();
+            Getsrv = new GetFileService() {
+                SiteInfo = new Xp1024PageInfo() {
+                    BaseUrl = MyTools.FormPars.BasePath,
+                    ExtendUrl = MyTools.FormPars.ExtendPath,
+                    Type = MyTools.FormPars.PicType,
+                    TargetMatch = MyTools.FormPars.Match,
+                    ExtendMatch = @"//head/title",
+                    AttrName = MyTools.FormPars.AttrName,
+                    Encoding = Encoding.UTF8
+                }
+            };
 
             Getsrv.OnCompleted += () => {
                 Invoke(new MethodInvoker(() => MessageBox.Show(Resources.Completed)));
@@ -180,7 +201,7 @@ namespace MainForm
                         queryId = Convert.ToInt32(arg);
                         break;
                     case "STRING[]":
-                        returnExs.AddRange(from singlearg in (object[]) arg select singlearg.ToString());
+                        returnExs.AddRange(from singleArg in (object[]) arg select singleArg.ToString());
                         break;
                     case "INT32[]":
                         Console.WriteLine(Resources.MainForm_SayHello_输入的是int__);

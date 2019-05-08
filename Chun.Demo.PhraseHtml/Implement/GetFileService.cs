@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
+using System.Text;
 using Chun.Demo.Common;
 using Chun.Demo.Common.Tool;
 using Chun.Demo.ICommon;
 using Chun.Demo.Model;
+using Chun.Demo.Model.Entity;
+using Chun.Demo.PhraseHtml.Interface;
 using Chun.Work.Common.Helper;
 using static System.String;
 
@@ -35,7 +37,7 @@ namespace Chun.Demo.PhraseHtml.Implement
         /// </summary>
         public static string MinDirNum {
             get {
-                if (IsNullOrEmpty(_maxDirPath))
+                if (IsNullOrEmpty(_minDirPath))
                     _minDirPath = ConfigerHelper.GetAppConfig("MinDirNum");
                 return _minDirPath;
             }
@@ -57,9 +59,10 @@ namespace Chun.Demo.PhraseHtml.Implement
         }
     }
 
-    public class GetPath : IGetService
+    public class GetFileService : IGetService
     {
         public event Action OnCompleted;
+        public SiteInfo SiteInfo { get; set; }
 
         /// <summary>
         ///     提供文件类型与获取属性获取文件地址
@@ -72,7 +75,21 @@ namespace Chun.Demo.PhraseHtml.Implement
            
 
             //获取数据库中未操作和失败的
-            var currentPathList = new List<string>();
+            List<filepath> currentPathList;
+            //SiteInfo pageInfo = new Mm131PageInfo()
+            //{
+            //    BaseUrl = @"http://www.mm131.com",//MyTools.FormPars.BasePath,
+            //    ExtendUrl = @"xinggan",//MyTools.FormPars.ExtendPath
+            //    Type = "6",
+            //    //目录
+            //    //TargetMatch = @"//div[@class='main']/dl/dd[not(@class='page' or @class='public-title')]/a",
+            //    //内容
+            //    TargetMatch = @"//div[@class='content']/div[@class='content-page']/span[1]",
+            //    //ExtendMatch = @"//head/title",
+            //    ExtendMatch = @"//div[@class='content']/h5",
+            //    AttrName = "href",
+            //    Encoding = Encoding.GetEncoding("gb2312")
+            //};
 
             if (phraseHtmlType.Equals(PhraseHtmlType.Dir)) {
                 LogHelper.Debug("Get DirPath");
@@ -80,26 +97,14 @@ namespace Chun.Demo.PhraseHtml.Implement
                     throw new ArgumentNullException(nameof(PhraseHtmlConfig.MaxDirNum));
 
                 var maxDirPath = Convert.ToInt32(PhraseHtmlConfig.MaxDirNum);
-                var mixDirPath = Convert.ToInt32(PhraseHtmlConfig.MinDirNum);
+                var minDirPath = Convert.ToInt32(PhraseHtmlConfig.MinDirNum);
 
-                for (var i = mixDirPath; i <= maxDirPath; i++) {
-                    string url;
-                    var netPath = UrlHelper.ConcatHttpPath(MyTools.FormPars.BasePath,
-                        MyTools.FormPars.ExtendPath);
-                    if (i == 1) {
-                        url = netPath.Substring(0, netPath.Contains("-page-")
-                            ? netPath.LastIndexOf("-page-", StringComparison.Ordinal)
-                            : netPath.LastIndexOf("page=", StringComparison.Ordinal));
-                    }
-                    else {
-                        if (netPath.Contains("-page-"))
-                            url = netPath + i + ".html";
-                        else
-                            url = netPath + i;
-                    }
+                SiteInfo.StartPageNum = minDirPath;
+                SiteInfo.PageSum = maxDirPath;
 
-                    currentPathList.Add(url);
-                }
+                currentPathList = SiteInfo.GetTargetList();
+
+
             }
             else {
                 LogHelper.Debug("获取文件地址");
@@ -112,20 +117,37 @@ namespace Chun.Demo.PhraseHtml.Implement
                 var endTime = formPars.EndDateTime;
                 //获取文件地址
                 currentPathList = Tool.ReadPathByLinq(Convert.ToInt32(phraseHtmlType) - 1, type)
-                    .Where(p => p.file_CreateTime >= startTime && p.file_CreateTime <= endTime).Select(p => p.file_Path)
-                    .ToList();
+                    .Where(p => p.file_CreateTime >= startTime && p.file_CreateTime <= endTime && (p.category_id== SiteInfo.Type|| IsNullOrEmpty(SiteInfo.Type))).Select(p => new {
+                        id= p.id,
+                        file_Path = p.file_Path
+                    }).ToList().Select(p=>new filepath() {
+                        id = p.id,
+                        file_Path = p.file_Path
+                    }).ToList();
             }
 
             //获取数据库中已经有的文件地址，即过滤这些地址
-            var filterPath = Tool.ReadPathByLinq(Convert.ToInt32(phraseHtmlType), 4).Select(p => p.file_Path).ToList();
+            var filterPath = Tool.ReadPathByLinq(Convert.ToInt32(phraseHtmlType), 4)
+                .Select(p => new {
+                    file_Path = p.file_Path,
+                     file_innerTxt = p.file_innerTxt
+                }).ToList().Select(p=>new filepath() {
+                    file_Path = p.file_Path,
+                    file_innerTxt = p.file_innerTxt
+                }).ToList();
 
             var phraseHtmlTool = new PhraseHtmlTool();
-            phraseHtmlTool.OnCompleted += () => { OnCompleted?.Invoke(); };
 
-            phraseHtmlTool.StartPhraseHtml(phraseHtmlType, formPars, filterPath, currentPathList);
+            phraseHtmlTool.OnCompleted += () => {
+                OnCompleted?.Invoke();
+            };
+
+            phraseHtmlTool.StartPhraseHtml(phraseHtmlType, SiteInfo, filterPath, currentPathList);
 
 
             LogHelper.TraceExit();
         }
+
+
     }
 }

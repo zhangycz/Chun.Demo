@@ -173,6 +173,10 @@ namespace Chun.Demo.DAL
                 Context.Database.SqlQuery<U>(procedureStr, sqlparms).ToList();
             return articles;
         }
+        public void QueryByStoredProcedure(string procedureStr) {
+           
+              Context.Database.ExecuteSqlCommand(procedureStr);
+        }
         #endregion
 
         #region LINQ表的增删改查

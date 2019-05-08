@@ -68,9 +68,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implement\DownLoadPic.cs" />
-    <Compile Include="Implement\GetPath.cs" />
+    <Compile Include="DownloadTool.cs" />
+    <Compile Include="Implement\Xp1024PageInfo.cs" />
+    <Compile Include="Implement\DownloadService.cs" />
+    <Compile Include="Implement\GetFileService.cs" />
     <Compile Include="Helper\PhraseHtml.cs" />
+    <Compile Include="Implement\Mm131PageInfo.cs" />
+    <Compile Include="Interface\SiteInfo.cs" />
     <Compile Include="PhraseHtmlTool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

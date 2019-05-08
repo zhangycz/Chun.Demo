@@ -78,6 +78,12 @@ namespace Chun.Demo.DAL
             var ls = new BaseDataQuery<filepath>().QueryByStoredProcedure<QueryTitleModel>(procedureStr, sqlparms);
             return ls;
         }
+        public static void UpdateLocalPath(string procedureStr)
+        {
+
+            new BaseDataQuery<filepath>().QueryByStoredProcedure(procedureStr);
+          
+        }
         
 
         public static void InsertFilePathByLinq(filepath filepath)
@@ -97,13 +103,22 @@ namespace Chun.Demo.DAL
             new BaseDataQuery<errorpath>().Add(errorPath);
         }
 
-        public static void UpdateFilePathByLinq(string filePath, int fileTypeId, int fileStatusId)
+        public static void UpdateFilePathByLinq(string filePath,string title, int fileTypeId, int fileStatusId)
         {
             // new BaseDataQuery<filepath>( ).Update(filepath);
             var sql =
-                "update filepath set file_status_id = {0} ,file_updatetime = {1} where  file_path=  {2} and file_type_id = {3}";
+                "update filepath set file_status_id = {0} ,file_updatetime = {1} where  file_path=  {2} and file_type_id = {3} and file_innerTxt = {4}";
             new BaseDataQuery<filepath>().ExecuteSql(sql,
-                new object[] {fileStatusId, DateTime.Now, filePath, fileTypeId});
+                new object[] {fileStatusId, DateTime.Now, filePath, fileTypeId, title });
+        }
+
+        public static void UpdateFilePathByLinq(int id, int fileStatusId)
+        {
+            // new BaseDataQuery<filepath>( ).Update(filepath);
+            var sql =
+                "update filepath set file_status_id = {0} ,file_updatetime = {1} where  id=  {2}";
+            new BaseDataQuery<filepath>().ExecuteSql(sql,
+                new object[] {fileStatusId, DateTime.Now, id});
         }
 
         #region 普通sql法

@@ -25,7 +25,7 @@ namespace MainForm
         private static void Main() {
             try {
                 LogHelper.Debug($"Client Startup! Version = {Application.ProductVersion}");
-
+                //LogHelper.Open = false;
                 //互斥量，启动一个
                 bool flag;
 
