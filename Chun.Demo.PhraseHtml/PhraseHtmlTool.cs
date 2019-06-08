@@ -36,12 +36,11 @@ namespace Chun.Demo.PhraseHtml
         public Action OnCompleted;
         private Helper.PhraseHtml PhraseHtml { get; set; }
 
-        public void StartPhraseHtml(PhraseHtmlType phraseHtmlType, SiteInfo siteInfo, List<filepath> filterPath,
+        public void StartPhraseHtml(PhraseHtmlType phraseHtmlType, SiteInfo siteInfo,
             List<filepath> targetPath) {
             PhraseHtml = new Helper.PhraseHtml {
                 SiteInfo = siteInfo,
                 PhraseHtmlType = phraseHtmlType,
-                FilterPath = filterPath,
                 TargetPath = targetPath
             };
             var targetCount = targetPath.Count;
@@ -52,13 +51,19 @@ namespace Chun.Demo.PhraseHtml
             
             PhraseHtml.OnPhraseUrlCompleted += (sender, data) => {
                 LogHelper.Debug( $"Complete Phrase {data.Uri.PathAndQuery},take time {data.Milliseconds}");
+                if (!phraseHtmlType.Equals(PhraseHtmlType.Dir))
+                {
+                    Tool.UpdateFilePath((int)sender, 1);
+                }
                 _completedAction.EventHandler();
             };
 
             PhraseHtml.OnError += (sender, data) => {
-                LogHelper.Debug($"The Error Happened form {data.Uri.PathAndQuery},Exception {data.Exception}");
-                //Tool.UpdateFilePath(data.OrignUrl,??, Convert.ToInt32(PhraseHtml.PhraseHtmlType) - 1, 2);
-                Tool.UpdateFilePath((int)sender, 2);
+                LogHelper.Error($"The Error Happened form {data.Uri.PathAndQuery},Exception {data.Exception}");
+                if (!phraseHtmlType.Equals(PhraseHtmlType.Dir)) {
+                    Tool.UpdateFilePath((int) sender, 2);
+                }
+
                 _completedAction.EventHandler();
             };
             PhraseHtml.OnCheckTaskCompleted += (sender, e) => {

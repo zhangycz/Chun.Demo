@@ -126,23 +126,15 @@ namespace Chun.Demo.PhraseHtml.Implement
                     }).ToList();
             }
 
-            //获取数据库中已经有的文件地址，即过滤这些地址
-            var filterPath = Tool.ReadPathByLinq(Convert.ToInt32(phraseHtmlType), 4)
-                .Select(p => new {
-                    file_Path = p.file_Path,
-                     file_innerTxt = p.file_innerTxt
-                }).ToList().Select(p=>new filepath() {
-                    file_Path = p.file_Path,
-                    file_innerTxt = p.file_innerTxt
-                }).ToList();
-
             var phraseHtmlTool = new PhraseHtmlTool();
 
             phraseHtmlTool.OnCompleted += () => {
                 OnCompleted?.Invoke();
+                currentPathList.Clear();
+                GC.Collect();
             };
 
-            phraseHtmlTool.StartPhraseHtml(phraseHtmlType, SiteInfo, filterPath, currentPathList);
+            phraseHtmlTool.StartPhraseHtml(phraseHtmlType, SiteInfo, currentPathList);
 
 
             LogHelper.TraceExit();

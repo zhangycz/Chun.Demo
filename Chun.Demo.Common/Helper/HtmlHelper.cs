@@ -3,6 +3,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Chun.Work.Common.Helper;
+using Chun.Work.Common.Tools;
 using HtmlAgilityPack;
 
 namespace Chun.Demo.Common.Helper
@@ -12,9 +13,9 @@ namespace Chun.Demo.Common.Helper
         public static async Task<HtmlDocument> Start(Uri uri,Encoding encoding) {
             var htmlDocument = new HtmlDocument();
             try {
-                var sc = new SimpleCrawler(new CookieContainer(), encoding);
+                var sc = new Work.Common.Tools.SimpleCrawler(new CookieContainer());
                 sc.OnCompleted += (sender, data) => {
-                    LogHelper.Debug($"Complete Load  {data.Uri.PathAndQuery} ,take time {data.Milliseconds}");
+                    LogHelper.Fatal($"Complete Load  {data.Uri.PathAndQuery} ,take time {data.Milliseconds}");
                     var html = data.PageSource;
                     htmlDocument.LoadHtml(html);
                 };
@@ -22,7 +23,10 @@ namespace Chun.Demo.Common.Helper
                     LogHelper.Error($"Load {data.Uri.PathAndQuery} Fail,exception:{data.Exception}");
                 };
                 sc.OnStart += (sender, data) => { LogHelper.Debug($"Begin Load {data.Uri.PathAndQuery}"); };
-                await sc.Start(uri);
+                await sc.Start(new RequestContext {
+                    Url = uri.AbsolutePath,
+                    Encoding = encoding
+                });
             }
             catch (HtmlWebException ex) {
                 LogHelper.Error(ex);

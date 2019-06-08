@@ -25,11 +25,10 @@ namespace MainForm
         private static void Main() {
             try {
                 LogHelper.Debug($"Client Startup! Version = {Application.ProductVersion}");
-                //LogHelper.Open = false;
+              //  LogHelper.SetLogLevel("Error");
                 //互斥量，启动一个
-                bool flag;
 
-                _instanceMutex = new Mutex(true, "Pactera.CTIClient", out flag);
+                _instanceMutex = new Mutex(true, "Pactera.CTIClient", out var flag);
 
                 if (!flag) {
                     LogHelper.Debug("Client is already running.");

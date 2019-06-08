@@ -92,7 +92,7 @@ namespace Chun.Demo.PhraseHtml
                     var processList = FilePathList.Skip(i * 100).Take(100).ToList();
 
                     LogHelper.Debug($"Process patch {i} -- num {processList.Count}");
-                    Parallel.ForEach(processList, CreateDirAndDownload);
+                    Parallel.ForEach(processList,new ParallelOptions(){MaxDegreeOfParallelism = 20}, CreateDirAndDownload);
                 }
                 
             }
@@ -146,6 +146,7 @@ namespace Chun.Demo.PhraseHtml
 
                 fileName = createDir + fileName;
                 DownLoad(path, fileName, status => {
+                    entity = null;//释放对象
                     _completedAction.EventHandler();
                     lock (_urlStatusQueue)
                     {
@@ -219,12 +220,18 @@ namespace Chun.Demo.PhraseHtml
             //100s无响应取消
 
             var newFileName = fileName;
-            if (Existed(address, fileName))
-            {
-                LogHelper.Debug($"file {fileName} existed！");
-                updateAction(1);
-                return;
-            }
+            //if (Existed(address, fileName,out var timeOut))
+            //{
+            //    LogHelper.Debug($"file {fileName} existed！");
+            //    updateAction(1);
+            //    return;
+            //}
+
+            //if (timeOut) {
+            //    LogHelper.Error($"download {address} Failed! Timeout！");
+            //    updateAction(2);
+            //    return;
+            //}
 
             try
             {
@@ -254,16 +261,18 @@ namespace Chun.Demo.PhraseHtml
                 LogHelper.Error(e);
             }
         }
+
         /// <summary>
         ///     检查文件是否存在
         /// </summary>
         /// <param name="address"></param>
         /// <param name="fileName"></param>
+        /// <param name="timeOut"></param>
         /// <returns></returns>
-        public  bool Existed(string address, string fileName)
+        public  bool Existed(string address, string fileName,out bool timeOut)
         {
             var existed = false;
-
+            timeOut = false;
             if (!File.Exists(fileName))
                 return false;
 
@@ -279,7 +288,9 @@ namespace Chun.Demo.PhraseHtml
                 using (var response = (HttpWebResponse)request.GetResponse())
                 {
                     size = response.ContentLength;
+                    
                     LogHelper.Debug($"local file existed，file {fileName} web size {size} ，local size {fileSize}");
+                    request.Abort();
                 }
                 if (size <= -1 || fileSize.Equals(size))
                     //>= 102400
@@ -288,7 +299,9 @@ namespace Chun.Demo.PhraseHtml
             catch (WebException e)
             {
                 LogHelper.Debug($"validate file size error");
+
                 LogHelper.Error(e);
+                timeOut = true;
                 return false;
             }
 

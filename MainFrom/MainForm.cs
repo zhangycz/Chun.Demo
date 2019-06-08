@@ -319,7 +319,7 @@ namespace MainForm
             MyTools.FormPars.StartDateTime = DateTime.Now;
             MyTools.FormPars.EndDateTime = DateTime.MaxValue;
             typeText.Text = "16";
-          //  LogHelper.SupportRichLog();
+            //  LogHelper.SupportRichLog();
         }
 
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e) {

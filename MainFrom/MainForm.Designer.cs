@@ -429,7 +429,7 @@ namespace MainForm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.fileXpath.FormattingEnabled = true;
             this.fileXpath.Items.AddRange(new object[] {
-            "//div[@class=\'tpc_content\']/div[@id=\'read_tpc\']/img",
+            "//div[@class=\'tpc_content\']/div[@id=\'read_tpc\']//img",
             "//tr[@class=\'tr3 t_one\']/td/h3/a"});
             this.fileXpath.Location = new System.Drawing.Point(179, 94);
             this.fileXpath.Margin = new System.Windows.Forms.Padding(4);

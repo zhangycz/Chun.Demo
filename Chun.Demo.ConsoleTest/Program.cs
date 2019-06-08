@@ -19,9 +19,9 @@ namespace Chun.Demo.ConsoleTest
 
             //var testThread = new TestThread();
             //testThread.TestMain();
-            var address = @"http://img1.mm131.me/pic/4864/51.jpg";
-            var bAddress = @"C:\Users\a2863\Desktop\51.jpg";
-            Existed(address);
+            //var address = @"http://img1.mm131.me/pic/4864/51.jpg";
+            //var bAddress = @"C:\Users\a2863\Desktop\51.jpg";
+            //Existed(address);
            
             Console.Read();
 

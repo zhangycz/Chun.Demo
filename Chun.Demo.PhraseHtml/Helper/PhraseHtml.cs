@@ -33,7 +33,7 @@ namespace Chun.Demo.PhraseHtml.Helper
         /// <summary>
         ///     过滤已加入得目标
         /// </summary>
-        public List<filepath> FilterPath { private get; set; }
+       // public List<filepath> FilterPath { private get; set; }
 
         public List<filepath> TargetPath { private get; set; }
 
@@ -102,7 +102,7 @@ namespace Chun.Demo.PhraseHtml.Helper
 
         private void StartInsertListener()
         {
-             ThreadHelper.StartThread(InsertFilePath, ref _insertListenerThread);
+            ThreadHelper.StartThread(InsertFilePath, ref _insertListenerThread);
         }
 
         /// <summary>
@@ -156,11 +156,16 @@ namespace Chun.Demo.PhraseHtml.Helper
 
                 var pathList = new List<filepath>();
 
-                if (PhraseHtmlType.Equals(PhraseHtmlType.Img) && SiteInfo is Mm131PageInfo && hnCollection.Count == 1) {
-                    Mm131GeneratePath(url, hnCollection, titleCollection, fileId, pathList);
+                if (PhraseHtmlType.Equals(PhraseHtmlType.Img) && SiteInfo is Mm131PageInfo && hnCollection.Count == 1)
+                {
+                    Mm131GeneratePath(url, hnCollection, titleCollection, pathList);
                 }
                 else
                 {
+                    if (hnCollection == null)
+                    {
+                        LogHelper.Fatal($"pageSource {htmlDocument.DocumentNode.InnerHtml}");
+                    }
                     foreach (var hn in hnCollection)
                     {
                         var path = hn.Attributes[SiteInfo.AttrName].Value;
@@ -183,7 +188,6 @@ namespace Chun.Demo.PhraseHtml.Helper
 
                             var filepath = new filepath
                             {
-                                id = fileId,
                                 file_Path = path,
                                 file_innerTxt = replaceInnerText,
                                 file_Type_id = Convert.ToInt32(PhraseHtmlType),
@@ -202,47 +206,33 @@ namespace Chun.Demo.PhraseHtml.Helper
                     }
                 }
 
-                lock (FilterPath)
+                pathList.ForEach(filePath =>
                 {
-                    pathList.ForEach(filePath =>
+                    var path = filePath.file_Path;
+                    if (path.ToUpper().StartsWith("READ"))
                     {
-                        var path = filePath.file_Path;
-                        if (path.ToUpper().StartsWith("READ"))
-                        {
-                            var loc = path.LastIndexOf("&", StringComparison.Ordinal);
-                            if (loc != -1)
-                                path = path.Substring(0, loc);
-                        }
-                        var innerText = filePath.file_innerTxt;
-                        if (!FilterPath.Any(p => p.file_Path.Equals(path) && p.file_innerTxt.Equals(innerText)))
-                        {
-                            //FilterPath.Add(new filepath(){file_Path = path ,file_innerTxt = innerText });
-                            lock (FilepathQueue)
-                            {
-                                filePath.file_Path = path;
-                                FilepathQueue.Enqueue(filePath);
-                                //var fileSerializeObject = SerializeHelper.SerializeObject(filePath);
-                                //LogHelper.Debug($@"add new url {fileSerializeObject}");
-                                Monitor.Pulse(FilepathQueue);
-                            }
-                        }
-                        else {
-                            if (!PhraseHtmlType.Equals(PhraseHtmlType.Dir))
-                            {
-                                //当前内容以获取，且标题一致，更新状态3
-                                Tool.UpdateFilePath(fileId, 3);
-                            }
-                        }
-                    });
-                }
-
-
+                        var loc = path.LastIndexOf("&", StringComparison.Ordinal);
+                        if (loc != -1)
+                            path = path.Substring(0, loc);
+                    }
+             
+                    lock (FilepathQueue)
+                    {
+                        filePath.file_Path = path;
+                        FilepathQueue.Enqueue(filePath);
+                        //var fileSerializeObject = SerializeHelper.SerializeObject(filePath);
+                        //LogHelper.Debug($@"add new url {fileSerializeObject}");
+                        Monitor.Pulse(FilepathQueue);
+                    }
+                  
+                });
+                pathList.Clear();
                 watch.Stop();
                 var threadId = Thread.CurrentThread.ManagedThreadId; //获取当前任务线程ID
                 var milliseconds = watch.ElapsedMilliseconds; //获取请求执行时间
 
 
-                OnPhraseUrlCompleted?.Invoke(this,
+                OnPhraseUrlCompleted?.Invoke(fileId,
                     new OnCompletedEventArgs(uri, threadId, milliseconds, htmlDocument.ToString(), origUrl));
             }
             catch (Exception ex)
@@ -251,8 +241,9 @@ namespace Chun.Demo.PhraseHtml.Helper
             }
         }
 
-        private void Mm131GeneratePath(string url, HtmlNodeCollection hnCollection, HtmlNodeCollection titleCollection, int fileId,
-             List<filepath> pathList) {
+        private void Mm131GeneratePath(string url, HtmlNodeCollection hnCollection, HtmlNodeCollection titleCollection,
+             List<filepath> pathList)
+        {
             var pageNum =
                 Convert.ToInt32(Regex.Replace(url, $@"{SiteInfo.BaseUrl}/{SiteInfo.ExtendUrl}/", "").Replace(@".html", ""));
             var hn = hnCollection[0];
@@ -261,7 +252,8 @@ namespace Chun.Demo.PhraseHtml.Helper
             LogHelper.Debug(countText);
             var result = Convert.ToInt32(Regex.Replace(countText, @"[^0-9]+", ""));
             var pathListStr = new List<string>();
-            for (var i = 1; i <= result; i++) {
+            for (var i = 1; i <= result; i++)
+            {
                 pathListStr.Add($@"http://img1.mm131.me/pic/{pageNum}/{i}.jpg");
             }
 
@@ -270,9 +262,10 @@ namespace Chun.Demo.PhraseHtml.Helper
                 : "";
 
             var replaceInnerText = title.MyReplace("xp1024,核工厂,1024,.com,-,_,露出激情,图文欣賞,美图欣賞,唯美写真,网友自拍,www.mm131,美女图片,|,powered by phpwind.net, ");
-            foreach (var s in pathListStr) {
-                var filepath = new filepath {
-                    id = fileId,
+            foreach (var s in pathListStr)
+            {
+                var filepath = new filepath
+                {
                     file_Path = s,
                     file_innerTxt = title,
                     file_Type_id = Convert.ToInt32(PhraseHtmlType),
@@ -280,7 +273,8 @@ namespace Chun.Demo.PhraseHtml.Helper
                     file_CreateTime = DateTime.Now,
                     file_parent_path = url //uri.PathAndQuery
                 };
-                if (PhraseHtmlType.Equals(PhraseHtmlType.Dir)) {
+                if (PhraseHtmlType.Equals(PhraseHtmlType.Dir))
+                {
                     filepath.category_id = SiteInfo.Type; // MyTools.FormPars.PicType;
                 }
 
@@ -319,23 +313,11 @@ namespace Chun.Demo.PhraseHtml.Helper
                     {
                         var type = filepath.file_Type_id.ToString().EndsWith("1") ? "dir" : "file";
                         LogHelper.Debug($@"Insert {type}, filePath {filepath.file_Path}");
-                        var updateId = filepath.id;
-                        var insertFilepath = new filepath
-                        {
-                            file_Path = filepath.file_Path,
-                            file_innerTxt = filepath.file_innerTxt,
-                            file_Type_id = filepath.file_Type_id,
-                            file_status_id = filepath.file_status_id,
-                            file_CreateTime = filepath.file_CreateTime,
-                            file_parent_path = filepath.file_parent_path,
-                            category_id = filepath.category_id
-                        };
-                        Tool.InsertFilePathByLinq(insertFilepath);
+                      
+                        Tool.InsertFilePathByLinq(filepath);
 
-                        if (!PhraseHtmlType.Equals(PhraseHtmlType.Dir))
-                        {
-                            Tool.UpdateFilePath(updateId, 1);
-                        }
+                        filepath = null;
+
                         OnInsertCompleted?.Invoke(null, null);
                     }
                     catch (Exception e)
@@ -356,17 +338,11 @@ namespace Chun.Demo.PhraseHtml.Helper
             {
                 LogHelper.Debug("InsertListenerThread  stopped.");
             }
-
-            //  LogHelper.TraceEnter();
-            //
-
-            //  InfoDAL.InsertFilePath(path, innerTxt, fileType, file_status_id, URL);
         }
 
         public void Dispose()
         {
-
-
+            GC.Collect();
         }
     }
 }

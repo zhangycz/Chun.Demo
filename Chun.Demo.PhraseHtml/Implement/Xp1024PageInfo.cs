@@ -76,6 +76,8 @@ namespace Chun.Demo.PhraseHtml.Implement
         public override List<filepath> GetTargetList()
         {
             var currentPathList = new List<filepath>();
+
+
             for (var i = StartPageNum; i <= PageSum; i++)
             {
                 string url;
@@ -90,12 +92,12 @@ namespace Chun.Demo.PhraseHtml.Implement
                 else
                 {
                     if (netPath.Contains("-page-"))
-                        url = $@"{netPath}{i}.html" ;
+                        url = $@"{netPath}{i}.html";
                     else
                         url = netPath + i;
                 }
 
-                currentPathList.Add(new filepath(){id=-1,file_Path  = url });
+                currentPathList.Add(new filepath() { id = -1, file_Path = url });
             }
 
             return currentPathList;
