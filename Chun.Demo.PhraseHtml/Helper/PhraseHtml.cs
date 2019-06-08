@@ -30,6 +30,7 @@ namespace Chun.Demo.PhraseHtml.Helper
         /// </summary>
         private Thread _insertListenerThread;
 
+        private Object lockObj = new object();
         /// <summary>
         ///     过滤已加入得目标
         /// </summary>
@@ -313,8 +314,10 @@ namespace Chun.Demo.PhraseHtml.Helper
                     {
                         var type = filepath.file_Type_id.ToString().EndsWith("1") ? "dir" : "file";
                         LogHelper.Debug($@"Insert {type}, filePath {filepath.file_Path}");
-                      
-                        Tool.InsertFilePathByLinq(filepath);
+                        lock (lockObj)
+                        {
+                            Tool.InsertFilePathByLinq(filepath);
+                        }
 
                         filepath = null;
 

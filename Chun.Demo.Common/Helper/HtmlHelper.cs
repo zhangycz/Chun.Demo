@@ -24,7 +24,7 @@ namespace Chun.Demo.Common.Helper
                 };
                 sc.OnStart += (sender, data) => { LogHelper.Debug($"Begin Load {data.Uri.PathAndQuery}"); };
                 await sc.Start(new RequestContext {
-                    Url = uri.AbsolutePath,
+                    Url = uri.AbsoluteUri,
                     Encoding = encoding
                 });
             }
